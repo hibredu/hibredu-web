@@ -1,0 +1,25 @@
+/*Primary Colors*/
+$yellowHibredu: #EBA50E !important;
+$greenHibredu: #44AB34 !important;
+$blueHibredu: #2DACE2 !important;
+$whiteHibredu: #FFFFFF !important;
+$grayHibredu: #B3B1B2 !important;
+$lightGrayHibredu: #CCCCCC !important;
+
+/*Secondary Colors*/
+$darkBlueHibredu: #076CAB !important;
+$lightBlueHibredu: #F1F3F9 !important;
+$cyanHibredu: #0DDBAB !important;
+
+:root {
+    --yellowHibredu: #{$yellowHibredu};
+    --greenHibredu: #{$greenHibredu};
+    --blueHibredu: #{$blueHibredu};
+    --whiteHibredu: #{$whiteHibredu};
+    --grayHibredu: #{$grayHibredu};
+    --lightGrayHibredu: #{$lightGrayHibredu};
+
+    --darkBlueHibredu: #{$darkBlueHibredu};
+    --lightBlueHibredu: #{$lightBlueHibredu};
+    --cyanHibredu: #{$cyanHibredu};
+}
