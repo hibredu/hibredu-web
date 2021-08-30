@@ -4,7 +4,7 @@
       color="var(--lightBlueHibredu)"
       dense
       flat
-      rounded
+      class="rounded-pill"
     >
       <v-btn icon color="var(--grayHibredu)">
         <v-icon>mdi-magnify</v-icon>
