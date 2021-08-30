@@ -1,9 +1,10 @@
 <template>
-  <div class="text-center">
+  <div class="drop-down">
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="var(--yellowHibredu)"
+          fab
           dark
           v-bind="attrs"
           v-on="on">
