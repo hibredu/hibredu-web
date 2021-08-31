@@ -1,7 +1,6 @@
 <template>
-  <v-card class="login">
+  <v-card class="register">
         <v-form
-            @submit.prevent="handleSubmit()"
             ref="form"
             v-model="valid"
             lazy-validation
@@ -14,15 +13,36 @@
             ></v-text-field>
 
             <v-text-field
+            v-model="nome_completo"
+            :rules="nome_completoRules && [v => !!v || 'Item is required']"
+            label="Nome_completo"
+            required
+            ></v-text-field>
+
+            <v-text-field
+            v-model="instituicao"
+            :rules="instituicaoRules && [v => !!v || 'Item is required']"
+            label="Instituicao"
+            required
+            ></v-text-field>
+
+            <v-text-field
             v-model="senha"
             :rules="senhaRules && [v => !!v || 'Item is required']"
             label="Senha"
             required
             ></v-text-field>
 
+            <v-text-field
+            v-model="conf_Senha"
+            :rules="conf_SenhaRules && [v => !!v || 'Item is required']"
+            label="conf_Senha"
+            required
+            ></v-text-field>
+
             <v-checkbox
                 v-model="checkbox"
-                label="Lembrar login"
+                label="Li e Concordo com os Termos de Uso e Privacidade"
                 required
             ></v-checkbox>
 
@@ -33,9 +53,9 @@
 
 <script>
 import NormalButton from '../components/Buttons/NormalButton.vue'
-import axios from 'axios'
+
 export default {
-    name: 'LoginBox',
+    name: 'RegisterBox',
     
     components: {
         NormalButton
@@ -47,24 +67,12 @@ export default {
         }
     },
     methods:{
-        async  handleSubmit(){
-            const response = await axios.post('login', {
-                email:this.email, 
-                senha: this.senha
-            });
-            localStorage.setItem('token', response.data.token);
-        }
+        
     }
 }
 </script>
 
 <style>
-.login {
-    font-size: 2em;
-    width: 30%;
-    height: 45%;
-    padding: 2%;
-    font-family: 'Metropolis Regular';
-}
+
 
 </style>
