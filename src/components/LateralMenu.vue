@@ -3,10 +3,13 @@
     <v-navigation-drawer
       permanent
       expand-on-hover
+      width="250"
     >
       <v-list nav dense>
-        <v-list-item>
-          <!--<v-img class="logo" src="../assets/images/hibredu-logo.png"></v-img>-->
+        <v-list-item class="logo">
+          <v-list-item-icon>
+            <v-img src="../assets/images/hibredu-logotipo.png"></v-img>
+          </v-list-item-icon>
         </v-list-item>
 
         <v-list-item link
@@ -82,8 +85,8 @@
             </template>
           </v-list-group>
         </v-list-group>
-        </v-list>
-      </v-navigation-drawer>
+      </v-list>
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -100,7 +103,6 @@
 
 <style scoped>
 .lateral-menu {
-  height: 100%;
   font-family: 'Metropolis Regular';
   color: var(--grayHibredu);
 }
