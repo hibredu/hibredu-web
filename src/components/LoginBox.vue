@@ -25,13 +25,13 @@
                 required
             ></v-checkbox>
 
-            <NormalButton/>
+            <NormalButton :text="Login"/>
         </v-form>
     </v-card>
 </template>
 
 <script>
-import NormalButton from '../components/Buttons/NormalButton.vue'
+import NormalButton from '../components/buttons/NormalButton'
 
 export default {
     name: 'LoginBox',

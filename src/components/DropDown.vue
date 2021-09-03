@@ -12,7 +12,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item
+        <v-list-item link
           v-for="(item, index) in items"
           :key="index">
           <v-list-item-icon>
@@ -38,8 +38,8 @@
   }
 </script>
 
-<style>
-div {
+<style scoped>
+.drop-down {
   font-family: 'Metropolis Regular';
   color: var(--grayHibredu);
 }

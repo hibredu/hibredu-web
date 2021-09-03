@@ -4,7 +4,7 @@
       color="var(--lightBlueHibredu)"
       dense
       flat
-      class="rounded-pill"
+      class="search-bar rounded-pill"
     >
       <v-btn icon color="var(--grayHibredu)">
         <v-icon>mdi-magnify</v-icon>
@@ -20,8 +20,17 @@ export default {
 }
 </script>
 
-<style>
-.search-bar input{
-  font-family: 'Metropolis Regular';
+<style scoped>
+div {
+  color: var(--grayHibredu);
 }
+
+.search-bar input{
+  width: 40%;
+  font-family: 'Metropolis Regular';
+  @media (max-width: 400px) {
+      width: 10%;
+  }
+}
+
 </style>

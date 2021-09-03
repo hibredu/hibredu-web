@@ -12,7 +12,7 @@ export default {
 <style scoped>
 .blue-bar-top{
   width: 100%;
-  height: 30%;
+  height: 37%;
   background-color: var(--blueHibredu);
   position: absolute;
   z-index: -1;
