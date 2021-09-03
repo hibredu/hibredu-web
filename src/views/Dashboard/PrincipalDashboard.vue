@@ -1,17 +1,22 @@
 <template>
   <div class="principal-dashboard">
-    <LateralMenu/>
     <TopBar/>
-    <SearchBar/>
-    <DropDown/>
+    <LateralMenu/>
+    <div class="content">
+      <div class="top-bar">
+        <SearchBar/>
+
+        <DropDown/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import LateralMenu from '../../components/LateralMenu.vue'
-import DropDown from '../../components/DropDown.vue'
-import TopBar from '../../components/Bars/TopBar.vue'
-import SearchBar from '../../components/Bars/SearchBar.vue'
+import LateralMenu from '../../components/LateralMenu'
+import DropDown from '../../components/DropDown'
+import TopBar from '../../components/bars/TopBar'
+import SearchBar from '../../components/bars/SearchBar'
 
 
 export default {
@@ -19,11 +24,12 @@ name: 'PrincipalDashboard',
 
   components: {
     LateralMenu, DropDown, TopBar, SearchBar
+    
   },
 }
 </script>
 
-<style>
+<style scoped>
 .principal-dashboard{
   width: 100%;
   height: 100%;
@@ -32,7 +38,22 @@ name: 'PrincipalDashboard',
   flex-direction: row;
   position: absolute;
   z-index: 1;
-  align-items: top;
 }
 
+.content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  padding: 2em 4em  ;
+}
+
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 6%;
+  justify-content: space-between;
+}
 </style>
