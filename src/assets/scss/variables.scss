@@ -12,6 +12,11 @@ $darkBlueHibredu: #076CAB !important;
 $lightBlueHibredu: #F1F3F9 !important;
 $cyanHibredu: #0DDBAB !important;
 
+/*Alert Colors*/
+$greenAlert: #158300 !important;
+$redAlert: #7C0000 !important;
+$blueAlert: #006E99 !important;
+
 :root {
     --yellowHibredu: #{$yellowHibredu};
     --greenHibredu: #{$greenHibredu};
@@ -24,4 +29,8 @@ $cyanHibredu: #0DDBAB !important;
     --darkBlueHibredu: #{$darkBlueHibredu};
     --lightBlueHibredu: #{$lightBlueHibredu};
     --cyanHibredu: #{$cyanHibredu};
+
+    --greenAlert: #{$greenAlert};
+    --redAlert: #{$redAlert};
+    --blueAlert: #{$blueAlert};
 }
