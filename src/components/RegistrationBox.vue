@@ -37,8 +37,8 @@ export default {
 <style>
 .registration {
     font-size: 2em;
-    width: 40%;
-    height: 60%;
+    width: 35%;
+    height: 50%;
     padding: 2%;
     font-family: 'Metropolis Regular';
 }
@@ -46,7 +46,8 @@ export default {
 .password {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    width: 100%;
 }
 
 @media only screen and (max-width: 1024px){
