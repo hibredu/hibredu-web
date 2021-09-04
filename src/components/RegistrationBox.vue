@@ -1,5 +1,5 @@
 <template>
-  <v-card class="registration">
+  <v-card class="registration" flat>
         <v-form
             ref="form"
             v-model="valid"
@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .registration {
     font-size: 2em;
     width: 35%;

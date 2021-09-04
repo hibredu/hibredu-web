@@ -28,9 +28,12 @@ div {
 .search-bar input{
   width: 40%;
   font-family: 'Metropolis Regular';
-  @media (max-width: 400px) {
-      width: 10%;
-  }
 }
 
+@media only screen and (max-width: 1024px){
+  .search-bar input{
+    width: 100%;
+    font-family: 'Metropolis Regular';
+  } 
+}
 </style>

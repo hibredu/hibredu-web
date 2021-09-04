@@ -1,5 +1,5 @@
 <template>
-  <v-card class="login">
+  <v-card class="login" flat>
         <v-form
             @submit.prevent="handleSubmit()"
             ref="form"
@@ -7,7 +7,7 @@
             lazy-validation
         >
             <TextInput :ico="`mdi-email`" :text="`E-mail`"/>
-            <PasswordInput :ico="`mdi-key-variant`"  :text="`Senha`"/>    
+            <PasswordInput :ico="`mdi-key-variant`" :text="`Senha`"/>    
             <CheckBox :text="`Lembrar login`"/>
 
             <NormalButton :text="`Login`"/>
@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login {
     font-size: 2em;
     width: 25%;

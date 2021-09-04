@@ -25,6 +25,7 @@
         </v-list-item>
         <v-list-group
           prepend-icon="mdi-google-analytics"
+          color="var(--grayHibredu)"
         >
           <template v-slot:activator>
             <v-list-item-title>Análise</v-list-item-title>
@@ -54,7 +55,8 @@
             </template>
           </v-list-group>
         </v-list-group>
-              <v-list-group
+        <v-list-group
+          color="var(--grayHibredu)"
           prepend-icon="mdi-cloud-download"
         >
           <template v-slot:activator>
@@ -65,6 +67,7 @@
             no-action
             sub-group
             prepend-icon="mdi-clipboard-list-outline"
+            color="var(--grayHibredu)"
           > 
             <template v-slot:activator>
               <v-list-item-content>
