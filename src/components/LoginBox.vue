@@ -1,53 +1,68 @@
 <template>
   <v-card class="login">
         <v-form
+            @submit.prevent="handleSubmit()"
             ref="form"
             v-model="valid"
             lazy-validation
         >
-            <v-text-field
-            v-model="name"
-            :rules="nameRules"
-            label="E-mail"
-            required
-            ></v-text-field>
+            <TextInput :ico="`mdi-email`" :text="`E-mail`"/>
+            <PasswordInput :ico="`mdi-key-variant`"  :text="`Senha`"/>    
+            <CheckBox :text="`Lembrar login`"/>
 
-            <v-text-field
-            v-model="email"
-            :rules="emailRules && [v => !!v || 'Item is required']"
-            label="Senha"
-            required
-            ></v-text-field>
-
-            <v-checkbox
-                v-model="checkbox"
-                label="Lembrar login"
-                required
-            ></v-checkbox>
-
-            <NormalButton :text="Login"/>
+            <NormalButton :text="`Login`"/>
         </v-form>
     </v-card>
 </template>
 
 <script>
 import NormalButton from '../components/buttons/NormalButton'
+import CheckBox from '../components/inputs/CheckBox'
+import TextInput from '../components/inputs/TextInput'
+import PasswordInput from '../components/inputs/PasswordInput'
+import axios from 'axios'
 
 export default {
-    name: 'LoginBox',
+    name: 'LoginBox', 
     
     components: {
-        NormalButton
+        NormalButton, CheckBox, PasswordInput, TextInput
     },
+    data(){
+        return{
+            email: '',
+            senha: ''
+        }
+    },
+    methods:{
+        async handleSubmit(){
+            const response = await axios.post('login', {
+                email: this.email, 
+                senha: this.senha
+            });
+            localStorage.setItem('token', response.data.token);
+        }
+    }
 }
 </script>
 
 <style>
 .login {
     font-size: 2em;
-    width: 30%;
-    height: 45%;
+    width: 25%;
+    height: 35%;
     padding: 2%;
     font-family: 'Metropolis Regular';
 }
+
+@media only screen and (max-width: 1024px){
+    .login {
+        font-size: 2em;
+        width: 80%;
+        height: auto;
+        padding: 3%;
+        font-family: 'Metropolis Regular';
+    }
+}
+
 </style>
