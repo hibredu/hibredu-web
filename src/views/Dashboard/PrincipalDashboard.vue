@@ -8,10 +8,10 @@
         <DropDown/>
       </div>
       <div class="cards">
-        <InfoCard :text='`Atividades Cadastradas`' :number='`210`'/>
-        <InfoCard :text='`Porcentagem de Entrega`' :number='`85%`'/>
-        <InfoCard :text='`Taxa de Acerto`' :number='`90%`'/>
-        <InfoCard :text='`Alertas`' :number='`42`'/>
+        <InfoCard :text='`Atividades Cadastradas`' :number='`210`' :color='`color: var(--blueAlert)`'/>
+        <InfoCard :text='`Porcentagem de Entrega`' :number='`85%`' :color='`color: var(--greenAlert)`'/>
+        <InfoCard :text='`Taxa de Acerto`' :number='`90%`' :color='`color: var(--greenAlert)`'/>
+        <InfoCard :text='`Alertas`' :number='`42`' :color='`color: var(--redAlert)`'/>
       </div>
     </div>
   </div>

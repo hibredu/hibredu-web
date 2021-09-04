@@ -1,7 +1,7 @@
 <template>
   <v-card class="info-card" flat>
     <div class="content">
-      <h4 class="card-title">
+      <h4 class="card-title" :style="color">
         {{ number }}
       </h4>
       <h6 class="sub-title">
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'InfoCard',
-  props: [ "number", "text" ],
+  props: [ "number", "text", "color" ],
 
 }
 </script>
@@ -36,7 +36,6 @@ export default {
 }
 
 .card-title {
-  color: var(--darkBlueHibredu);
   font-size: 4em;
 }
 
@@ -65,6 +64,33 @@ export default {
   .card-title {
     color: var(--darkBlueHibredu);
     font-size: 2em;
+  }
+
+  .sub-title {
+    font-size: 1em;
+    font-family: 'Metropolis Thin';
+  }
+}
+
+@media only screen and (max-width: 1440px){
+  .info-card {
+    width: 20%;
+    height: auto;
+    font-family: 'Metropolis Regular';
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+    width: 55%;
+  }
+
+  .card-title {
+    color: var(--darkBlueHibredu);
+    font-size: 4em;
   }
 
   .sub-title {
