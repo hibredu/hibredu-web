@@ -14,13 +14,14 @@
       <v-list>
         <v-list-item link
           v-for="(item, index) in items"
-          :key="index">
+          :key="index"
+          :href="link">
           <v-list-item-icon>
             <v-icon color="var(--grayHibredu)">
               {{ item.ico }}
             </v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="title">{{ item.title }}</v-list-item-title>
+          <v-list-item-title color="var(--grayHibredu)" class="title">{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -39,6 +40,10 @@
 </script>
 
 <style scoped>
+div {
+  color: var(--grayHibredu);
+}
+
 .drop-down {
   font-family: 'Metropolis Regular';
   color: var(--grayHibredu);

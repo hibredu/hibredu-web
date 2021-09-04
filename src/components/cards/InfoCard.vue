@@ -85,7 +85,7 @@ export default {
   }
 
   .content {
-    width: 55%;
+    width: 80%;
   }
 
   .card-title {
