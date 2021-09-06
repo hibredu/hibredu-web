@@ -8,7 +8,7 @@
       <v-list nav dense>
         <v-list-item class="logo">
           <v-list-item-icon>
-            <v-img src="../assets/images/hibredu-logotipo.png"></v-img>
+            <v-img src="../assets/images/hibredu-logotipo.png" height="40" class="ml-auto"></v-img>
           </v-list-item-icon>
         </v-list-item>
 
@@ -105,9 +105,9 @@
 </script>
 
 <style scoped>
-.lateral-menu {
-  font-family: 'Metropolis Regular';
+div {
   color: var(--grayHibredu);
+  font-family: 'Metropolis Regular';
 }
 
 </style>
