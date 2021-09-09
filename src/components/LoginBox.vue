@@ -10,7 +10,7 @@
             <PasswordInput :ico="`mdi-key-variant`" :text="`Senha`"/>    
             <CheckBox :text="`Lembrar login`"/>
 
-            <NormalButton :text="`Login`"/>
+            <NormalButton :color='`var(--yellowHibredu)`' :text="`Login`"/>
         </v-form>
     </v-card>
 </template>

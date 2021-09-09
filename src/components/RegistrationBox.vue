@@ -14,7 +14,7 @@
             </div>
             <CheckBox :text="`Li e Concordo com os Termos de Uso e Privacidade`"/>
 
-            <NormalButton :text="`Cadastrar`"/>
+            <NormalButton :color='`var(--yellowHibredu)`' :text="`Cadastrar`"/>
         </v-form>
     </v-card>
 </template>
