@@ -31,7 +31,6 @@ export default {
       rules: {
         required: (value) => !!value || "A senha é obrigatória",
         min: (v) => v.length >= 8 || "Minímo 8 caracteres",
-        emailMatch: () => `The email and password you entered don't match`,
       },
     };
   },
