@@ -32,7 +32,6 @@ import PasswordInput from "../components/inputs/PasswordInput";
 
 export default {
   name: "LoginBox",
-
   components: {
     NormalButton,
     CheckBox,
@@ -47,7 +46,7 @@ export default {
     };
   },
   methods: {
-    async login() {
+    login() {
       console.log(
         "Email: " +
           this.email +
@@ -70,9 +69,12 @@ export default {
 .login {
   font-size: 2em;
   width: 25%;
-  height: 35%;
+  height: auto;
   padding: 2%;
   font-family: "Metropolis Regular";
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 @media only screen and (max-width: 1024px) {
