@@ -13,7 +13,12 @@
         :label="`Senha`"
         :type="'password'"
       />
-      <CheckBox @click.native="remember = !remember" :label="`Lembrar login`" />
+      <div class="check-register">
+        <CheckBox @click.native="remember = !remember" :label="`Lembrar login`" />
+        <div class="register" @click="redirectRegister()">
+          Cadastre-se
+        </div>
+      </div>
       <NormalButton
         @click.native="login"
         :color="`var(--yellowHibredu)`"
@@ -54,6 +59,9 @@ export default {
         }
       })
     },
+    redirectRegister() {
+      this.$router.push('register')
+    },
   },
 };
 </script>
@@ -78,5 +86,30 @@ export default {
     padding: 3%;
     font-family: "Metropolis Regular";
   }
+  .check-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
+.check-register {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+.register {
+  width: 80%;
+  color: var(--blueHibredu);
+  font-size: 0.5em;
+}
+
+.register:hover{
+  color: var(--yellowHibredu);
+  cursor: pointer;
 }
 </style>
