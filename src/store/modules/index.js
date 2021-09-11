@@ -1,4 +1,4 @@
-import { auth } from "../../services/index"
+import { auth, createTeacher } from "../../services/index"
 
 export const indexStore = {
     state: () => ({
@@ -13,6 +13,11 @@ export const indexStore = {
         async action_auth(context, payload) {
             return await auth(payload).then(response => {
                 context.commit("SET_TOKEN", response.data.token);
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_createTeacher(context, payload) {
+            return await createTeacher(payload).then(response => {
                 return response;
             }).catch(err => console.error(err));
         },

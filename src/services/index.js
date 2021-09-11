@@ -5,3 +5,7 @@ const url = 'http://localhost:8080'
 export const auth = (params) => {
     return axios.post(`${url}/auth`, params);
 };
+
+export const createTeacher = (params) => {
+    return axios.post(`${url}/teacher`, params);
+};
