@@ -28,7 +28,7 @@ import NormalButton from "../components/buttons/NormalButton";
 import CheckBox from "../components/inputs/CheckBox";
 import TextInput from "../components/inputs/TextInput";
 import PasswordInput from "../components/inputs/PasswordInput";
-//import axios from 'axios'
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginBox",
@@ -46,20 +46,13 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["action_auth"]),
     login() {
-      console.log(
-        "Email: " +
-          this.email +
-          " Senha: " +
-          this.password +
-          " Remember: " +
-          this.remember
-      );
-      // const response = await axios.post('login', {
-      //     email: this.email,
-      //     senha: this.password
-      // });
-      // localStorage.setItem('token', response.data.token);
+      this.action_auth({email: this.email, password: this.password}).then(response => {
+        if (response) {
+          console.log(response)
+        }
+      })
     },
   },
 };
