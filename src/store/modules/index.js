@@ -12,7 +12,7 @@ export const indexStore = {
     actions: {
         async action_auth(context, payload) {
             return await auth(payload).then(response => {
-                context.commit("SET_TOKEN", response);
+                context.commit("SET_TOKEN", response.data.token);
                 return response;
             }).catch(err => console.error(err));
         },
