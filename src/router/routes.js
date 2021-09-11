@@ -5,9 +5,9 @@ import Importation from '../views/Importation/Importation';
 
 export const routes = [
 
-    { path: '', component: Login },
-    { path: '/home', component: PrincipalDashboard },
-    { path: '/register', component: Registration },
-    { path: '/import', component: Importation },
+    { path: '', component: Login, name: 'login' },
+    { path: '/home', component: PrincipalDashboard, name: 'home' },
+    { path: '/register', component: Registration, name: 'register' },
+    { path: '/import', component: Importation, name: 'import' },
 
 ];
