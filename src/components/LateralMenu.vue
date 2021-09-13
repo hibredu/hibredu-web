@@ -60,7 +60,7 @@
             <v-list-item-title>Exportar</v-list-item-title>
           </template>
 
-          <v-list-item :to="`home`" link :key="index">
+          <v-list-item :to="`home`" link>
             <v-list-item-icon>
               <v-icon left color="var(--grayHibredu)">mdi-clipboard-list-outline</v-icon>
             </v-list-item-icon>
@@ -69,7 +69,7 @@
             </v-list-item-title>
           </v-list-item>
 
-          <v-list-item :to="`home`" link :key="index">
+          <v-list-item :to="`home`" link>
             <v-list-item-icon>
               <v-icon left color="var(--grayHibredu)">mdi-list-status</v-icon>
             </v-list-item-icon>

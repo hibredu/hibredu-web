@@ -55,8 +55,9 @@ export default {
     login() {
       this.action_auth({email: this.email, password: this.password}).then(response => {
         if (response) {
-          console.log(response)
+          this.$router.push('home')
         }
+        this.$router.push('home')
       })
     },
     redirectRegister() {

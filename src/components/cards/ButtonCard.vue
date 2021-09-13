@@ -11,7 +11,7 @@
       <IconNormalButton
         :icon="`mdi-microsoft-teams`"
         :color="`var(--yellowHibredu)`"
-        :text="`Forms Microsoft`"
+        :text="`Microsoft Teams`"
       />
       <div class="space"></div>
       <IconNormalButton
