@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-down">
+ 
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -15,36 +15,32 @@
         <v-list-item link
           v-for="(item, index) in items"
           :key="index"
-          :href="link">
+          :to="item.route">
           <v-list-item-icon>
             <v-icon color="var(--grayHibredu)">
               {{ item.ico }}
             </v-icon>
           </v-list-item-icon>
-          <v-list-item-title color="var(--grayHibredu)" class="title">{{ item.title }}</v-list-item-title>
+          <v-list-item-title color="var(--grayHibredu)">{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
-  </div>
+
 </template>
 
 <script>
   export default {
     data: () => ({
       items: [
-        { ico: 'mdi-account-circle', title: 'Meu Perfil' },
-        { ico: 'mdi-exit-to-app', title: 'Sair' },
+        { ico: 'mdi-account-circle', title: 'Meu Perfil', route: "home" },
+        { ico: 'mdi-exit-to-app', title: 'Sair', route: "login" },
       ],
     }),
   }
 </script>
 
 <style scoped>
-div {
-  color: var(--grayHibredu);
-}
-
-.drop-down {
+* {
   font-family: 'Metropolis Regular';
   color: var(--grayHibredu);
 }
