@@ -7,12 +7,16 @@
             <v-img
               src="../assets/images/hibredu-logotipo.png"
               height="40"
-              class="ml-auto"
             ></v-img>
           </v-list-item-icon>
         </v-list-item>
 
-        <v-list-item link v-for="(item, index) in items" :key="index">
+        <v-list-item
+          :to="item.route"
+          link
+          v-for="(item, index) in items"
+          :key="index"
+        >
           <v-list-item-icon>
             <v-icon color="var(--grayHibredu)">{{ item.ico }}</v-icon>
           </v-list-item-icon>
@@ -20,66 +24,59 @@
             {{ item.title }}
           </v-list-item-title>
         </v-list-item>
-        <v-list-group
-          prepend-icon="mdi-google-analytics"
-          color="var(--grayHibredu)"
-        >
+
+        <v-list-group color="var(--grayHibredu)">
           <template v-slot:activator>
+            <v-list-item-icon>
+              <v-icon color="var(--grayHibredu)">mdi-google-analytics</v-icon>
+            </v-list-item-icon>
             <v-list-item-title>Análise</v-list-item-title>
           </template>
 
-          <v-list-group no-action sub-group prepend-icon="mdi-account-group">
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Turma</v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </v-list-group>
-          <v-list-group
-            no-action
-            sub-group
-            prepend-icon="mdi-account "
-            color="var(--grayHibredu)"
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Aluno</v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </v-list-group>
+          <v-list-item :to="`home`" link>
+            <v-list-item-icon>
+              <v-icon left color="var(--grayHibredu)">mdi-account-group</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title color="var(--grayHibredu)">
+              Turma
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item :to="`home`" link>
+            <v-list-item-icon>
+              <v-icon left color="var(--grayHibredu)">mdi-account</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title color="var(--grayHibredu)">
+              Aluno
+            </v-list-item-title>
+          </v-list-item>
         </v-list-group>
-        <v-list-group
-          color="var(--grayHibredu)"
-          prepend-icon="mdi-cloud-download"
-        >
+
+        <v-list-group color="var(--grayHibredu)">
           <template v-slot:activator>
+            <v-list-item-icon>
+              <v-icon color="var(--grayHibredu)">mdi-cloud-download</v-icon>
+            </v-list-item-icon>
             <v-list-item-title>Exportar</v-list-item-title>
           </template>
 
-          <v-list-group
-            no-action
-            sub-group
-            prepend-icon="mdi-clipboard-list-outline"
-            color="var(--grayHibredu)"
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Atividades</v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </v-list-group>
-          <v-list-group
-            no-action
-            sub-group
-            prepend-icon="mdi-list-status"
-            color="var(--grayHibredu)"
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Presença</v-list-item-title>
-              </v-list-item-content>
-            </template>
-          </v-list-group>
+          <v-list-item :to="`home`" link :key="index">
+            <v-list-item-icon>
+              <v-icon left color="var(--grayHibredu)">mdi-clipboard-list-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title color="var(--grayHibredu)">
+              Atividades
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item :to="`home`" link :key="index">
+            <v-list-item-icon>
+              <v-icon left color="var(--grayHibredu)">mdi-list-status</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title color="var(--grayHibredu)">
+              Presença
+            </v-list-item-title>
+          </v-list-item>
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
@@ -90,8 +87,8 @@
 export default {
   data: () => ({
     items: [
-      { ico: "mdi-home", title: "Home" },
-      { ico: "mdi-cloud-upload", title: "Importar" },
+      { ico: "mdi-home", title: "Home", route: "home" },
+      { ico: "mdi-cloud-upload", title: "Importar", route: "import" },
     ],
   }),
 };
