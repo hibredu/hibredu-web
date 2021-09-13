@@ -106,6 +106,7 @@ export default {
   width: 80%;
   color: var(--blueHibredu);
   font-size: 0.5em;
+  text-align: right;
 }
 
 .register:hover{
