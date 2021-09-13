@@ -15,7 +15,7 @@
         <v-list-item link
           v-for="(item, index) in items"
           :key="index"
-          :to="item.route">
+          :to="{ name: item.route}">
           <v-list-item-icon>
             <v-icon color="var(--grayHibredu)">
               {{ item.ico }}
