@@ -9,16 +9,15 @@
         <label>Importar arquivo</label>
       </v-stepper-step>
 
-      <v-stepper-content step="1">
-       
-          <FileInput
-            :dialog="true"
-            :multiple="false"
-            @
-            filesUploaded="processUpload ( $ event )"
-          />
+      <v-stepper-content class="item" step="1">
+        <FileInput
+          :dialog="true"
+          :multiple="false"
+          @filesUploaded="processUpload($event)"
+        />
+        <div class="space"></div>
         <NormalButton
-          @click.native="importStep = 2"
+          @click.native="importStep = 2 "
           :color="`var(--greenHibredu)`"
           :text="`Próximo`"
         />
@@ -69,9 +68,16 @@ export default {
   components: { NormalButton, FileInput },
   data() {
     return {
+      uploadedFile: [],
       importStep: 1,
     };
   },
+  methods: {
+    processUpload(event) {
+      this.uploadedFile = event;
+      console.log(event)
+    }
+  }
 };
 </script>
 
@@ -79,16 +85,16 @@ export default {
 .vertical-progress-step-bar {
   font-family: "Metropolis Regular";
   color: var(--grayHibredu);
-}
-
-label {
-  font-family: "Metropolis Regular";
-  color: var(--grayHibredu);
+  height: auto;
 }
 
 .card {
-  width: 100%;
+  width: 80%;
   height: 200px;
   margin-bottom: 2%;
+}
+
+.space {
+  height: 2em;
 }
 </style>

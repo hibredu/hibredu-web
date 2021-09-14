@@ -15,6 +15,7 @@
       />
       <div class="space"></div>
       <IconNormalButton
+        @click.native="go"
         :icon="`mdi-file`"
         :color="`var(--yellowHibredu)`"
         :text="`Outros`"
@@ -31,6 +32,11 @@ export default {
   components: {
     IconNormalButton,
   },
+  methods: {
+    go(){
+      this.$router.push({name: 'import_list'})
+    }
+  }
 };
 </script>
 

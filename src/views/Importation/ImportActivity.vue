@@ -7,9 +7,8 @@
         <SearchBar/>
         <DropDown/>
       </div>
-      <div class="button-card">
-        <ButtonCard :title="`Envio de Atividades`"/>
-        <ButtonCard :title="`Envio de Presença`"/>
+      <div class="file-input">
+        <ProgressStepBarVertical/>
       </div>
     </div>
   </div>
@@ -20,7 +19,7 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import ButtonCard from "../../components/cards/ButtonCard";
+import ProgressStepBarVertical from "../../components/bars/ProgressStepBarVertical";
 
 export default {
   name: "Importation",
@@ -30,7 +29,7 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    ButtonCard,
+    ProgressStepBarVertical,
   },
 };
 </script>
@@ -63,18 +62,10 @@ export default {
 }
 
 .file-input {
-  height: 70%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-
-.button-card {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-around;
-  height: auto;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -87,13 +78,13 @@ export default {
     width: 100%;
     height: auto;
   }
-
-  .button-card {
+  
+  .file-input {
+    height: auto;
+    width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 100%;
-    height: auto;
   }
 }
 </style>

@@ -5,7 +5,7 @@
       @dragover.prevent="dragover = true"
       @dragenter.prevent="dragover = true"
       @dragleave.prevent="dragover = false"
-      :class="{ 'grey lighten-2': dragover }"
+      :class="{ 'var(--yellowHibredu) lighten-2': dragover }"
       flat
     >
       <v-card-text>
@@ -19,16 +19,35 @@
           </v-icon>
           <p>
             Arraste e solte aqui um arquivo
-            <span class="destaque">.csv</span> ou
-            <span class="destaque">.xslx</span>
+            <span class="marked">.csv</span> ou
+            <span class="marked">.xslx</span>
           </p>
-          <p>Ou clique aqui para selecionar um arquivo do seu computador</p>
+          <p>
+            Ou clique
+            <label
+              class="marked"
+              for="uploadedFile"
+              name="uploadedFile"
+              value="uploadedFile"
+              >aqui</label
+            >
+            <input
+              name="uploadedFile"
+              value="uploadedFile"
+              id="uploadedFile"
+              type="file"
+              @change="onSelected($event)"
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+            />
+            para selecionar um arquivo
+          </p>
         </v-row>
         <v-virtual-scroll
-          v-if="uploadedFiles.length > 0"
-          :items="uploadedFiles"
+          v-if="uploadedFile.length > 0"
+          :items="uploadedFile"
           height="150"
-          item-height="50"
+          item-height="100"
+          :color="`var(--yellowHibredu)`"
         >
           <template v-slot:default="{ item }">
             <v-list-item :key="item.name">
@@ -42,22 +61,17 @@
               </v-list-item-content>
 
               <v-list-item-action>
-                <v-btn @click.stop="removeFile(item.name)" icon>
-                  <v-icon> mdi-close-circle </v-icon>
+                <v-btn @click="removeFile()" icon>
+                  <v-icon :color="`var(--yellowHibredu)`">
+                    mdi-close-circle
+                  </v-icon>
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
-
             <v-divider></v-divider>
           </template>
         </v-virtual-scroll>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn icon @click.stop="submit" color="`var(--yellowHibredu)`">
-          <v-icon id="upload-button">mdi-upload</v-icon>
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -74,37 +88,39 @@ export default {
   data() {
     return {
       dragover: false,
-      uploadedFiles: [],
+      uploadedFile: [],
     };
   },
   methods: {
-    closeDialog() {
-      this.uploadedFiles = [];
-      this.$emit("update:dialog", false);
-    },
-    removeFile(fileName) {
-      const index = this.uploadedFiles.findIndex(
-        (file) => file.name === fileName
-      );
-      if (index > -1) this.uploadedFiles.splice(index, 1);
+    removeFile() {
+      this.uploadedFile = [];
     },
     onDrop(e) {
       this.dragover = false;
 
-      if (this.uploadedFiles.length > 0) this.uploadedFiles = [];
+      if (this.uploadedFile.length > 0) this.uploadedFile = [];
 
       if (!this.multiple && e.dataTransfer.files.length > 1) {
         console.log("Somente um arquivo por vez");
-      } else
-        e.dataTransfer.files.forEach((element) =>
-          this.uploadedFiles.push(element)
-        );
-    },
-    submit() {
-      if (!this.uploadedFiles.length > 0) {
-        console.log("Sem arquivos");
       } else {
-        this.$emit("filesUploaded", this.uploadedFiles);
+        this.uploadedFile.push(e.dataTransfer.files[0]);
+
+        this.validateFile(this.uploadedFile);
+      }
+    },
+    onSelected(e) {
+      this.uploadedFile.push(e.target.files[0]);
+
+      this.$emit("filesUploaded", this.uploadedFile);
+    },
+    validateFile(file) {
+      let name = file[0].name;
+      let extension = name.split(".").pop();
+      if (extension === "csv" || extension === "xlsx") {
+        this.$emit("filesUploaded", file);
+      } else {
+        this.uploadedFile = [];
+        console.log("Extensão não permitida");
       }
     },
   },
@@ -118,9 +134,10 @@ export default {
 
 .v-card {
   border: dashed 1px var(--grayHibredu);
-  width: 50%;
+  width: 100%;
 }
-.destaque {
+
+.marked {
   font-weight: bold;
   color: var(--yellowHibredu);
 }
@@ -128,5 +145,14 @@ export default {
 p {
   font-size: 20px;
   color: var(--grayHibredu);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  color: var(--yellowHibredu);
+  cursor: pointer;
 }
 </style>
