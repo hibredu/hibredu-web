@@ -31,9 +31,9 @@
         />
       </div>
       <div class="bottom">
-        <AlertCard/>
-        <PerformanceCard/>
-        <ActivityCard/>
+        <AlertCard />
+        <PerformanceCard />
+        <ActivityCard />
       </div>
     </div>
   </div>
@@ -46,8 +46,8 @@ import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
 import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
-import PerformanceCard from "../../components/cards/alerts/PerformanceCard"
-import ActivityCard from "../../components/cards/alerts/ActivityCard"
+import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
+import ActivityCard from "../../components/cards/alerts/ActivityCard";
 import { mapActions } from "vuex";
 
 export default {
@@ -61,7 +61,7 @@ export default {
     InfoCard,
     AlertCard,
     PerformanceCard,
-    ActivityCard
+    ActivityCard,
   },
   mounted() {
     this.search();
@@ -124,7 +124,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
+    height: 100%;
     padding: 0em 0.5em 0em 0.5em;
   }
 
@@ -138,6 +138,13 @@ export default {
     height: auto;
   }
   .cards {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+   .bottom {
     height: auto;
     display: flex;
     flex-direction: column;
