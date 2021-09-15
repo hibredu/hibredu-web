@@ -1,4 +1,4 @@
-import { auth, createTeacher } from "../../services/index"
+import { auth, createTeacher, overviewClassroom } from "../../services/index"
 
 export const indexStore = {
     state: () => ({
@@ -18,6 +18,11 @@ export const indexStore = {
         },
         async action_createTeacher(context, payload) {
             return await createTeacher(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_overviewClassroom(context, payload) {
+            return await overviewClassroom(payload).then(response => {
                 return response;
             }).catch(err => console.error(err));
         },
