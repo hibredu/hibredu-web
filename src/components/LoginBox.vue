@@ -1,50 +1,47 @@
 <template>
   <v-card class="login" flat>
     <v-form ref="form" lazy-validation>
-      <TextInput
+      <EmailInput
         @update:value="email = $event"
-        :ico="`mdi-email`"
-        :label="`E-mail`"
-        :type="'text'"
+        ico="mdi-email"
+        label="E-mail"
+        type="text"
       />
       <PasswordInput
         @update:value="password = $event"
-        :ico="`mdi-key-variant`"
-        :label="`Senha`"
-        :type="'password'"
+        ico="mdi-key-variant"
+        label="Senha"
+        type="password"
       />
       <div class="check-register">
-        <CheckBox
-          @click.native="remember = !remember"
-          :label="`Lembrar login`"
-        />
+        <CheckBox @click.native="remember = !remember" label="Lembrar login" />
         <div class="register" @click="redirectRegister()">Cadastre-se</div>
       </div>
       <NormalButton
-        @click.native="login"
-        :color="`var(--yellowHibredu)`"
-        :text="`Login`"
+        @click.native="validate"
+        color="var(--yellowHibredu)"
+        text="Login"
       />
     </v-form>
   </v-card>
 </template>
 
 <script>
-import globalMethods from "../mixins/globalMethods"
+import globalMethods from "../mixins/globalMethods";
 import NormalButton from "../components/buttons/NormalButton";
 import CheckBox from "../components/inputs/CheckBox";
-import TextInput from "../components/inputs/TextInput";
+import EmailInput from "../components/inputs/EmailInput";
 import PasswordInput from "../components/inputs/PasswordInput";
 import { mapActions } from "vuex";
 
 export default {
   name: "LoginBox",
-  mixins: [ globalMethods ],
+  mixins: [globalMethods],
   components: {
     NormalButton,
     CheckBox,
     PasswordInput,
-    TextInput,
+    EmailInput,
   },
   data() {
     return {
@@ -55,19 +52,22 @@ export default {
   },
   methods: {
     ...mapActions(["action_auth"]),
-    login() {
-      if (this.password.length >= 8) {
-        this.action_auth({ email: this.email, password: this.password }).then(
-          (response) => {
-            if (response) {
-              this.$router.push("home");
-            }
-            this.$router.push("home");
-          }
-        );
+    validate() {
+      if(this.validateEmail(this.email) && this.password.length >= 8) {
+        this.login();
       } else {
-        this.$alert("Preencha os campos solicitados");
+        this.$alert("Preencha corretamente os campos solicitados");
       }
+    },
+    login() {
+      this.action_auth({ email: this.email, password: this.password }).then(
+        (response) => {
+          localStorage.setItem("access_token", response.data.token);
+          console.log(localStorage.getItem("access_token"));
+          console.log(this.password);
+          //this.$router.push("home");
+        }
+      );
     },
     redirectRegister() {
       this.$router.push("register");
