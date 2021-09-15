@@ -53,7 +53,7 @@ export default {
   methods: {
     ...mapActions(["action_auth"]),
     validate() {
-      if(this.validateEmail(this.email) && this.password.length >= 8) {
+      if (this.validateEmail(this.email) && this.password.length >= 8) {
         this.login();
       } else {
         this.$alert("Preencha corretamente os campos solicitados");
@@ -62,10 +62,10 @@ export default {
     login() {
       this.action_auth({ email: this.email, password: this.password }).then(
         (response) => {
-          localStorage.setItem("access_token", response.data.token);
-          console.log(localStorage.getItem("access_token"));
-          console.log(this.password);
-          //this.$router.push("home");
+          if (response.status === 200) {
+            localStorage.setItem("access_token", response.data.token);
+            this.$router.push("home");
+          }
         }
       );
     },
