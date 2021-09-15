@@ -8,8 +8,8 @@
         <DropDown/>
       </div>
       <div class="button-card">
-        <ButtonCard :title="`Envio de Atividades`"/>
-        <ButtonCard :title="`Envio de Presença`"/>
+        <ButtonCard title="Envio de Atividades"/>
+        <ButtonCard title="Envio de Presença"/>
       </div>
     </div>
   </div>
