@@ -5,9 +5,11 @@ import './assets/scss/app.scss';
 import VueRouter from 'vue-router'
 import { routes } from '../src/router/routes';
 import store from './store'
+import VueSimpleAlert from "vue-simple-alert";
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
+Vue.use(VueSimpleAlert);
 
 const router = new VueRouter({
   routes : routes
