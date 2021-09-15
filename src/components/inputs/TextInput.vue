@@ -10,7 +10,7 @@
         :prepend-inner-icon="ico"
         :placeholder="label"
         :type="type"
-        @input="$emit('update:value', text)"
+        @change="$emit('update:value', text)"
       >
       </v-text-field>
     </v-form>
@@ -25,18 +25,6 @@ export default {
     return {
       text: this.valueField || "",
     };
-  },
-  watch: {
-    valueField() {
-      this.text = this.valueField;
-      this.$emit("update:value", this.text);
-    },
-  },
-  mounted() {
-    if (this.text) {
-      this.text = this.valueField;
-      this.$emit("update:value", this.text);
-    }
   },
 };
 </script>

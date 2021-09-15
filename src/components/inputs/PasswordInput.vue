@@ -13,9 +13,8 @@
         :type="show1 ? 'text' : 'password'"
         @click:append="show1 = !show1"
         :placeholder="label"
-        @input="$emit('update:value', password)"
+        @change="$emit('update:value', password)"
       >
-        >
       </v-text-field>
     </v-form>
   </div>
@@ -33,18 +32,6 @@ export default {
         min: (v) => v.length >= 8 || "Minímo 8 caracteres",
       },
     };
-  },
-  watch: {
-    valueField() {
-      this.password = this.valueField;
-      this.$emit("update:value", this.password);
-    },
-  },
-  mounted() {
-    if (this.password) {
-      this.password = this.valueField;
-      this.$emit("update:value", this.password);
-    }
   },
 };
 </script>
