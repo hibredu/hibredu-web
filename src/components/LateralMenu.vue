@@ -33,7 +33,7 @@
             <v-list-item-title>Análise</v-list-item-title>
           </template>
 
-          <v-list-item :to="{ name: 'home' }" link>
+          <v-list-item :to="{ name: 'classroom' }" link>
             <v-list-item-icon>
               <v-icon left color="var(--grayHibredu)">mdi-account-group</v-icon>
             </v-list-item-icon>
@@ -42,7 +42,7 @@
             </v-list-item-title>
           </v-list-item>
 
-          <v-list-item :to="{ name: 'home' }" link>
+          <v-list-item :to="{ name: 'student' }" link>
             <v-list-item-icon>
               <v-icon left color="var(--grayHibredu)">mdi-account</v-icon>
             </v-list-item-icon>
