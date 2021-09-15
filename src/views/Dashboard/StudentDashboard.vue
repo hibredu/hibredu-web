@@ -30,8 +30,8 @@
         <InfoCard text="Alertas" number="42" color="color: var(--redAlert)" />
       </div>
       <div class="middle">
-        <ActivityCard2/>
-        <PerformanceCard2/>
+        <LineChart/>
+        <SliceChart/>
       </div>
       <div class="bottom">
         <AlertCard />
@@ -52,8 +52,8 @@ import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
-import PerformanceCard2 from "../../components/graphs/PerformanceCard2";
-import ActivityCard2 from "../../components/graphs/ActivityCard2";
+import SliceChart from "../../components/graphs/SliceChart";
+import LineChart from "../../components/graphs/LineChart";
 // import { mapActions } from "vuex";
 
 export default {
@@ -69,8 +69,8 @@ export default {
     AlertCard,
     PerformanceCard,
     ActivityCard,
-    PerformanceCard2,
-    ActivityCard2,
+    SliceChart,
+    LineChart,
   },
 };
 </script>

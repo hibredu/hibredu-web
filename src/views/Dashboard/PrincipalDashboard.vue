@@ -10,7 +10,7 @@
       <div class="welcome-bar">
         <WelcomeBar name="Vera" />
       </div>
-      
+
       <div class="cards">
         <InfoCard
           text="Atividades Cadastradas"
@@ -30,8 +30,8 @@
         <InfoCard text="Alertas" number="42" color="color: var(--redAlert)" />
       </div>
       <div class="middle">
-        <AlertCard />
-        <PerformanceCard />
+        <LineChart/>
+        <SliceChart title="Realização de atividades por turma"/>
       </div>
       <div class="bottom">
         <AlertCard />
@@ -52,6 +52,8 @@ import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
+import SliceChart from "../../components/graphs/SliceChart";
+import LineChart from "../../components/graphs/LineChart";
 // import { mapActions } from "vuex";
 
 export default {
@@ -67,6 +69,8 @@ export default {
     AlertCard,
     PerformanceCard,
     ActivityCard,
+    SliceChart,
+    LineChart,
   },
 };
 </script>
@@ -162,7 +166,7 @@ export default {
   }
 
   .middle {
-    height: 25em;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

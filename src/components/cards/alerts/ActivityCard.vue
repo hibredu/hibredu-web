@@ -1,7 +1,6 @@
 <template>
   <v-card class="scroll activity-card" flat>
     <h4>Atividades</h4>
-    <v-divider />
     <v-list dense>
       <v-list-item-group color="primary">
         <v-list-item

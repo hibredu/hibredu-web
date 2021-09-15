@@ -1,7 +1,6 @@
 <template>
   <v-card class="scroll performance-card" flat>
     <h4>Desempenho por Turma</h4>
-    <v-divider />
     <v-list dense>
       <v-list-item-group color="primary">
         <v-list-item v-for="(item, i) in items" :key="i" :disabled="true"
