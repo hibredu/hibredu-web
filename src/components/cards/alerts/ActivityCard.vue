@@ -62,7 +62,6 @@ export default {
 <style scoped>
 .activity-card {
   font-family: "Metropolis Regular";
-  margin-top: 2em;
   width: 30%;
   padding: 1em;
   height: auto;
@@ -81,7 +80,6 @@ export default {
     font-family: "Metropolis Regular";
     margin-top: 2em;
     width: 100%;
-    padding: 1em;
     height: auto;
     margin-bottom: 2em;
   }

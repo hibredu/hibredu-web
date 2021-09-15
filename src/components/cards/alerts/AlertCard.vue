@@ -120,7 +120,6 @@ export default {
 <style scoped>
 .alert-card {
   font-family: "Metropolis Regular";
-  margin-top: 2em;
   width: 30%;
   padding: 1em;
   height: auto;
@@ -141,9 +140,9 @@ export default {
 @media only screen and (max-width: 1024px) {
   .alert-card {
     font-family: "Metropolis Regular";
-    margin-top: 2em;
-    width: 100%;
-    padding: 1em;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    width: auto;
     height: auto;
   }
 }

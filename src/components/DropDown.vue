@@ -44,4 +44,12 @@
   font-family: 'Metropolis Regular';
   color: var(--grayHibredu);
 }
+
+.v-list-item {
+  background-color: var(--whiteHibredu);
+}
+
+.v-list-item:hover {
+  background-color: var(--lightGrayHibredu);
+}
 </style>
