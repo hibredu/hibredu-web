@@ -14,10 +14,11 @@
         :type="'password'"
       />
       <div class="check-register">
-        <CheckBox @click.native="remember = !remember" :label="`Lembrar login`" />
-        <div class="register" @click="redirectRegister()">
-          Cadastre-se
-        </div>
+        <CheckBox
+          @click.native="remember = !remember"
+          :label="`Lembrar login`"
+        />
+        <div class="register" @click="redirectRegister()">Cadastre-se</div>
       </div>
       <NormalButton
         @click.native="login"
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import globalMethods from "../mixins/globalMethods"
 import NormalButton from "../components/buttons/NormalButton";
 import CheckBox from "../components/inputs/CheckBox";
 import TextInput from "../components/inputs/TextInput";
@@ -37,6 +39,7 @@ import { mapActions } from "vuex";
 
 export default {
   name: "LoginBox",
+  mixins: [ globalMethods ],
   components: {
     NormalButton,
     CheckBox,
@@ -53,15 +56,21 @@ export default {
   methods: {
     ...mapActions(["action_auth"]),
     login() {
-      this.action_auth({email: this.email, password: this.password}).then(response => {
-        if (response) {
-          this.$router.push('home')
-        }
-        this.$router.push('home')
-      })
+      if (this.password.length >= 8) {
+        this.action_auth({ email: this.email, password: this.password }).then(
+          (response) => {
+            if (response) {
+              this.$router.push("home");
+            }
+            this.$router.push("home");
+          }
+        );
+      } else {
+        this.$alert("Preencha os campos solicitados");
+      }
     },
     redirectRegister() {
-      this.$router.push('register')
+      this.$router.push("register");
     },
   },
 };
@@ -110,7 +119,7 @@ export default {
   text-align: right;
 }
 
-.register:hover{
+.register:hover {
   color: var(--yellowHibredu);
   cursor: pointer;
 }

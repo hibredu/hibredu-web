@@ -9,3 +9,7 @@ export const auth = (params) => {
 export const createTeacher = (params) => {
     return axios.post(`${url}/teacher`, params);
 };
+
+export const overviewClassroom = (params) => {
+    return axios.get(`${url}/overview/classroom`, params);
+};
