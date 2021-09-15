@@ -81,10 +81,12 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin: 1em;
   }
 
   .content {
     width: 80%;
+    height: auto;
   }
 
   .card-title {
@@ -95,6 +97,20 @@ export default {
   .sub-title {
     font-size: 1em;
     font-family: 'Metropolis Thin';
+  }
+}
+
+@media only screen and (max-width: 1024px){
+  .info-card {
+    width: 100%;
+    height: auto;
+    font-family: 'Metropolis Regular';
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0em 1em 0em;
   }
 }
 </style>
