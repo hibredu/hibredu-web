@@ -2,7 +2,7 @@
   <v-card class="graph-card" flat>
     <div class="header-graph">
       <h4>{{ title }}</h4>
-      <SelectFilter :items="this.filter" label="Turma" @update:value="selectedClassroom = $event.id"/>
+      <SelectFilter :items="this.filter" label="Selecione" @update:value="selectedClassroom = $event.id"/>
     </div>
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
   </v-card>
@@ -43,6 +43,9 @@ export default {
         points: false,
         axis: {
           yTicks: 8,
+        },
+        color: {
+          scheme: 'schemeCategory10'
         },
         transition: {
           duration: 350,

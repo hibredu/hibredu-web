@@ -34,7 +34,7 @@
         />
       </div>
       <div class="middle">
-        <LineChart title="Desempenho X Presença" :filter="this.classroomsFilter"/>
+        <LineChart title="Desempenho X Presença" :filter="this.classrooms" />
         <SliceChart
           title="Realização de atividades por turma"
           :data="this.activitiesByClassroom"
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import globalMethods from "../../mixins/globalMethods";
 import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
@@ -65,7 +66,7 @@ import { mapActions } from "vuex";
 
 export default {
   name: "PrincipalDashboard",
-
+  mixins: [globalMethods],
   components: {
     LateralMenu,
     DropDown,
@@ -87,7 +88,8 @@ export default {
       hitRate: "",
       classrooms: [],
       activitiesByClassroom: [],
-      classroomsFilter: [],
+      activities: [],
+      attendance: [],
     };
   },
   mounted() {
@@ -101,7 +103,7 @@ export default {
       "action_overviewClassroom",
       "action_classroom",
       "action_overviewActivities",
-      "action_overviewAttendance"
+      "action_overviewAttendance",
     ]),
     getCards() {
       this.action_overviewClassroom().then((response) => {
@@ -118,13 +120,13 @@ export default {
       });
     },
     getActivities() {
-      this.action_overviewActivities().then(() => {
-        //.log(response);
+      this.action_overviewActivities().then((response) => {
+        this.activities = response;
       });
     },
     getAttendance() {
-      this.action_overviewAttendance().then(() => {
-        //console.log(response);
+      this.action_overviewAttendance().then((response) => {
+        this.attendance = response;
       });
     },
     formatData2SliceChart(data) {
@@ -133,7 +135,6 @@ export default {
           name: data[i].name.substr(0, 2),
           deliveredActivities: data[i].metrics.deliveredActivities,
         });
-        this.classroomsFilter.push({id: data[i].id, name: data[i].name.substr(0, 2)});
       }
     },
   },
