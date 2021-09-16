@@ -1,0 +1,42 @@
+<template>
+  <div class="search-filter">
+    <v-select
+      v-model="filter"
+      :items="items"
+      item-text="name"
+      item-value="id"
+      :label="label"
+      outlined
+      height="auto"
+      color="var(--yellowHibredu)"
+      persistent-hint
+      return-object
+      single-line
+      @change="$emit('update:value', filter)"
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  name: "SelectFilter",
+  props: ["label", "items"],
+  data() {
+    return {
+      filter: null,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.search-filter {
+  width: 10em;
+}
+
+@media only screen and (max-width: 1024px) {
+  .search-filter {
+    width: 10em;
+  }
+}
+</style>
