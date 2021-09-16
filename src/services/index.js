@@ -33,3 +33,7 @@ export const school = (params) => {
 export const classroomBySchoolId = (params) => {
     return axios.get(`${url}/school/${params.schoolId}/classrooms`, params);
 };
+
+export const alertByClassroomId = (params) => {
+    return axios.get(`${url}/alert/class/1`, params);
+};

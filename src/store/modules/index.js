@@ -1,4 +1,14 @@
-import { auth, createTeacher, overviewClassroom, classroom, overviewActivities, overviewAttendance, school, classroomBySchoolId } from "../../services/index"
+import {
+    auth,
+    createTeacher,
+    overviewClassroom,
+    classroom,
+    overviewActivities,
+    overviewAttendance,
+    school,
+    classroomBySchoolId,
+    alertByClassroomId
+} from "../../services/index"
 
 export const indexStore = {
     state: () => ({
@@ -43,6 +53,11 @@ export const indexStore = {
         },
         async action_classroomBySchoolId(context, payload) {
             return await classroomBySchoolId(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_alertByClassroomId(context, payload) {
+            return await alertByClassroomId(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
