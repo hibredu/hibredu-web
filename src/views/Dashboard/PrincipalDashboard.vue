@@ -134,7 +134,6 @@ export default {
           deliveredActivities: data[i].metrics.deliveredActivities,
         });
         this.classroomsFilter.push({id: data[i].id, name: data[i].name.substr(0, 2)});
-        console.log(data)
       }
     },
   },
