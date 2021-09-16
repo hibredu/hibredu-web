@@ -27,15 +27,22 @@
           :number="this.hitRate"
           color="color: var(--greenAlert)"
         />
-        <InfoCard text="Alertas" :number="this.alerts" color="color: var(--redAlert)" />
+        <InfoCard
+          text="Alertas"
+          :number="this.alerts"
+          color="color: var(--redAlert)"
+        />
       </div>
       <div class="middle">
-        <LineChart />
-        <SliceChart title="Realização de atividades por turma" :data="this.activitiesByClassroom"/>
+        <LineChart title="Desempenho X Presença" :filter="this.classroomsFilter"/>
+        <SliceChart
+          title="Realização de atividades por turma"
+          :data="this.activitiesByClassroom"
+        />
       </div>
       <div class="bottom">
         <AlertCard />
-        <PerformanceCard :params="this.classrooms"/>
+        <PerformanceCard :params="this.classrooms" />
         <ActivityCard />
       </div>
     </div>
@@ -80,33 +87,56 @@ export default {
       hitRate: "",
       classrooms: [],
       activitiesByClassroom: [],
+      classroomsFilter: [],
     };
   },
   mounted() {
     this.getCards();
     this.getClassrooms();
+    this.getActivities();
+    this.getAttendance();
   },
   methods: {
-    ...mapActions(["action_overviewClassroom", "action_classroom"]),
+    ...mapActions([
+      "action_overviewClassroom",
+      "action_classroom",
+      "action_overviewActivities",
+      "action_overviewAttendance"
+    ]),
     getCards() {
       this.action_overviewClassroom().then((response) => {
         this.alerts = response.alerts;
         this.deliveredActivities = response.deliveredActivities;
-        this.deliveryPercentage = response.deliveryPercentage.toFixed(1) + '%';
-        this.hitRate = response.hitRate.toFixed(1) + '%';
+        this.deliveryPercentage = response.deliveryPercentage.toFixed(1) + "%";
+        this.hitRate = response.hitRate.toFixed(1) + "%";
       });
     },
-    getClassrooms(){
+    getClassrooms() {
       this.action_classroom().then((response) => {
-        this.classrooms = response
+        this.classrooms = response;
         this.formatData2SliceChart(this.classrooms);
-      })
+      });
+    },
+    getActivities() {
+      this.action_overviewActivities().then(() => {
+        //.log(response);
+      });
+    },
+    getAttendance() {
+      this.action_overviewAttendance().then(() => {
+        //console.log(response);
+      });
     },
     formatData2SliceChart(data) {
-      for(let i = 0; i < data.length; i++) {
-        this.activitiesByClassroom.push({name: data[i].name.substr(0,2), deliveredActivities: data[i].metrics.deliveredActivities})
+      for (let i = 0; i < data.length; i++) {
+        this.activitiesByClassroom.push({
+          name: data[i].name.substr(0, 2),
+          deliveredActivities: data[i].metrics.deliveredActivities,
+        });
+        this.classroomsFilter.push({id: data[i].id, name: data[i].name.substr(0, 2)});
+        console.log(data)
       }
-    }
+    },
   },
 };
 </script>
