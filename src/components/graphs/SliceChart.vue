@@ -9,34 +9,28 @@
 </template>
 
 <script>
-import { D3PieChart } from 'vue-d3-charts';
+import { D3PieChart } from "vue-d3-charts";
 
 export default {
   components: {
     D3PieChart,
   },
-  props: [ "title" ],
+  props: ["title", "data"],
   data() {
     return {
-      chart_data: [
-        {hours: 20, name: 'Lorem'},
-        {hours: 30, name: 'Ipsum'},
-        {hours: 31, name: 'Dolor'},
-        {hours: 15, name: 'Sit'},
-      ],
-      chart_config: {
-        key: 'name',
-        value: 'hours',
-        color: {scheme: 'schemeTableau10'},
-        radius: {inner: 80}
-      },
-      count: 1
-    }
-  },
-  methods: {
+      chart_data: this.data,
 
-  }
-}
+      chart_config: {
+        key: "name",
+        value: "deliveredActivities",
+        color: { scheme: "schemeTableau10" },
+        radius: { inner: 100 },
+      },
+      count: 1,
+    };
+  },
+  methods: {},
+};
 </script>
 
 <style scoped>

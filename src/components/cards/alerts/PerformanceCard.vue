@@ -3,8 +3,12 @@
     <h4>Desempenho por Turma</h4>
     <v-list dense>
       <v-list-item-group color="primary">
-        <v-list-item v-for="(item, i) in items" :key="i" :disabled="true"
-          style="color: var(--blackHibredu) !important">
+        <v-list-item
+          v-for="(item, i) in classrooms"
+          :key="i"
+          :disabled="true"
+          style="color: var(--blackHibredu) !important"
+        >
           <v-list-item-icon>
             <v-icon
               :color="returnColor(item.metrics.deliveryPercentage.toFixed(1))"
@@ -39,122 +43,14 @@
 <script>
 export default {
   name: "PerformanceCard",
-  props: ["number", "text", "color"],
+  props: ["number", "text", "color", "params"],
   data() {
     return {
-      items: [
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 20,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 2,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºB",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 3,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºC",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 56,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 80,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 0.47368421052631576,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 0.47368421052631576,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 0.47368421052631576,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 0.47368421052631576,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 0.47368421052631576,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-        {
-          id: "1",
-          name: "3ºA",
-          metrics: {
-            deliveredActivities: 9,
-            deliveryPercentage: 0.47368421052631576,
-            hitRate: 0.7333333333333333,
-            alerts: 8,
-          },
-        },
-      ],
+      classrooms: this.params,
     };
+  },
+  mounted() {
+    console.log(this.params)
   },
   methods: {
     returnIcon(value) {

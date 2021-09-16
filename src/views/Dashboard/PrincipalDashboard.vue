@@ -31,11 +31,11 @@
       </div>
       <div class="middle">
         <LineChart />
-        <SliceChart title="Realização de atividades por turma" />
+        <SliceChart title="Realização de atividades por turma" :data="this.activitiesByClassroom"/>
       </div>
       <div class="bottom">
         <AlertCard />
-        <PerformanceCard />
+        <PerformanceCard :params="this.classrooms"/>
         <ActivityCard />
       </div>
     </div>
@@ -78,13 +78,16 @@ export default {
       deliveredActivities: "",
       deliveryPercentage: "",
       hitRate: "",
+      classrooms: [],
+      activitiesByClassroom: [],
     };
   },
   mounted() {
     this.getCards();
+    this.getClassrooms();
   },
   methods: {
-    ...mapActions(["action_overviewClassroom"]),
+    ...mapActions(["action_overviewClassroom", "action_classroom"]),
     getCards() {
       this.action_overviewClassroom().then((response) => {
         this.alerts = response.alerts;
@@ -93,6 +96,17 @@ export default {
         this.hitRate = response.hitRate.toFixed(1) + '%';
       });
     },
+    getClassrooms(){
+      this.action_classroom().then((response) => {
+        this.classrooms = response
+        this.formatData2SliceChart(this.classrooms);
+      })
+    },
+    formatData2SliceChart(data) {
+      for(let i = 0; i < data.length; i++) {
+        this.activitiesByClassroom.push({name: data[i].name.substr(0,2), deliveredActivities: data[i].metrics.deliveredActivities})
+      }
+    }
   },
 };
 </script>
