@@ -1,58 +1,53 @@
 <template>
   <v-card class="registration" flat>
     <v-form ref="form" lazy-validation>
-      <TextInput
+      <EmailInput
         @update:value="email = $event"
-        :ico="`mdi-email`"
-        :label="`E-mail`"
-        :type="'text'"
+        ico="mdi-email"
+        label="E-mail"
+        type="text"
       />
       <TextInput
         @update:value="name = $event"
-        :ico="`mdi-account-circle`"
-        :label="`Nome Completo`"
-        :type="'text'"
+        ico="mdi-account-circle"
+        label="Nome Completo"
+        type="text"
       />
       <TextInput
         @update:value="phone = $event"
-        :ico="`mdi-phone`"
-        :label="`Telefone`"
-        :type="'text'"
+        ico="mdi-phone"
+        label="Telefone"
+        type="text"
       />
-      <TextInput
-        @update:value="educationalInstitution = $event"
-        :ico="`mdi-school`"
-        :label="`Instituição de Ensino`"
-        :type="'text'"
-      />
-      <TextInput
-        @update:value="classrooms = $event"
-        :ico="`mdi-account-group`"
-        :label="`Turmas`"
-        :type="'text'"
+      <SelectInput
+        @update:value="selectedEducationalInstitution = $event;getClassroomsBySchoolId()"
+        :items="this.educationalInstitution"
+        ico="mdi-school"
+        label="Instituição de Ensino"
+        type="text"
       />
       <div class="password">
         <PasswordInput
           @update:value="password = $event"
-          :ico="`mdi-key-variant`"
-          :label="`Senha`"
-          :type="'password'"
+          ico="mdi-key-variant"
+          label="Senha"
+          type="'password'"
         />
         <PasswordInput
           @update:value="password2 = $event"
-          :ico="`mdi-key-variant`"
-          :label="`Confirme a senha`"
-          :type="'password'"
+          ico="mdi-key-variant"
+          label="Confirme a senha"
+          type="'password'"
         />
       </div>
       <CheckBox
         @click.native="agree = !agree"
-        :label="`Li e Concordo com os Termos de Uso e Privacidade`"
+        label="Li e Concordo com os Termos de Uso e Privacidade"
       />
       <NormalButton
         @click.native="register"
-        :color="`var(--yellowHibredu)`"
-        :text="`Cadastrar`"
+        color="var(--yellowHibredu)"
+        text="Cadastrar"
       />
     </v-form>
   </v-card>
@@ -61,6 +56,8 @@
 <script>
 import NormalButton from "../components/buttons/NormalButton";
 import TextInput from "../components/inputs/TextInput";
+import EmailInput from "../components/inputs/EmailInput";
+import SelectInput from "../components/inputs/SelectInput";
 import PasswordInput from "../components/inputs/PasswordInput";
 import CheckBox from "../components/inputs/CheckBox";
 import { mapActions } from "vuex";
@@ -71,6 +68,8 @@ export default {
   components: {
     NormalButton,
     TextInput,
+    EmailInput,
+    SelectInput,
     PasswordInput,
     CheckBox,
   },
@@ -79,34 +78,56 @@ export default {
       email: "",
       name: "",
       phone: "",
-      educationalInstitution: "",
+      educationalInstitution: [],
+      selectedEducationalInstitution: "",
       classrooms: "",
+      classroomsFormated: [],
       password: "",
       password2: "",
       agree: false,
     };
   },
+  mounted() {
+    this.getSchools();
+  },
   methods: {
-    ...mapActions(["action_createTeacher"]),
+    ...mapActions([
+      "action_createTeacher",
+      "action_school",
+      "action_classroomBySchoolId",
+    ]),
     register() {
       this.action_createTeacher({
         name: this.name,
         email: this.email,
         phone: this.phone,
         password: this.password,
-        school_id: 1,
-        classrooms: [
-          {
-            id: 1,
-            name: "3ºA",
-          },
-        ],
+        school_id: this.selectedEducationalInstitution,
+        classrooms: this.classroomsFormated,
       }).then((response) => {
         if (response) {
           console.log(response);
         }
       });
     },
+    getSchools() {
+      this.action_school().then((response) => {
+        this.educationalInstitution = response;
+      });
+    },
+    getClassroomsBySchoolId() {
+      this.action_classroomBySchoolId({
+        schoolId: this.selectedEducationalInstitution,
+      }).then((response) => {
+        this.classrooms = response;
+        this.formatArray2Register(this.classrooms);
+      });
+    },
+    formatArray2Register(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.classroomsFormated.push({id: data[i].id, name: data[i].name});
+      }
+    }
   },
 };
 </script>
