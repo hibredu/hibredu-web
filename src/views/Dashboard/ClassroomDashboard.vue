@@ -31,7 +31,7 @@
       </div>
       <div class="middle">
         <LineChart/>
-        <SliceChart/>
+        <PieChart/>
       </div>
       <div class="bottom">
         <AlertCard />
@@ -52,7 +52,7 @@ import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
-import SliceChart from "../../components/graphs/SliceChart";
+import PieChart from "../../components/graphs/PieChart";
 import LineChart from "../../components/graphs/LineChart";
 // import { mapActions } from "vuex";
 
@@ -69,7 +69,7 @@ export default {
     AlertCard,
     PerformanceCard,
     ActivityCard,
-    SliceChart,
+    PieChart,
     LineChart,
   },
 };

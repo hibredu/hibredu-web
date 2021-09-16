@@ -1,15 +1,15 @@
 <template>
   <v-card class="scroll alert-card" flat>
-    <h4>Alertas ({{ this.items.length }})</h4>
+    <h4>Alertas ({{ this.params.length }})</h4>
     <v-list dense>
       <v-list-item-group color="primary">
-        <v-list-item v-for="(item, i) in items" :key="i" :disabled="true"
+        <v-list-item v-for="(item, i) in params" :key="i" :disabled="true"
           style="color: var(--blackHibredu) !important">
           <v-list-item-icon>
             <v-icon color="var(--redAlert)">mdi-account-alert-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>
+            <v-list-item-title class="text-wrap">
               <span class="student-name">Julia</span> {{ returnAlert(item.value) }}
             </v-list-item-title>
           </v-list-item-content>
@@ -22,83 +22,7 @@
 <script>
 export default {
   name: "AlertCard",
-  props: ["number", "text", "color"],
-  data() {
-    return {
-      items: [
-        {
-          id: "1",
-          value: "Aluno com nota baixa",
-          created_at: "2021-09-06T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "2",
-          value: "Aluno não entregou atividade",
-          created_at: "2021-09-08T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "3",
-          value: "Aluno não entregou atividade",
-          created_at: "2021-09-09T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "4",
-          value: "Aluno com nota baixa",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "5",
-          value: "Aluno com nota baixa e falta em excesso",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "6",
-          value: "Aluno com nota baixa",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "7",
-          value: "Aluno com nota baixa a tempos",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "8",
-          value: "Aluno com nota baixa e falta em excesso",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "3",
-        },
-        {
-          id: "7",
-          value: "Aluno com nota baixa a tempos",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "2",
-        },
-        {
-          id: "8",
-          value: "Aluno com nota baixa e falta em excesso",
-          created_at: "2021-09-07T01:53:36.000Z",
-          updated_at: null,
-          teachers_id: "3",
-        },
-      ],
-    };
-  },
+  props: ["number", "text", "color", "params"],
   methods: {
     returnAlert(value){
       switch(value) {
