@@ -1,18 +1,26 @@
 <template>
   <v-card class="graph-card" flat>
+    <div class="header-graph">
+      <h4>{{ title }}</h4>
+      <SelectFilter :items="this.filter" label="Turma" @update:value="selectedClassroom = $event.id"/>
+    </div>
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
   </v-card>
 </template>
 
 <script>
 import { D3LineChart } from "vue-d3-charts";
+import SelectFilter from "../filters/SelectFilter";
 
 export default {
   components: {
     D3LineChart,
+    SelectFilter,
   },
+  props: ["title", "data", "filter"],
   data() {
     return {
+      selectedClassroom: '',
       chart_data: [
         { hours: 238, production: 134, date: 2000 },
         { hours: 938, production: 478, date: 2001 },
@@ -34,7 +42,7 @@ export default {
         },
         points: false,
         axis: {
-          yTicks: 3,
+          yTicks: 8,
         },
         transition: {
           duration: 350,
@@ -54,12 +62,12 @@ export default {
   height: auto;
 }
 
-.scroll {
-  overflow-y: scroll;
-}
-
-.v-list-item {
-  border-bottom: solid 1px var(--lightGrayHibredu);
+.header-graph {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 2.5em;
+  padding: 0em 1em 0em 1em;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -69,6 +77,14 @@ export default {
     width: 100%;
     height: auto;
     margin-bottom: 2em;
+  }
+  .header-graph {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 2.5em;
+    padding: 0em 1em 0em 1em;
+    width: 100%;
   }
 }
 </style>
