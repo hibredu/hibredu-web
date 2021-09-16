@@ -42,13 +42,6 @@
 export default {
   name: "PerformanceCard",
   props: ["number", "text", "color", "params"],
-  computed: {
-    maskDeliveryPercentage(i) {
-      return this.params.metrics.deliveryPercentage === null
-        ? 0
-        : this.params[i].metrics.deliveryPercentage.toFixed(2);
-    },
-  },
   methods: {
     returnIcon(value) {
       if (value <= 50 || value === null) {
@@ -62,13 +55,6 @@ export default {
         return "var(--redAlert)";
       } else {
         return "var(--greenAlert)";
-      }
-    },
-    returnClass(value) {
-      if (value <= 50 || value === null) {
-        return "red-alert";
-      } else {
-        return "green-alert";
       }
     },
   },
