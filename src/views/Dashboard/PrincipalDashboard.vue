@@ -14,24 +14,24 @@
       <div class="cards">
         <InfoCard
           text="Atividades Cadastradas"
-          number="210"
+          :number="this.deliveredActivities"
           color="color: var(--blueAlert)"
         />
         <InfoCard
           text="Porcentagem de Entrega"
-          number="85%"
+          :number="this.deliveryPercentage"
           color="color: var(--greenAlert)"
         />
         <InfoCard
           text="Taxa de Acerto"
-          number="90%"
+          :number="this.hitRate"
           color="color: var(--greenAlert)"
         />
-        <InfoCard text="Alertas" number="42" color="color: var(--redAlert)" />
+        <InfoCard text="Alertas" :number="this.alerts" color="color: var(--redAlert)" />
       </div>
       <div class="middle">
-        <LineChart/>
-        <SliceChart title="Realização de atividades por turma"/>
+        <LineChart />
+        <SliceChart title="Realização de atividades por turma" />
       </div>
       <div class="bottom">
         <AlertCard />
@@ -54,7 +54,7 @@ import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
 import SliceChart from "../../components/graphs/SliceChart";
 import LineChart from "../../components/graphs/LineChart";
-// import { mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "PrincipalDashboard",
@@ -71,6 +71,28 @@ export default {
     ActivityCard,
     SliceChart,
     LineChart,
+  },
+  data() {
+    return {
+      alerts: "",
+      deliveredActivities: "",
+      deliveryPercentage: "",
+      hitRate: "",
+    };
+  },
+  mounted() {
+    this.getCards();
+  },
+  methods: {
+    ...mapActions(["action_overviewClassroom"]),
+    getCards() {
+      this.action_overviewClassroom().then((response) => {
+        this.alerts = response.alerts;
+        this.deliveredActivities = response.deliveredActivities;
+        this.deliveryPercentage = response.deliveryPercentage.toFixed(1) + '%';
+        this.hitRate = response.hitRate.toFixed(1) + '%';
+      });
+    },
   },
 };
 </script>
