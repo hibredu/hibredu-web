@@ -13,3 +13,7 @@ export const createTeacher = (params) => {
 export const overviewClassroom = (params) => {
     return axios.get(`${url}/overview/classroom`, params);
 };
+
+export const classroom = (params) => {
+    return axios.get(`${url}/classroom`, params);
+};
