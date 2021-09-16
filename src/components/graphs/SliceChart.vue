@@ -1,7 +1,7 @@
 <template>
   <v-card class="graph-card" flat>
-    <h4>{{ title }}</h4>
     <D3PieChart
+      :title="title"
       :config="chart_config"
       :datum="chart_data"
     ></D3PieChart>
@@ -24,7 +24,7 @@ export default {
         key: "name",
         value: "deliveredActivities",
         color: { scheme: "schemeTableau10" },
-        radius: { inner: 100 },
+        radius: { inner: 0 },
       },
       count: 1,
     };
