@@ -1,7 +1,7 @@
 <template>
   <v-card class="graph-card" flat>
+    <h4>{{ title }}</h4>
     <D3PieChart
-      :title="title"
       :config="chart_config"
       :datum="chart_data"
     ></D3PieChart>

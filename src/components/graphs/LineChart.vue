@@ -2,7 +2,6 @@
   <v-card class="graph-card" flat>
     <div class="header-graph">
       <h4>{{ title }}</h4>
-      <SelectFilter :items="this.filter" label="Selecione" @update:value="selectedClassroom = $event.id"/>
     </div>
     <D3LineChart :config="chart_config" :datum="chart_data"></D3LineChart>
   </v-card>
@@ -10,12 +9,10 @@
 
 <script>
 import { D3LineChart } from "vue-d3-charts";
-import SelectFilter from "../filters/SelectFilter";
 
 export default {
   components: {
     D3LineChart,
-    SelectFilter,
   },
   props: ["title", "data", "filter"],
   data() {
