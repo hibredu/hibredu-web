@@ -12,6 +12,9 @@
       persistent-hint
       return-object
       single-line
+      dense
+      item-color="var(--yellowHibredu)"
+      prefix="Turma"
       @change="$emit('update:value', filter)"
     />
   </div>
@@ -31,7 +34,8 @@ export default {
 
 <style scoped>
 .search-filter {
-  width: 10em;
+  width: 13em;
+  font-family: "Metropolis Regular";
 }
 
 @media only screen and (max-width: 1024px) {
