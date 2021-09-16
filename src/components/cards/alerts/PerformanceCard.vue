@@ -4,34 +4,32 @@
     <v-list dense>
       <v-list-item-group color="primary">
         <v-list-item
-          v-for="(item, i) in classrooms"
+          v-for="(item, i) in params"
           :key="i"
           :disabled="true"
           style="color: var(--blackHibredu) !important"
         >
           <v-list-item-icon>
             <v-icon
-              :color="returnColor(item.metrics.deliveryPercentage.toFixed(1))"
+              :color="returnColor(item.metrics.deliveryPercentage)"
               v-text="`mdi-account-group-outline`"
             ></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>
-              {{ item.name }}
+              {{ item.name.substr(0, 2) }}
             </v-list-item-title>
           </v-list-item-content>
           <v-list-item-icon>
-            <v-list-item-title
-              :color="returnColor(item.metrics.deliveryPercentage.toFixed(1))"
-            >
-              {{ item.metrics.deliveryPercentage.toFixed(1) }} %
-            </v-list-item-title>
-            <v-icon
-              :color="returnColor(item.metrics.deliveryPercentage.toFixed(1))"
-            >
+            <v-list-item-title>
               {{
-                returnIcon(item.metrics.deliveryPercentage.toFixed(1))
-              }}</v-icon
+                item.metrics.deliveryPercentage === null
+                  ? 0
+                  : item.metrics.deliveryPercentage.toFixed(2)
+              }}%
+            </v-list-item-title>
+            <v-icon :color="returnColor(item.metrics.deliveryPercentage)">
+              {{ returnIcon(item.metrics.deliveryPercentage) }}</v-icon
             >
           </v-list-item-icon>
         </v-list-item>
@@ -44,27 +42,33 @@
 export default {
   name: "PerformanceCard",
   props: ["number", "text", "color", "params"],
-  data() {
-    return {
-      classrooms: this.params,
-    };
-  },
-  mounted() {
-    console.log(this.params)
+  computed: {
+    maskDeliveryPercentage(i) {
+      return this.params.metrics.deliveryPercentage === null
+        ? 0
+        : this.params[i].metrics.deliveryPercentage.toFixed(2);
+    },
   },
   methods: {
     returnIcon(value) {
-      if (value >= 50) {
-        return "mdi-arrow-up";
-      } else {
+      if (value <= 50 || value === null) {
         return "mdi-arrow-down";
+      } else {
+        return "mdi-arrow-up";
       }
     },
     returnColor(value) {
-      if (value >= 50) {
-        return "var(--greenAlert)";
-      } else {
+      if (value <= 50 || value === null) {
         return "var(--redAlert)";
+      } else {
+        return "var(--greenAlert)";
+      }
+    },
+    returnClass(value) {
+      if (value <= 50 || value === null) {
+        return "red-alert";
+      } else {
+        return "green-alert";
       }
     },
   },
@@ -77,10 +81,6 @@ export default {
   width: 30%;
   padding: 1em;
   height: auto;
-}
-
-.student-name {
-  color: var(--blueAlert);
 }
 
 .alert-row {
