@@ -17,3 +17,11 @@ export const overviewClassroom = (params) => {
 export const classroom = (params) => {
     return axios.get(`${url}/classroom`, params);
 };
+
+export const overviewActivities = (params) => {
+    return axios.get(`${url}/overview/activities`, params);
+};
+
+export const overviewAttendance = (params) => {
+    return axios.get(`${url}/overview/attendance`, params);
+};

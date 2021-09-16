@@ -1,4 +1,4 @@
-import { auth, createTeacher, overviewClassroom, classroom } from "../../services/index"
+import { auth, createTeacher, overviewClassroom, classroom, overviewActivities, overviewAttendance } from "../../services/index"
 
 export const indexStore = {
     state: () => ({
@@ -23,6 +23,16 @@ export const indexStore = {
         },
         async action_classroom(context, payload) { 
             return await classroom(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_overviewActivities(context, payload) { 
+            return await overviewActivities(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_overviewAttendance(context, payload) { 
+            return await overviewAttendance(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
