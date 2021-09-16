@@ -25,3 +25,11 @@ export const overviewActivities = (params) => {
 export const overviewAttendance = (params) => {
     return axios.get(`${url}/overview/attendance`, params);
 };
+
+export const school = (params) => {
+    return axios.get(`${url}/school`, params);
+};
+
+export const classroomBySchoolId = (params) => {
+    return axios.get(`${url}/school/${params.schoolId}/classrooms`, params);
+};

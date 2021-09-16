@@ -1,4 +1,4 @@
-import { auth, createTeacher, overviewClassroom, classroom, overviewActivities, overviewAttendance } from "../../services/index"
+import { auth, createTeacher, overviewClassroom, classroom, overviewActivities, overviewAttendance, school, classroomBySchoolId } from "../../services/index"
 
 export const indexStore = {
     state: () => ({
@@ -19,20 +19,30 @@ export const indexStore = {
         async action_overviewClassroom(context, payload) {
             return await overviewClassroom(payload).then(response => {
                 return response.data;
-            }).catch(err => {console.error(err)});
+            }).catch(err => { console.error(err) });
         },
-        async action_classroom(context, payload) { 
+        async action_classroom(context, payload) {
             return await classroom(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
-        async action_overviewActivities(context, payload) { 
+        async action_overviewActivities(context, payload) {
             return await overviewActivities(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
-        async action_overviewAttendance(context, payload) { 
+        async action_overviewAttendance(context, payload) {
             return await overviewAttendance(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_school(context, payload) {
+            return await school(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_classroomBySchoolId(context, payload) {
+            return await classroomBySchoolId(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
