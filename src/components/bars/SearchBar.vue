@@ -38,9 +38,6 @@ div {
 .search-bar input {
   width: 100%;
   font-family: "Metropolis Regular";
-}
-
-@media only screen and (max-width: 1024px) {
-
+  outline: none;
 }
 </style>
