@@ -129,7 +129,7 @@ export default {
         this.cardAlerts = response.alerts;
         this.cardDeliveredActivities = response.deliveredActivities;
         this.cardDeliveryPercentage =
-          response.deliveryPercentag * 100 + "%";
+          response.deliveryPercentage * 100 + "%";
         this.cardHitRate = response.hitRate * 100 + "%";
       });
     },
