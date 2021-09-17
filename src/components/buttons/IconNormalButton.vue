@@ -1,7 +1,8 @@
 <template>
     <v-btn x-large
       :color="color" 
-      dark>
+      dark
+      elevation="0">
     <v-icon left>{{ icon }}</v-icon>
       {{ text }}
     </v-btn>

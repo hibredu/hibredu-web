@@ -13,8 +13,9 @@
       return-object
       single-line
       dense
+      background-color="var(--lightGrayHibredu)"
       item-color="var(--yellowHibredu)"
-      prefix="Turma"
+      :prefix="text"
       @change="$emit('update:value', filter)"
     />
   </div>
@@ -23,7 +24,7 @@
 <script>
 export default {
   name: "SelectFilter",
-  props: ["label", "items"],
+  props: ["label", "items", "text"],
   data() {
     return {
       filter: null,
