@@ -34,16 +34,19 @@
         />
       </div>
       <div class="middle">
-        <LineChart title="Desempenho X Presença" />
+        <LineChart
+          title="Desempenho X Presença"
+          :data="this.activitiesVsAttendance"
+        />
         <PieChart
           title="Realização de atividades por turma"
           :data="this.activitiesByClassroom"
         />
       </div>
       <div class="bottom">
-        <AlertCard :params="this.alerts"/>
+        <AlertCard :params="this.alerts" />
         <PerformanceCard :params="this.classrooms" />
-        <ActivityCard :params="this.activitiesAlert"/>
+        <ActivityCard :params="this.activities" />
       </div>
     </div>
   </div>
@@ -88,45 +91,32 @@ export default {
       cardHitRate: "",
       classrooms: [],
       activitiesByClassroom: [],
-      activities: [],
-      attendance: [],
+      activitiesVsAttendance: [],
       alerts: [],
-      activitiesAlert: [
-        { id: "1", activity: "Atividade 1", delivered: "10", total: "100" },
-        { id: "2", activity: "Atividade 2", delivered: "20", total: "120" },
-        { id: "3", activity: "Atividade 3", delivered: "35", total: "120" },
-        { id: "4", activity: "Atividade 4", delivered: "15", total: "120" },
-        { id: "5", activity: "Atividade 5", delivered: "40", total: "120" },
-        { id: "6", activity: "Atividade 6", delivered: "90", total: "120" },
-        { id: "7", activity: "Atividade 7", delivered: "30", total: "120" },
-        { id: "8", activity: "Atividade 8", delivered: "50", total: "120" },
-        { id: "9", activity: "Atividade 9", delivered: "60", total: "120" },
-        { id: "10", activity: "Atividade 10", delivered: "10", total: "120" },
-        { id: "11", activity: "Atividade 11", delivered: "10", total: "120" },
-        { id: "12", activity: "Atividade 12", delivered: "10", total: "120" },
-      ],
+      activities: [],
     };
   },
-  mounted() {
+  async mounted() {
+    this.getOverviewAttendanceActivities();
     this.getCards();
     this.getClassrooms();
     this.getActivities();
-    this.getAttendance();
     this.getAlerts();
   },
   methods: {
     ...mapActions([
       "action_overviewClassroom",
       "action_classroom",
-      "action_overviewActivities",
-      "action_overviewAttendance",
+      "action_overviewAttendanceActivities",
       "action_alertByClassroomId",
+      "action_overviewActivities",
     ]),
     getCards() {
       this.action_overviewClassroom().then((response) => {
         this.cardAlerts = response.alerts;
         this.cardDeliveredActivities = response.deliveredActivities;
-        this.cardDeliveryPercentage = (response.deliveryPercentage * 100 ).toFixed(1) + "%";
+        this.cardDeliveryPercentage =
+          (response.deliveryPercentage * 100).toFixed(1) + "%";
         this.cardHitRate = (response.hitRate * 100).toFixed(1) + "%";
       });
     },
@@ -136,15 +126,20 @@ export default {
         this.formatData2PieChart(this.classrooms);
       });
     },
-    getActivities() {
-      this.action_overviewActivities().then((response) => {
-        this.activities = response;
-        console.log(response);
+    getOverviewAttendanceActivities() {
+      this.action_overviewAttendanceActivities().then((response) => {
+        this.activitiesVsAttendance = response;
       });
     },
-    getAttendance() {
-      this.action_overviewAttendance().then((response) => {
-        this.attendance = response;
+    getActivities() {
+      this.action_overviewActivities().then((response) => {
+        this.activities = response.sort(function (a, b) {
+          return a.created_at < b.created_at
+            ? -1
+            : a.created_at > b.created_at
+            ? 1
+            : 0;
+        });
       });
     },
     getAlerts() {
@@ -210,6 +205,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  z-index: 10;
 }
 
 .bottom {

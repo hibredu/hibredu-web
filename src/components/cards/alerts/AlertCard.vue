@@ -10,7 +10,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="text-wrap">
-              <span class="student-name">Julia</span> {{ returnAlert(item.value) }}
+              <span class="student-name">{{ item.student.name }}</span> {{ returnAlert(item.value) }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

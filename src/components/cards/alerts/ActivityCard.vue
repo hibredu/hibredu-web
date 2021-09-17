@@ -10,22 +10,17 @@
           style="color: var(--blackHibredu) !important"
         >
           <v-list-item-icon>
-            <v-icon color="var(--yellowHibredu)"
-              >mdi-checkbox-blank-circle</v-icon
+            <v-icon center color="var(--yellowHibredu)"
+              >mdi-file-check-outline</v-icon
             >
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title color="var(--yellowHibredu)"
-              >{{ item.activity }} ({{ item.delivered }}/{{
-                item.total
-              }})</v-list-item-title
+            <v-list-item-title
+              >{{ formatDate(item.created_at) }}
+            </v-list-item-title>
+            <v-list-item-title
+              >{{ item.name }} - {{ item.subject }}</v-list-item-title
             >
-            <v-progress-linear
-              :value="item.delivered"
-              :buffer-value="item.total"
-              color="var(--yellowHibredu)"
-              background-color="var(--grayHibredu)"
-            ></v-progress-linear>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -34,9 +29,11 @@
 </template>
 
 <script>
+import globalMethods from "../../../mixins/globalMethods"
 export default {
   name: "ActivityCard",
-  props: ["number", "text", "color", "params"]
+  mixins: [ globalMethods ],
+  props: ["number", "text", "color", "params"],
 };
 </script>
 
