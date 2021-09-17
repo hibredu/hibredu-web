@@ -129,8 +129,8 @@ export default {
         this.cardAlerts = response.alerts;
         this.cardDeliveredActivities = response.deliveredActivities;
         this.cardDeliveryPercentage =
-          response.deliveryPercentage.toFixed(1) + "%";
-        this.cardHitRate = response.hitRate.toFixed(1) + "%";
+          response.deliveryPercentag * 100 + "%";
+        this.cardHitRate = response.hitRate * 100 + "%";
       });
     },
     getClassrooms() {

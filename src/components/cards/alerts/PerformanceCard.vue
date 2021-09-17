@@ -11,7 +11,7 @@
         >
           <v-list-item-icon>
             <v-icon
-              :color="returnColor(item.metrics.deliveryPercentage)"
+              :color="returnColor(item.metrics.deliveryPercentage * 100)"
               v-text="`mdi-account-group-outline`"
             ></v-icon>
           </v-list-item-icon>
@@ -25,11 +25,11 @@
               {{
                 item.metrics.deliveryPercentage === null
                   ? 0
-                  : item.metrics.deliveryPercentage.toFixed(2)
+                  : item.metrics.deliveryPercentage.toFixed(1) * 100
               }}%
             </v-list-item-title>
-            <v-icon :color="returnColor(item.metrics.deliveryPercentage)">
-              {{ returnIcon(item.metrics.deliveryPercentage) }}</v-icon
+            <v-icon :color="returnColor(item.metrics.deliveryPercentage * 100)">
+              {{ returnIcon(item.metrics.deliveryPercentage * 100) }}</v-icon
             >
           </v-list-item-icon>
         </v-list-item>
