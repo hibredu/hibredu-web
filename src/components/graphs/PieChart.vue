@@ -36,9 +36,9 @@ export default {
 <style scoped>
 .graph-card {
   font-family: "Metropolis Regular";
-  width: 40%;
+  width: auto;  
   padding: 1em;
-  height: auto;
+  height: 100%;
 }
 
 .v-list-item {

@@ -33,16 +33,24 @@
         />
       </div>
       <div class="middle">
-        <LineChart
-          title="Desempenho X Presença"
-          :data="this.activitiesVsAttendance"
-        />
-        <PieChart
-          v-show="!showLoading"
-          title="Realização de atividades por turma"
-          :data="this.activitiesByClassroom"
-        />
-        <DefaultLoading v-show="showLoading"/>
+        <div class="line-chart">
+          <LineChart
+            title="Desempenho X Presença"
+            :data="this.activitiesVsAttendance"
+            legend_1="Atividades Entregues"
+            legend_2="Presença"
+            :values="this.values"
+          />
+        </div>
+        <div class="pie-chart">
+          <PieChart
+            v-show="!showLoading"
+            title="Realização de atividades por turma"
+            :data="this.activitiesByClassroom"
+            
+          />
+          <DefaultLoading v-show="showLoading"/>
+        </div>
       </div>
       <div class="bottom">
         <AlertCard :params="this.alerts" />
@@ -98,7 +106,8 @@ export default {
       activitiesVsAttendance: [],
       alerts: [],
       activities: [],
-      showLoading: false
+      showLoading: false,
+      values: ["present", "delivered"]
     };
   },
   async mounted() {
@@ -208,7 +217,8 @@ export default {
 
 .middle {
   margin-top: 1em;
-  height: 25em;
+  height: 28em;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -222,6 +232,18 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.line-chart {
+  width: 55%;
+  height: auto;
+  align-items: center;
+}
+
+.pie-chart {
+  width: 40%;
+  height: 27em;
+  align-items: center;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -262,8 +284,8 @@ export default {
     height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: auto;
+    justify-content: center;
+    width: 18em;
   }
 
   .bottom {
@@ -271,7 +293,19 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 18em;
+  }
+
+  .line-chart {
     width: auto;
+    height: auto;
+    align-items: center;
+  }
+
+  .pie-chart {
+    width: auto;
+    height: auto;
+    align-items: center;
   }
 }
 </style>

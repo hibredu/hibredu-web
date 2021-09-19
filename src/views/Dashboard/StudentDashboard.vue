@@ -5,60 +5,79 @@
     <div class="content">
       <div class="top-bar">
         <div class="filters">
-          <SelectFilter text="Turma" :items="this.classrooms" />
-          <SelectFilter text="Aluno" :items="this.classrooms" />
+          <DefaultLoading v-if="this.showLoading.classroomFilter"/>
+          <SelectFilter v-if="!this.showLoading.classroomFilter"
+            text="Turma"
+            :items="this.classrooms"
+            @update:value="
+              selectedClassroom = $event;
+              getStudents();"
+          />
+          <DefaultLoading v-if="this.showLoading.studentsFilter && this.selectedClassroom != null"/>
+          <SelectFilter 
+            v-if="!this.showLoading.studentsFilter  && this.selectedClassroom != null"
+            text="Aluno"
+            :items="this.students"
+            @update:value="
+              selectedStudent = $event;
+              show();"
+          />
         </div>
         <DropDown />
       </div>
-      <div class="start">
-        <div class="first-column">
-          <div class="profile-card">
-            <ProfileCard />
+      <div v-if="this.selectedStudent != null">
+        <div class="start">
+          <div class="first-column">
+            <div class="profile-card">
+              <ProfileCard />
+            </div>
+            <div class="buttons">
+              <IconNormalButton
+                icon="mdi-cloud-download"
+                color="var(--grayHibredu)"
+              />
+              <IconNormalButton icon="mdi-email" color="var(--grayHibredu)" />
+            </div>
           </div>
-          <div class="buttons">
-            <IconNormalButton icon="mdi-cloud-download" color="var(--grayHibredu)"/>
-            <IconNormalButton icon="mdi-email" color="var(--grayHibredu)"/>
+          <div class="second-column">
+            <div class="cards">
+              <InfoCard
+                text="Atividades Cadastradas"
+                :number="this.cardDeliveredActivities"
+                color="color: var(--blueAlert)"
+              />
+              <InfoCard
+                text="Porcentagem de Entrega"
+                :number="this.cardDeliveryPercentage"
+                color="color: var(--greenAlert)"
+              />
+              <InfoCard
+                text="Taxa de Acerto"
+                :number="this.cardHitRate"
+                color="color: var(--greenAlert)"
+              />
+              <InfoCard
+                text="Alertas"
+                :number="this.cardAlerts"
+                color="color: var(--redAlert)"
+              />
+            </div>
+            <div class="charts">
+              <LineChart title="Desempenho X Presença" />
+              <AlertCard :params="this.alerts" />
+            </div>
           </div>
         </div>
-        <div class="second-column">
-          <div class="cards">
-            <InfoCard
-              text="Atividades Cadastradas"
-              :number="this.cardDeliveredActivities"
-              color="color: var(--blueAlert)"
-            />
-            <InfoCard
-              text="Porcentagem de Entrega"
-              :number="this.cardDeliveryPercentage"
-              color="color: var(--greenAlert)"
-            />
-            <InfoCard
-              text="Taxa de Acerto"
-              :number="this.cardHitRate"
-              color="color: var(--greenAlert)"
-            />
-            <InfoCard
-              text="Alertas"
-              :number="this.cardAlerts"
-              color="color: var(--redAlert)"
-            />
-          </div>
-          <div class="charts">
-            <LineChart title="Desempenho X Presença" /><AlertCard
-              :params="this.alerts"
-            />
-          </div>
+        <div class="middle">
+          <PieChart
+            title="Realização de atividades por turma"
+            :data="this.activitiesByClassroom"
+          />
         </div>
-      </div>
-      <div class="middle">
-        <PieChart
-          title="Realização de atividades por turma"
-          :data="this.activitiesByClassroom"
-        />
-      </div>
-      <div class="bottom">
-        <PerformanceCard :params="this.classrooms" />
-        <ActivityCard :params="this.activitiesAlert" />
+        <div class="bottom">
+          <PerformanceCard :params="this.classrooms" />
+          <ActivityCard :params="this.activitiesAlert" />
+        </div>
       </div>
     </div>
   </div>
@@ -77,6 +96,7 @@ import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import PieChart from "../../components/graphs/PieChart";
 import LineChart from "../../components/graphs/LineChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
+import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
@@ -94,6 +114,7 @@ export default {
     LineChart,
     ProfileCard,
     IconNormalButton,
+    DefaultLoading
   },
   data() {
     return {
@@ -101,66 +122,55 @@ export default {
       cardDeliveredActivities: "",
       cardDeliveryPercentage: "",
       cardHitRate: "",
-      selectedClassroom: "",
+      selectedClassroom: null,
+      selectedStudent: null,
       classrooms: [],
-      activitiesByClassroom: [],
-      activities: [],
-      attendance: [],
-      alerts: [],
+      students: [],
+      showLoading: {
+        classroomFilter: true,
+        studentsFilter: false
+      }
     };
   },
   mounted() {
     this.getCards();
     this.getClassrooms();
-    this.getActivities();
-    this.getAttendance();
     this.getAlerts();
   },
   methods: {
     ...mapActions([
       "action_overviewClassroom",
       "action_classroom",
-      "action_overviewActivities",
-      "action_overviewAttendance",
-      "action_alertByClassroomId",
+      "action_classroomById",
     ]),
     getCards() {
       this.action_overviewClassroom().then((response) => {
         this.cardAlerts = response.alerts;
         this.cardDeliveredActivities = response.deliveredActivities;
-        this.cardDeliveryPercentage = (response.deliveryPercentage * 100 ).toFixed(1) + "%";
+        this.cardDeliveryPercentage =
+          (response.deliveryPercentage * 100).toFixed(1) + "%";
         this.cardHitRate = (response.hitRate * 100).toFixed(1) + "%";
       });
     },
     getClassrooms() {
       this.action_classroom().then((response) => {
         this.classrooms = response;
-        this.formatData2PieChart(this.classrooms);
+        this.showLoading.classroomFilter = false;
+        this.showLoading.studentsFilter = true;
       });
     },
-    getActivities() {
-      this.action_overviewActivities().then((response) => {
-        this.activities = response;
-        console.log(response);
-      });
-    },
-    getAttendance() {
-      this.action_overviewAttendance().then((response) => {
-        this.attendance = response;
-      });
-    },
-    getAlerts() {
-      this.action_alertByClassroomId().then((response) => {
-        this.alerts = response;
-      });
-    },
-    formatData2PieChart(data) {
-      for (let i = 0; i < data.length; i++) {
-        this.activitiesByClassroom.push({
-          name: data[i].name.substr(0, 2),
-          deliveredActivities: data[i].metrics.deliveredActivities,
+    getStudents() {
+      this.action_classroomById({
+        classroomId: this.selectedClassroom.id,
+      }).then((response) => {
+        this.students = response.students.sort(function (a, b) {
+          return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
         });
-      }
+        this.showLoading.studentsFilter = false;
+      });
+    },
+    show() {
+      console.log(this.selectedStudent);
     },
   },
 };
@@ -169,7 +179,7 @@ export default {
 <style scoped>
 .student-dashboard {
   width: 100%;
-  height: auto;
+  height: 100%;
   background-color: var(--lightBlueHibredu);
   display: flex;
   flex-direction: row;
@@ -276,7 +286,7 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;

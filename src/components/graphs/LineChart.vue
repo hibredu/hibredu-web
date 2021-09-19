@@ -3,6 +3,12 @@
     <div class="header-graph">
       <h4>{{ title }}</h4>
     </div>
+    <div class="legend-graph">
+      <v-icon color="#f97f0f">mdi-square</v-icon>
+      {{ legend_1 }}
+      <v-icon color="#2077b4">mdi-square</v-icon>
+      {{ legend_2 }}
+    </div>
     <D3LineChart :config="chart_config" :datum="data"></D3LineChart>
   </v-card>
 </template>
@@ -14,21 +20,16 @@ export default {
   components: {
     D3LineChart,
   },
-  props: ["title", "data", "filter"],
+  props: ["title", "data", "filter", "legend_1", "legend_2", "values"],
   data() {
     return {
-      selectedClassroom: "",
       chart_data: this.data,
       chart_config: {
-        values: ["present", "delivered"],
+        values: this.values,
         date: {
           key: "date",
           inputFormat: "%Y-%m-%d",
           outputFormat: "%Y-%m-%d",
-        },
-        points: {
-          visibleSize: 3,
-          hoverSize: 6,
         },
         axis: {
           yTicks: 5,
@@ -49,7 +50,7 @@ export default {
 <style scoped>
 .graph-card {
   font-family: "Metropolis Regular";
-  width: 55%;
+  width: auto;
   padding: 1em;
   height: auto;
 }
@@ -58,6 +59,11 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  height: 2.5em;
+  padding: 0em 1em 0em 1em;
+}
+
+.legend-graph {
   height: 2.5em;
   padding: 0em 1em 0em 1em;
 }

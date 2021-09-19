@@ -1,7 +1,7 @@
 <template>
 <div class="text-center">
     <v-progress-circular
-      :size="70"
+      :size="50"
       indeterminate
       color="var(--yellowHibredu)"
     ></v-progress-circular>
