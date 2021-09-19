@@ -37,6 +37,13 @@ export default {
         color: {
           scheme: "schemeCategory10",
         },
+        points: {
+          visibleSize: 3,
+          hoverSize: 6,
+        },
+        tooltip: {
+          labels: false,
+        },
         transition: {
           duration: 350,
           ease: "easeLinear",
