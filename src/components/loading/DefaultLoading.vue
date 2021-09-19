@@ -18,4 +18,12 @@ export default {
 .v-progress-circular {
   margin: 1rem;
 }
+
+.text-center {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

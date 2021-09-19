@@ -10,7 +10,6 @@
       <div class="welcome-bar">
         <WelcomeBar name="Vera" />
       </div>
-
       <div class="cards">
         <InfoCard
           text="Atividades Cadastradas"
@@ -39,13 +38,16 @@
           :data="this.activitiesVsAttendance"
         />
         <PieChart
+          v-show="!showLoading"
           title="Realização de atividades por turma"
           :data="this.activitiesByClassroom"
         />
+        <DefaultLoading v-show="showLoading"/>
       </div>
       <div class="bottom">
         <AlertCard :params="this.alerts" />
-        <PerformanceCard :params="this.classrooms" />
+        <DefaultLoading v-show="showLoading"/>
+        <PerformanceCard v-show="!showLoading" :params="this.classrooms" />
         <ActivityCard :params="this.activities" />
       </div>
     </div>
@@ -65,6 +67,7 @@ import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
 import PieChart from "../../components/graphs/PieChart";
 import LineChart from "../../components/graphs/LineChart";
+import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
@@ -82,6 +85,7 @@ export default {
     ActivityCard,
     PieChart,
     LineChart,
+    DefaultLoading
   },
   data() {
     return {
@@ -94,6 +98,7 @@ export default {
       activitiesVsAttendance: [],
       alerts: [],
       activities: [],
+      showLoading: false
     };
   },
   async mounted() {
@@ -121,6 +126,7 @@ export default {
       });
     },
     getClassrooms() {
+      this.showLoading = true;
       this.action_classroom().then((response) => {
         this.classrooms = response;
         this.formatData2PieChart(this.classrooms);
@@ -154,6 +160,7 @@ export default {
           deliveredActivities: data[i].metrics.deliveredActivities,
         });
       }
+      this.showLoading = false;
     },
   },
 };
@@ -240,6 +247,7 @@ export default {
     justify-content: center;
     height: 100%;
     padding: 1em;
+    align-items: center;
   }
 
   .cards {
