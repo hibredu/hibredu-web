@@ -8,7 +8,8 @@ import {
     school,
     classroomBySchoolId,
     alertByClassroomId,
-    overviewAttendanceActivities
+    overviewAttendanceActivities,
+    classroomById
 } from "../../services/index"
 
 export const indexStore = {
@@ -64,6 +65,11 @@ export const indexStore = {
         },
         async action_overviewAttendanceActivities(context, payload) {
             return await overviewAttendanceActivities(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_classroomById(context, payload) {
+            return await classroomById(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },

@@ -41,3 +41,7 @@ export const alertByClassroomId = (params) => {
 export const overviewAttendanceActivities = (params) => {
     return axios.get(`${url}/overview/attendance/activities`, params);
 };
+
+export const classroomById = (params) => {
+    return axios.get(`${url}/classroom/${params.classroomId}`, params);
+};
