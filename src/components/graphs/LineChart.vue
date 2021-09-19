@@ -64,7 +64,6 @@ export default {
 }
 
 .legend-graph {
-  height: 2.5em;
   padding: 0em 1em 0em 1em;
 }
 
