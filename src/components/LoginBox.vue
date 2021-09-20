@@ -64,6 +64,7 @@ export default {
         (response) => {
           if (response.status === 200) {
             localStorage.setItem("access_token", response.data.token);
+            localStorage.setItem("teacher_name", response.data.teacher.name);
             this.$router.push("home");
           }
         }

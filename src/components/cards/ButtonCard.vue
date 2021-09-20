@@ -67,7 +67,23 @@ export default {
 
 @media only screen and (max-width: 1024px) {
   .info-card {
-    
+    font-family: "Metropolis Regular";
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: auto;
+    height: auto;
+    text-align: center;
+  }
+
+  .content {
+    padding: 0em;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1440px) {
+  .info-card {
     font-family: "Metropolis Regular";
     display: flex;
     flex-direction: column;

@@ -34,13 +34,12 @@
             <div class="profile-card">
               <ProfileCard :params="this.profileInfos" />
             </div>
-            <div class="buttons">
-              <IconNormalButton
-                icon="mdi-cloud-download"
-                color="var(--grayHibredu)"
-              />
-              <IconNormalButton icon="mdi-email" color="var(--grayHibredu)" />
-            </div>
+            <IconNormalButton
+              icon="mdi-cloud-download"
+              text="Exportar"
+              color="var(--grayHibredu)"
+            />
+            <IconNormalButton icon="mdi-email" text="Enviar E-mail" color="var(--grayHibredu)"/>
           </div>
           <div class="second-column">
             <div class="cards">
@@ -128,12 +127,14 @@ export default {
       profileInfos: {
         name: "",
         classroom: "",
+        email: ""
       },
       alerts: [],
       showLoading: {
         classroomFilter: true,
         studentsFilter: false,
       },
+      studentEmail: ''
     };
   },
   mounted() {
@@ -174,6 +175,7 @@ export default {
         this.cardHitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
         this.profileInfos.name = response.name;
         this.profileInfos.classroom = this.selectedClassroom.name;
+        this.profileInfos.email = this.selectedStudent.email;
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
@@ -188,7 +190,7 @@ export default {
 <style scoped>
 .student-dashboard {
   width: 100%;
-  height: auto;
+  height: 100%;
   background-color: var(--lightBlueHibredu);
   display: flex;
   flex-direction: row;

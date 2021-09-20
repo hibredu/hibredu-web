@@ -1,18 +1,15 @@
 <template>
-    <v-btn x-large
-      :color="color" 
-      dark
-      elevation="0">
-    <v-icon left>{{ icon }}</v-icon>
-      {{ text }}
-    </v-btn>
+  <v-btn :color="color" x-large class="ma-2 white--text" depressed>
+    <v-icon left dark> {{ icon }} </v-icon>
+    {{ text }}
+  </v-btn>
 </template>
 
 <script>
 export default {
-  name: 'NormalButton',
-  props: [ "text", "color", "icon" ]
-}
+  name: "NormalButton",
+  props: ["text", "color", "icon"],
+};
 </script>
 
 <style scoped>
