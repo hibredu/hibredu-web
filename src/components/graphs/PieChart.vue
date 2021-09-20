@@ -41,10 +41,6 @@ export default {
   height: 100%;
 }
 
-.v-list-item {
-  border-bottom: solid 1px var(--lightGrayHibredu);
-}
-
 @media only screen and (max-width: 1024px) {
   .graph-card {
     font-family: "Metropolis Regular";

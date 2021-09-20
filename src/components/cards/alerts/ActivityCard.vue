@@ -11,7 +11,7 @@
         >
           <v-list-item-icon>
             <v-icon center color="var(--yellowHibredu)"
-              >mdi-file-check-outline</v-icon
+              >mdi-checkbox-blank-circle</v-icon
             >
           </v-list-item-icon>
           <v-list-item-content>

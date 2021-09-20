@@ -5,22 +5,31 @@
     <div class="content">
       <div class="top-bar">
         <div class="filters">
-          <DefaultLoading v-if="this.showLoading.classroomFilter"/>
-          <SelectFilter v-if="!this.showLoading.classroomFilter"
+          <DefaultLoading v-if="this.showLoading.classroomFilter" />
+          <SelectFilter
+            v-if="!this.showLoading.classroomFilter"
             text="Turma"
             :items="this.classrooms"
             @update:value="
               selectedClassroom = $event;
-              getStudents();"
+              getStudents();
+            "
           />
-          <DefaultLoading v-if="this.showLoading.studentsFilter && this.selectedClassroom != null"/>
-          <SelectFilter 
-            v-if="!this.showLoading.studentsFilter  && this.selectedClassroom != null"
+          <DefaultLoading
+            v-if="
+              this.showLoading.studentsFilter && this.selectedClassroom != null
+            "
+          />
+          <SelectFilter
+            v-if="
+              !this.showLoading.studentsFilter && this.selectedClassroom != null
+            "
             text="Aluno"
             :items="this.students"
             @update:value="
               selectedStudent = $event;
-              show();"
+              getStudentById();
+            "
           />
         </div>
         <DropDown />
@@ -29,7 +38,7 @@
         <div class="start">
           <div class="first-column">
             <div class="profile-card">
-              <ProfileCard />
+              <ProfileCard :params="this.profileInfos" />
             </div>
             <div class="buttons">
               <IconNormalButton
@@ -63,20 +72,18 @@
               />
             </div>
             <div class="charts">
-              <LineChart title="Desempenho X Presença" />
+              <div class="bar-chart">
+                <BarChart title="Atividades no Tempo" />
+              </div>
               <AlertCard :params="this.alerts" />
             </div>
           </div>
         </div>
         <div class="middle">
-          <PieChart
-            title="Realização de atividades por turma"
-            :data="this.activitiesByClassroom"
-          />
+          <BarChart title="Atividades no Tempo" />
         </div>
         <div class="bottom">
-          <PerformanceCard :params="this.classrooms" />
-          <ActivityCard :params="this.activitiesAlert" />
+          <AlertCard :params="this.alerts" />
         </div>
       </div>
     </div>
@@ -92,9 +99,7 @@ import SelectFilter from "../../components/filters/SelectFilter";
 import InfoCard from "../../components/cards/InfoCard";
 import ProfileCard from "../../components/cards/ProfileCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
-import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
-import PieChart from "../../components/graphs/PieChart";
-import LineChart from "../../components/graphs/LineChart";
+import BarChart from "../../components/graphs/BarChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
@@ -109,12 +114,10 @@ export default {
     SelectFilter,
     InfoCard,
     AlertCard,
-    PerformanceCard,
-    PieChart,
-    LineChart,
+    BarChart,
     ProfileCard,
     IconNormalButton,
-    DefaultLoading
+    DefaultLoading,
   },
   data() {
     return {
@@ -126,32 +129,27 @@ export default {
       selectedStudent: null,
       classrooms: [],
       students: [],
+      profileInfos: {
+        name: "",
+        classroom: "",
+      },
+      alerts: [],
       showLoading: {
         classroomFilter: true,
-        studentsFilter: false
-      }
+        studentsFilter: false,
+      },
     };
   },
   mounted() {
-    this.getCards();
     this.getClassrooms();
-    this.getAlerts();
   },
   methods: {
     ...mapActions([
-      "action_overviewClassroom",
       "action_classroom",
       "action_classroomById",
+      "action_studentById",
+      "action_alertByStudentId",
     ]),
-    getCards() {
-      this.action_overviewClassroom().then((response) => {
-        this.cardAlerts = response.alerts;
-        this.cardDeliveredActivities = response.deliveredActivities;
-        this.cardDeliveryPercentage =
-          (response.deliveryPercentage * 100).toFixed(1) + "%";
-        this.cardHitRate = (response.hitRate * 100).toFixed(1) + "%";
-      });
-    },
     getClassrooms() {
       this.action_classroom().then((response) => {
         this.classrooms = response;
@@ -169,8 +167,23 @@ export default {
         this.showLoading.studentsFilter = false;
       });
     },
-    show() {
-      console.log(this.selectedStudent);
+    getStudentById() {
+      this.action_studentById({
+        studentId: this.selectedStudent.id,
+      }).then((response) => {
+        this.cardAlerts = response.metrics.alerts;
+        this.cardDeliveredActivities = response.metrics.deliveredActivities;
+        this.cardDeliveryPercentage =
+          response.metrics.deliveryPercentage.toFixed(1) + "%";
+        this.cardHitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
+        this.profileInfos.name = response.name;
+        this.profileInfos.classroom = this.selectedClassroom.name;
+      });
+      this.action_alertByStudentId({
+        studentId: this.selectedStudent.id,
+      }).then((response) => {
+        this.alerts = response;
+      });
     },
   },
 };
@@ -179,7 +192,7 @@ export default {
 <style scoped>
 .student-dashboard {
   width: 100%;
-  height: 100%;
+  height: auto;
   background-color: var(--lightBlueHibredu);
   display: flex;
   flex-direction: row;
@@ -269,9 +282,10 @@ export default {
 .middle {
   margin-top: 2em;
   height: 25em;
+  width: 70%;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .bottom {
@@ -281,6 +295,12 @@ export default {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
+}
+
+.bar-chart {
+  width: 65%;
+  height: auto;
+  align-items: center;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -296,7 +316,7 @@ export default {
 
   .top-bar {
     width: auto;
-    margin-top: 0em;
+    margin-top: 2em;
   }
 
   .content {
@@ -306,6 +326,7 @@ export default {
     justify-content: center;
     height: 100%;
     padding: 1em;
+    align-items: center;
   }
 
   .second-column {
@@ -370,6 +391,131 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     width: auto;
+  }
+
+  .bar-chart {
+    width: auto;
+    height: auto;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .student-dashboard {
+    width: 100%;
+    height: auto;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    height: 100%;
+    padding: 2em;
+  }
+
+  .top-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 8em;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    justify-content: space-between;
+    margin-top: 2em;
+  }
+
+  .cards {
+    height: 10em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 1em;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .charts {
+    margin-top: 1em;
+    height: 25em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .start {
+    margin-top: 1em;
+    height: 35em;
+        width: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .second-column {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 2em;
+  }
+
+  .first-column {
+    width: 15em;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .profile-card {
+    width: 15em;
+    height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .middle {
+    margin-top: 2em;
+    height: 25em;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .bottom {
+    margin-top: 2em;
+    height: 25em;
+    width: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .bar-chart {
+    width: 65%;
+    height: auto;
+    align-items: center;
   }
 }
 </style>

@@ -72,38 +72,9 @@ export default {
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width: 1440px){
-  .info-card {
-    width: auto;
-    height: auto;
-    font-family: 'Metropolis Regular';
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 1em 0em 1em 0em;
-  }
-
-  .content {
-    width: auto;
-    height: auto;
-  }
-
-  .card-title {
-    color: var(--darkBlueHibredu);
-    font-size: 4em;
-  }
-
-  .sub-title {
-    font-size: 1em;
-    font-family: 'Metropolis Thin';
-  }
-}
-
 @media only screen and (max-width: 1440px){
   .info-card {
-    width: 20em;
+    width: 14em;
     height: auto;
     font-family: 'Metropolis Regular';
     text-align: center;

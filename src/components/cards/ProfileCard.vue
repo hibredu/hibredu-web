@@ -10,11 +10,11 @@
     </div>
     <div class="infos">
       <div>
-        <h2>Camila Santana</h2>
+        <h2>{{ params.name }}</h2>
       </div>
       <div class="classroom">
         <h6>Turma</h6>
-        <h4>3A</h4>
+        <h4>{{ params.classroom }}</h4>
       </div>
       <div class="subjects">
         <h6>Matérias</h6>
@@ -25,7 +25,10 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "ProfileCard",
+  props: [ "params" ]
+};
 </script>
 
 <style scoped>
@@ -56,6 +59,7 @@ export default {};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 1em;
 }
 
 .name {

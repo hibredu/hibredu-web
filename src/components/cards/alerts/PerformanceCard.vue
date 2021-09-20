@@ -12,7 +12,7 @@
           <v-list-item-icon>
             <v-icon
               :color="returnColor(item.metrics.deliveryPercentage * 100)"
-              v-text="`mdi-account-group-outline`"
+              v-text="`mdi-checkbox-blank-circle`"
             ></v-icon>
           </v-list-item-icon>
           <v-list-item-content>

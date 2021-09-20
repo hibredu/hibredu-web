@@ -47,14 +47,13 @@
             v-show="!showLoading"
             title="Realização de atividades por turma"
             :data="this.activitiesByClassroom"
-            
           />
-          <DefaultLoading v-show="showLoading"/>
+          <DefaultLoading v-show="showLoading" />
         </div>
       </div>
       <div class="bottom">
         <AlertCard :params="this.alerts" />
-        <DefaultLoading v-show="showLoading"/>
+        <DefaultLoading v-show="showLoading" />
         <PerformanceCard v-show="!showLoading" :params="this.classrooms" />
         <ActivityCard :params="this.activities" />
       </div>
@@ -93,7 +92,7 @@ export default {
     ActivityCard,
     PieChart,
     LineChart,
-    DefaultLoading
+    DefaultLoading,
   },
   data() {
     return {
@@ -107,7 +106,7 @@ export default {
       alerts: [],
       activities: [],
       showLoading: false,
-      values: ["present", "delivered"]
+      values: ["present", "delivered"],
     };
   },
   async mounted() {
@@ -305,6 +304,79 @@ export default {
   .pie-chart {
     width: auto;
     height: auto;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .principal-dashboard {
+    width: 100%;
+    height: auto;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    height: 100%;
+    padding: 2em;
+  }
+
+  .top-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cards {
+    margin-top: 1em;
+    height: 10em;
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .welcome-bar {
+    margin-top: 10px;
+  }
+
+  .middle {
+    margin-top: 1em;
+    height: 28em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 10;
+  }
+
+  .bottom {
+    margin-top: 1em;
+    height: 25em;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .line-chart {
+    width: 55%;
+    height: auto;
+    align-items: center;
+  }
+
+  .pie-chart {
+    width: 40%;
+    height: 27em;
     align-items: center;
   }
 }
