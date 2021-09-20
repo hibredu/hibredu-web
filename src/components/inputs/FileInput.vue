@@ -19,8 +19,7 @@
           </v-icon>
           <p>
             Arraste e solte aqui um arquivo
-            <span class="marked">.csv</span> ou
-            <span class="marked">.xslx</span>
+            <span class="marked">.xlsx</span>
           </p>
           <p>
             Ou clique
@@ -37,7 +36,7 @@
               id="uploadedFile"
               type="file"
               @change="onSelected($event)"
-              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             />
             para selecionar um arquivo
           </p>
@@ -109,6 +108,8 @@ export default {
       }
     },
     onSelected(e) {
+      if (this.uploadedFile.length === 0 || this.uploadedFile.length > 1) this.uploadedFile = [];
+      
       this.uploadedFile.push(e.target.files[0]);
 
       this.$emit("filesUploaded", this.uploadedFile);
@@ -116,7 +117,7 @@ export default {
     validateFile(file) {
       let name = file[0].name;
       let extension = name.split(".").pop();
-      if (extension === "csv" || extension === "xlsx") {
+      if (extension === "xlsx") {
         this.$emit("filesUploaded", file);
       } else {
         this.uploadedFile = [];
