@@ -9,7 +9,9 @@ import {
     classroomBySchoolId,
     alertByClassroomId,
     overviewAttendanceActivities,
-    classroomById
+    classroomById,
+    studentById,
+    alertByStudentId
 } from "../../services/index"
 
 export const indexStore = {
@@ -70,6 +72,16 @@ export const indexStore = {
         },
         async action_classroomById(context, payload) {
             return await classroomById(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_studentById(context, payload) {
+            return await studentById(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_alertByStudentId(context, payload) {
+            return await alertByStudentId(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
