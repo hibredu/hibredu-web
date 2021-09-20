@@ -115,6 +115,12 @@ export default {
 <style scoped>
 .default-table {
     width: 100%;
-    height: auto;
+    height: 100%;
+}
+@media only screen and (max-width: 1024px) {
+  .default-table {
+    width: 100%;
+    height: 25em;
+}
 }
 </style>

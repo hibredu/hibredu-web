@@ -12,24 +12,18 @@
             :items="this.classrooms"
             @update:value="
               selectedClassroom = $event;
-              getStudents();
-            "
+              getStudents();"
           />
           <DefaultLoading
-            v-if="
-              this.showLoading.studentsFilter && this.selectedClassroom != null
-            "
+            v-if="this.showLoading.studentsFilter && this.selectedClassroom != null"
           />
           <SelectFilter
-            v-if="
-              !this.showLoading.studentsFilter && this.selectedClassroom != null
-            "
+            v-if="!this.showLoading.studentsFilter && this.selectedClassroom != null"
             text="Aluno"
             :items="this.students"
             @update:value="
               selectedStudent = $event;
-              getStudentById();
-            "
+              getStudentById();"
           />
         </div>
         <DropDown />

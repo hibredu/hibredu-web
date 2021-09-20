@@ -2,12 +2,12 @@
   <div class="principal-dashboard">
     <TopBar />
     <LateralMenu />
-    <div class="content">
+    <div class="content" style="border: solid 1px orange">
       <div class="top-bar">
         <SearchBar />
         <DropDown />
       </div>
-      <div class="welcome-bar">
+      <div class="welcome-bar" style="border: solid 1px orange">
         <WelcomeBar name="Vera" />
       </div>
       <div class="cards">
@@ -78,7 +78,7 @@ import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
-  name: "PrincipalDashboard",
+  name: "ExportAttendance",
   mixins: [globalMethods],
   components: {
     LateralMenu,
@@ -121,7 +121,7 @@ export default {
       "action_overviewClassroom",
       "action_classroom",
       "action_overviewAttendanceActivities",
-      "action_overviewAlerts",
+      "action_alertByClassroomId",
       "action_overviewActivities",
     ]),
     getCards() {
@@ -157,7 +157,7 @@ export default {
       });
     },
     getAlerts() {
-      this.action_overviewAlerts().then((response) => {
+      this.action_alertByClassroomId().then((response) => {
         this.alerts = response;
       });
     },

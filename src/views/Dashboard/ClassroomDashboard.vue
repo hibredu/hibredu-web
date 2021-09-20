@@ -8,40 +8,48 @@
         <DropDown />
       </div>
       <div class="select-filter">
-        <SelectFilter text="Turma" :items="this.classrooms" />
+        <DefaultLoading v-if="this.showLoading.classroomFilter" />
+        <SelectFilter v-if="!this.showLoading.classroomFilter" text="Turma" :items="this.classrooms"
+         @update:value="selectedClassroom = $event;getInfosByClassroomId();" />
       </div>
-      <div class="cards">
-        <InfoCard
-          text="Atividades Cadastradas"
-          :number="this.cardDeliveredActivities"
-          color="color: var(--blueAlert)"
-        />
-        <InfoCard
-          text="Porcentagem de Entrega"
-          :number="this.cardDeliveryPercentage"
-          color="color: var(--greenAlert)"
-        />
-        <InfoCard
-          text="Taxa de Acerto"
-          :number="this.cardHitRate"
-          color="color: var(--greenAlert)"
-        />
-        <InfoCard
-          text="Alertas"
-          :number="this.cardAlerts"
-          color="color: var(--redAlert)"
-        />
-      </div>
-       <div class="start">
-        <LineChart title="Desempenho X Presença" />
-      </div>
-      <div class="middle">
-        <AlertCard :params="this.alerts"/>
-        <LineChart title="Desempenho X Presença" />
-      </div>
-      <div class="bottom">
-        <LineChart title="Desempenho X Presença" />
-        <ActivityCard :params="this.activitiesAlert"/>
+      <div v-if="this.selectedClassroom != null">
+        <div class="cards">
+          <InfoCard
+            text="Atividades Cadastradas"
+            :number="this.cardDeliveredActivities"
+            color="color: var(--blueAlert)"
+          />
+          <InfoCard
+            text="Porcentagem de Entrega"
+            :number="this.cardDeliveryPercentage"
+            color="color: var(--greenAlert)"
+          />
+          <InfoCard
+            text="Taxa de Acerto"
+            :number="this.cardHitRate"
+            color="color: var(--greenAlert)"
+          />
+          <InfoCard
+            text="Alertas"
+            :number="this.cardAlerts"
+            color="color: var(--redAlert)"
+          />
+        </div>
+        <div class="start">
+          <DefaultTable />
+        </div>
+        <div class="middle">
+          <AlertCard :params="this.alerts" />
+          <div class="bar-chart">
+            <BarChart title="Atividades no Tempo" />
+          </div>
+        </div>
+        <div class="bottom">
+          <div class="activities-table">
+            <DefaultTable />
+          </div>
+          <ActivityCard :params="this.activitiesAlert" />
+        </div>
       </div>
     </div>
   </div>
@@ -57,7 +65,9 @@ import SelectFilter from "../../components/filters/SelectFilter";
 import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
-import LineChart from "../../components/graphs/LineChart";
+import BarChart from "../../components/graphs/BarChart";
+import DefaultTable from "../../components/tables/DefaultTable";
+import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
@@ -72,7 +82,9 @@ export default {
     InfoCard,
     AlertCard,
     ActivityCard,
-    LineChart,
+    BarChart,
+    DefaultTable,
+    DefaultLoading
   },
   data() {
     return {
@@ -99,35 +111,46 @@ export default {
         { id: "11", activity: "Atividade 11", delivered: "10", total: "120" },
         { id: "12", activity: "Atividade 12", delivered: "10", total: "120" },
       ],
+       showLoading: {
+        classroomFilter: true,
+      },
+      selectedClassroom: null,
     };
   },
   mounted() {
-    this.getCards();
     this.getClassrooms();
     this.getActivities();
     this.getAttendance();
-    this.getAlerts();
   },
   methods: {
     ...mapActions([
-      "action_overviewClassroom",
+      "action_classroomById",
       "action_classroom",
       "action_overviewActivities",
       "action_overviewAttendance",
       "action_alertByClassroomId",
     ]),
-    getCards() {
-      this.action_overviewClassroom().then((response) => {
-        this.cardAlerts = response.alerts;
-        this.cardDeliveredActivities = response.deliveredActivities;
-        this.cardDeliveryPercentage = (response.deliveryPercentage * 100 ).toFixed(1) + "%";
-        this.cardHitRate = (response.hitRate * 100).toFixed(1) + "%";
+    getInfosByClassroomId(){
+      this.action_classroomById({
+        classroomId: this.selectedClassroom.id,
+      }).then((response) => {
+        this.cardAlerts = response.metrics.alerts;
+        this.cardDeliveredActivities = response.metrics.deliveredActivities;
+        this.cardDeliveryPercentage =
+          (response.metrics.deliveryPercentage * 100).toFixed(1) + "%";
+        this.cardHitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
+      });
+
+      this.action_alertByClassroomId({
+        classroomId: this.selectedClassroom.id
+      }).then((response) => {
+        this.alerts = response;
       });
     },
     getClassrooms() {
       this.action_classroom().then((response) => {
         this.classrooms = response;
-        this.formatData2PieChart(this.classrooms);
+        this.showLoading.classroomFilter = false;
       });
     },
     getActivities() {
@@ -139,11 +162,6 @@ export default {
     getAttendance() {
       this.action_overviewAttendance().then((response) => {
         this.attendance = response;
-      });
-    },
-    getAlerts() {
-      this.action_alertByClassroomId().then((response) => {
-        this.alerts = response;
       });
     },
     formatData2PieChart(data) {
@@ -208,19 +226,31 @@ export default {
 
 .middle {
   margin-top: 1em;
-  height: 25em;
+  height: 26em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .bottom {
-  margin-top: 1em;
+  margin-top: 2em;
   height: 25em;
   width: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.activities-table {
+  width: 65%;
+  height: 25em;
+  border: solid 1px blue;
+}
+
+.bar-chart {
+  width: 65%;
+  height: auto;
+  align-items: center;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -279,5 +309,17 @@ export default {
     justify-content: space-between;
     width: auto;
   }
+
+  .bar-chart {
+    width: 100%;
+    height: auto;
+    align-items: center;
+  }
+
+  .activities-table {
+  width: 100%;
+  height: auto;
+  border: solid 1px blue;
+}
 }
 </style>
