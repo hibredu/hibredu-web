@@ -4,12 +4,12 @@
     <LateralMenu />
     <div class="content">
       <div class="top-bar">
-        <SearchBar/>
-        <DropDown/>
+        <SearchBar />
+        <DropDown />
       </div>
       <div class="button-card">
-        <ButtonCard title="Envio de Atividades"/>
-        <ButtonCard title="Envio de Presença"/>
+        <ButtonCard title="Envio de Atividades" />
+        <ButtonCard title="Envio de Presença" />
       </div>
     </div>
   </div>
@@ -51,15 +51,16 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 2em 4em;
+  padding: 2em;
 }
 
 .top-bar {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 20%;
+  height: 100px;
   justify-content: space-between;
+  align-items: center;
 }
 
 .file-input {
@@ -74,18 +75,34 @@ export default {
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
+  margin-top: 3em;
   height: auto;
 }
 
 @media only screen and (max-width: 1024px) {
-    .top-bar {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
-    padding: 20px;
-    align-items: center;
+.principal-dashboard {
     width: 100%;
     height: auto;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .top-bar {
+    width: auto;
+    margin-top: 2em;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+    height: 100%;
+    padding: 1em;
+    align-items: center;
   }
 
   .button-card {

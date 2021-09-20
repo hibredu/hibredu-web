@@ -2,23 +2,19 @@
   <v-card class="info-card" flat>
     <label class="card-title">{{ title }}</label>
     <div class="content">
-      <IconNormalButton
-        :icon="`mdi-google`"
-        :color="`var(--yellowHibredu)`"
-        :text="`Forms Google`"
+      <IconNormalButtonDisabled
+        icon="mdi-google"
+        text="Forms Google"
       />
-      <div class="space"></div>
-      <IconNormalButton
-        :icon="`mdi-microsoft-teams`"
-        :color="`var(--yellowHibredu)`"
-        :text="`Microsoft Teams`"
-      />
-      <div class="space"></div>
       <IconNormalButton
         @click.native="go"
-        :icon="`mdi-file`"
-        :color="`var(--yellowHibredu)`"
-        :text="`Outros`"
+        icon="mdi-microsoft-teams"
+        color="var(--yellowHibredu)"
+        text="Microsoft Teams"
+      />
+      <IconNormalButtonDisabled
+        icon="mdi-file"
+        text="Outros"
       />
     </div>
   </v-card>
@@ -26,23 +22,26 @@
 
 <script>
 import IconNormalButton from "../buttons/IconNormalButton";
+import IconNormalButtonDisabled from "../buttons/IconNormalButtonDisabled";
+
 export default {
   name: "ButtonCard",
   props: ["title"],
   components: {
     IconNormalButton,
+    IconNormalButtonDisabled
   },
   methods: {
-    go(){
-      this.$router.push({name: 'import_list'})
-    }
-  }
+    go() {
+      this.$router.push({ name: "import_list" });
+    },
+  },
 };
 </script>
 
 <style scoped>
 .info-card {
-  width: 20%;
+  width: 25%;
   height: auto;
   padding: 2em;
   text-align: center;

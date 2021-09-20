@@ -1,5 +1,5 @@
 <template>
-  <v-btn :color="color" x-large class="ma-2 white--text" depressed>
+  <v-btn class="ma-2 white--text icon-normal-btn" :color="color" x-large depressed>
     <v-icon left dark> {{ icon }} </v-icon>
     {{ text }}
   </v-btn>
@@ -13,7 +13,7 @@ export default {
 </script>
 
 <style scoped>
-* {
+.icon-normal-btn {
   font-family: "Metropolis Bold";
   text-transform: capitalize;
 }
