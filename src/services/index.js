@@ -26,6 +26,10 @@ export const overviewAttendance = (params) => {
     return axios.get(`${url}/overview/attendance`, params);
 };
 
+export const overviewAlerts = (params) => {
+    return axios.get(`${url}/overview/alerts`, params);
+};
+
 export const school = (params) => {
     return axios.get(`${url}/school`, params);
 };
@@ -35,7 +39,7 @@ export const classroomBySchoolId = (params) => {
 };
 
 export const alertByClassroomId = (params) => {
-    return axios.get(`${url}/alert/class/1`, params);
+    return axios.get(`${url}/alert/class/${params.classroomId}`, params);
 };
 
 export const overviewAttendanceActivities = (params) => {

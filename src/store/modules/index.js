@@ -11,7 +11,8 @@ import {
     overviewAttendanceActivities,
     classroomById,
     studentById,
-    alertByStudentId
+    alertByStudentId,
+    overviewAlerts
 } from "../../services/index"
 
 export const indexStore = {
@@ -47,6 +48,11 @@ export const indexStore = {
         },
         async action_overviewAttendance(context, payload) {
             return await overviewAttendance(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_overviewAlerts(context, payload) {
+            return await overviewAlerts(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
