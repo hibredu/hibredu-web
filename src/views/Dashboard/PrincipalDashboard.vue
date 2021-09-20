@@ -2,12 +2,12 @@
   <div class="principal-dashboard">
     <TopBar />
     <LateralMenu />
-    <div class="content">
+    <div class="content" style="border: solid 1px orange">
       <div class="top-bar">
         <SearchBar />
         <DropDown />
       </div>
-      <div class="welcome-bar">
+      <div class="welcome-bar" style="border: solid 1px orange">
         <WelcomeBar name="Vera" />
       </div>
       <div class="cards">
@@ -276,7 +276,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
+    width: auto;
+    border: solid 2px blue;
   }
 
   .middle {
@@ -308,7 +309,7 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1440px) {
+@media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .principal-dashboard {
     width: 100%;
     height: auto;

@@ -47,7 +47,7 @@ export default {
 <style>
 .graph-card {
   font-family: "Metropolis Regular";
-  width: auto;
+  width: 100%;
   padding: 1em;
   height: auto;
 }

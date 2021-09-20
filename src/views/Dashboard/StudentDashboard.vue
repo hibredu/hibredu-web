@@ -80,10 +80,10 @@
           </div>
         </div>
         <div class="middle">
-          <BarChart title="Atividades no Tempo" />
+          <BarChart title="Presença no Tempo" />
         </div>
         <div class="bottom">
-          <AlertCard :params="this.alerts" />
+          <DefaultTable/>
         </div>
       </div>
     </div>
@@ -102,6 +102,7 @@ import AlertCard from "../../components/cards/alerts/AlertCard";
 import BarChart from "../../components/graphs/BarChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
 import DefaultLoading from "../../components/loading/DefaultLoading";
+import DefaultTable from "../../components/tables/DefaultTable"
 import { mapActions } from "vuex";
 
 export default {
@@ -118,6 +119,7 @@ export default {
     ProfileCard,
     IconNormalButton,
     DefaultLoading,
+    DefaultTable
   },
   data() {
     return {
@@ -400,7 +402,7 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1440px) {
+@media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .student-dashboard {
     width: 100%;
     height: auto;
@@ -462,8 +464,7 @@ export default {
   .start {
     margin-top: 1em;
     height: 35em;
-        width: auto;
-
+    width: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -497,19 +498,19 @@ export default {
   .middle {
     margin-top: 2em;
     height: 25em;
-    width: auto;
+    width: 77%;
+    margin-left: 23%;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row-reverse;
   }
 
   .bottom {
     margin-top: 2em;
     height: 25em;
-    width: auto;
+    width: 77%;
+    margin-left: 23%;
     display: flex;
     flex-direction: row-reverse;
-    justify-content: space-between;
   }
 
   .bar-chart {
