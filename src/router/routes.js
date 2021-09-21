@@ -5,6 +5,7 @@ import ClassroomDashboard from '../views/Dashboard/ClassroomDashboard';
 import Registration from '../views/Registration/Registration';
 import Importation from '../views/Importation/Importation';
 import ImportActivity from '../views/Importation/ImportActivity';
+import ImportAttendance from '../views/Importation/ImportAttendance';
 import ExportActivity from '../views/Exportation/ExportActivity';
 import ExportAttendance from '../views/Exportation/ExportAttendance';
 
@@ -15,7 +16,8 @@ export const routes = [
     { path: '/analysis/classroom', component: ClassroomDashboard, name: 'classroom' },
     { path: '/register', component: Registration, name: 'register' },
     { path: '/import', component: Importation, name: 'import' },
-    { path: '/import/list', component: ImportActivity, name: 'import_list' },
+    { path: '/import/activity', component: ImportActivity, name: 'import_activity' },
+    { path: '/import/attendance', component: ImportAttendance, name: 'import_attendance' },
     { path: '/export/activity', component: ExportActivity, name: 'export_activity' },
     { path: '/export/attendance', component: ExportAttendance, name: 'export_attendance' }
 ];

@@ -33,7 +33,11 @@ export default {
   },
   methods: {
     go() {
-      this.$router.push({ name: "import_list" });
+      if(this.title.includes('Presença')) {
+        this.$router.push({ name: "import_attendance" });
+      } else {
+        this.$router.push({ name: "import_activity" });
+      }
     },
   },
 };

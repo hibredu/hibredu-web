@@ -28,7 +28,7 @@
         </div>
         <DropDown />
       </div>
-      <div v-if="this.selectedStudent != null">
+      <div>
         <div class="start">
           <div class="first-column">
             <div class="profile-card">
@@ -39,7 +39,11 @@
               text="Exportar"
               color="var(--grayHibredu)"
             />
-            <IconNormalButton icon="mdi-email" text="Enviar E-mail" color="var(--grayHibredu)"/>
+            <IconNormalButton
+              icon="mdi-email"
+              text="Enviar E-mail"
+              color="var(--grayHibredu)"
+            />
           </div>
           <div class="second-column">
             <div class="cards">
@@ -75,9 +79,9 @@
         <div class="middle">
           <BarChart title="Presença no Tempo" />
         </div>
-        <div class="bottom">
-          <DefaultTable/>
-        </div>
+        <!-- <div class="bottom" style="border: solid 1px purple">
+          <DefaultTable />
+        </div> -->
       </div>
     </div>
   </div>
@@ -95,7 +99,7 @@ import AlertCard from "../../components/cards/alerts/AlertCard";
 import BarChart from "../../components/graphs/BarChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
 import DefaultLoading from "../../components/loading/DefaultLoading";
-import DefaultTable from "../../components/tables/DefaultTable"
+// import DefaultTable from "../../components/tables/DefaultTable";
 import { mapActions } from "vuex";
 
 export default {
@@ -112,7 +116,7 @@ export default {
     ProfileCard,
     IconNormalButton,
     DefaultLoading,
-    DefaultTable
+    // DefaultTable,
   },
   data() {
     return {
@@ -127,14 +131,14 @@ export default {
       profileInfos: {
         name: "",
         classroom: "",
-        email: ""
+        email: "",
       },
       alerts: [],
       showLoading: {
         classroomFilter: true,
         studentsFilter: false,
       },
-      studentEmail: ''
+      studentEmail: "",
     };
   },
   mounted() {
@@ -190,7 +194,7 @@ export default {
 <style scoped>
 .student-dashboard {
   width: 100%;
-  height: 100%;
+  height: auto;
   background-color: var(--lightBlueHibredu);
   display: flex;
   flex-direction: row;
@@ -280,19 +284,19 @@ export default {
 .middle {
   margin-top: 2em;
   height: 25em;
-  width: 70%;
+  width: 83%;
+  margin-left: 17%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row-reverse;
 }
 
 .bottom {
   margin-top: 2em;
   height: 25em;
-  width: auto;
+  width: 83%;
+  margin-left: 17%;
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
 }
 
 .bar-chart {
@@ -304,7 +308,7 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: 100%;
+    height: auto;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;
@@ -322,7 +326,7 @@ export default {
     flex-direction: column;
     width: 80%;
     justify-content: center;
-    height: 100%;
+    height: 1000%;
     padding: 1em;
     align-items: center;
   }
@@ -337,6 +341,7 @@ export default {
   }
 
   .cards {
+    margin-top: 2em;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -384,7 +389,7 @@ export default {
   }
 
   .bottom {
-    height: 25em;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -392,9 +397,20 @@ export default {
   }
 
   .bar-chart {
-    width: auto;
     height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    width: auto;
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    justify-content: space-between;
+    margin-top: 2em;
   }
 }
 

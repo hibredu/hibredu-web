@@ -136,7 +136,6 @@ export default {
       });
     },
     getClassrooms() {
-      this.showLoading = true;
       this.action_classroom().then((response) => {
         this.classrooms = response;
         this.formatData2PieChart(this.classrooms);
@@ -248,30 +247,6 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-  .principal-dashboard {
-    width: 100%;
-    height: auto;
-    background-color: var(--lightBlueHibredu);
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    z-index: 1;
-  }
-
-  .top-bar {
-    width: auto;
-    margin-top: 2em;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    justify-content: center;
-    height: 100%;
-    padding: 1em;
-    align-items: center;
-  }
 
   .cards {
     height: auto;
