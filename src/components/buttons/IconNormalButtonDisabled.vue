@@ -2,7 +2,7 @@
   <v-tooltip bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        class="ma-2 white--text icon-normal-btn"
+        class="white--text icon-normal-btn"
         dark
         v-bind="attrs"
         v-on="on"
@@ -29,6 +29,7 @@ export default {
 .icon-normal-btn {
   font-family: "Metropolis Bold";
   text-transform: capitalize;
+  margin-top: 1em;
 }
 
 .icon-normal-btn:hover {

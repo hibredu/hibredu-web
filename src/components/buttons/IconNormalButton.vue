@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    class="ma-2 icon-normal-btn"
+    class="icon-normal-btn"
     :href="href"
     :style="`color: ${this.colorText}`"
     :color="color"
@@ -34,5 +34,6 @@ export default {
 .icon-normal-btn {
   font-family: "Metropolis Bold";
   text-transform: capitalize;
+  margin-top: 1em;
 }
 </style>
