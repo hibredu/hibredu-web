@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "NormalButton",
+  name: "IconNormalButtonDisabled",
   props: ["text", "icon"],
 };
 </script>

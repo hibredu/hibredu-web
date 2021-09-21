@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "NormalButton",
+  name: "IconNormalButton",
   props: ["text", "color", "icon", "colorText", "email"],
   computed: {
     href() {
