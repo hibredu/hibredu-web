@@ -32,11 +32,8 @@ export default {
       { ico: "mdi-account-circle", title: "Meu Perfil", route: "home" },
       { ico: "mdi-exit-to-app", title: "Sair", route: "login" },
     ],
-    teacher_initial: ''
+    teacher_initial: localStorage.getItem("teacher_name").substr(0, 1),
   }),
-  mounted() {
-    this.teacher_initial = localStorage.getItem('teacher_name').substr(0, 1);
-  }
 };
 </script>
 

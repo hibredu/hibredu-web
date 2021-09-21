@@ -8,7 +8,7 @@
         <DropDown />
       </div>
       <div class="welcome-bar">
-        <WelcomeBar :name="this.teacher_name" />
+        <WelcomeBar/>
       </div>
       <div class="cards">
         <InfoCard
@@ -107,7 +107,6 @@ export default {
       activities: [],
       showLoading: false,
       values: ["present", "delivered"],
-      teacher_name: ''
     };
   },
   async mounted() {
@@ -116,7 +115,6 @@ export default {
     this.getClassrooms();
     this.getActivities();
     this.getAlerts();
-    this.teacher_name = localStorage.getItem('teacher_name');
   },
   methods: {
     ...mapActions([
@@ -172,7 +170,7 @@ export default {
       }
       this.showLoading = false;
     },
-  },
+  }
 };
 </script>
 
