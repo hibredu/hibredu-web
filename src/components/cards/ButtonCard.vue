@@ -10,6 +10,7 @@
         @click.native="go"
         icon="mdi-microsoft-teams"
         color="var(--yellowHibredu)"
+        colorText="var(--whiteHibredu)"
         text="Microsoft Teams"
       />
       <IconNormalButtonDisabled
