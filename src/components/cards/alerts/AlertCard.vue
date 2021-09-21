@@ -6,7 +6,7 @@
         <v-list-item v-for="(item, i) in params" :key="i" :disabled="true"
           style="color: var(--blackHibredu) !important">
           <v-list-item-icon>
-            <v-icon color="var(--redAlert)">mdi-account-alert-outline</v-icon>
+            <v-icon :color="returnColor(item.level)">mdi-account-alert</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="text-wrap">
@@ -34,6 +34,16 @@ export default {
           return 'está com notas baixas e faltas em excesso'
         case 'Aluno com nota baixa a tempos':
           return 'está com notas baixas há muito tempo'
+      }
+    },
+    returnColor(value){
+      switch(value) {
+        case 'red':
+          return 'var(--redAlert)'
+        case 'yellow':
+          return 'var(--yellowAlert)'
+        case 'green':
+          return 'var(--greenAlert)'
       }
     }
   }

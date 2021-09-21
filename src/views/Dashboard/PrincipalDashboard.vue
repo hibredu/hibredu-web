@@ -136,6 +136,7 @@ export default {
       });
     },
     getClassrooms() {
+      this.showLoading = true;
       this.action_classroom().then((response) => {
         this.classrooms = response;
         this.formatData2PieChart(this.classrooms);
