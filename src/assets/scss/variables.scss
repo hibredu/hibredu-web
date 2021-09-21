@@ -15,6 +15,7 @@ $cyanHibredu: #0DDBAB !important;
 /*Alert Colors*/
 $greenAlert: #158300 !important;
 $redAlert: #7C0000 !important;
+$yellowAlert: #BCA902 !important;
 $blueAlert: #006E99 !important;
 
 :root {
@@ -33,4 +34,5 @@ $blueAlert: #006E99 !important;
     --greenAlert: #{$greenAlert};
     --redAlert: #{$redAlert};
     --blueAlert: #{$blueAlert};
+    --yellowAlert: #{$yellowAlert};
 }
