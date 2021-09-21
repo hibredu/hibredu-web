@@ -1,5 +1,12 @@
 <template>
-  <v-btn class="ma-2 white--text icon-normal-btn" :color="color" x-large depressed>
+  <v-btn
+    class="ma-2 icon-normal-btn"
+    :href="href"
+    :style="`color: ${this.colorText}`"
+    :color="color"
+    x-large
+    depressed
+  >
     <v-icon left dark> {{ icon }} </v-icon>
     {{ text }}
   </v-btn>
@@ -8,7 +15,18 @@
 <script>
 export default {
   name: "NormalButton",
-  props: ["text", "color", "icon"],
+  props: ["text", "color", "icon", "colorText", "email"],
+  computed: {
+    href() {
+      let href = 'mailto:'+ this.email;
+      if(this.email != null) {
+        return href
+      } else {
+        href=''
+        return href
+      }
+    }
+  }
 };
 </script>
 

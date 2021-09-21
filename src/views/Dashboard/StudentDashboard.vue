@@ -37,12 +37,15 @@
             <IconNormalButton
               icon="mdi-cloud-download"
               text="Exportar"
-              color="var(--grayHibredu)"
+              color="var(--whiteHibredu)"
+              colorText="var(--grayHibredu)"
             />
             <IconNormalButton
+              :email="this.profileInfos.email"
               icon="mdi-email"
               text="Enviar E-mail"
-              color="var(--grayHibredu)"
+              color="var(--whiteHibredu)"
+              colorText="var(--grayHibredu)"
             />
           </div>
           <div class="second-column">
