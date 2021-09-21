@@ -28,7 +28,7 @@
         </div>
         <DropDown />
       </div>
-      <div>
+      <div v-if="selectedStudent != null">
         <div class="start">
           <div class="first-column">
             <div class="profile-card">
@@ -326,7 +326,7 @@ export default {
     flex-direction: column;
     width: 80%;
     justify-content: center;
-    height: 1000%;
+    height: 100%;
     padding: 1em;
     align-items: center;
   }

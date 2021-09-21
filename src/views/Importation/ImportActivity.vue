@@ -1,5 +1,5 @@
 <template>
-  <div class="principal-dashboard">
+  <div class="import-activity">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped>
-.principal-dashboard {
+.import-activity {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -69,7 +69,32 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-    .top-bar {
+  .import-activity {
+    width: 100%;
+    height: auto;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .top-bar {
+    width: auto;
+    margin-top: 2em;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+    height: 100%;
+    padding: 1em;
+    align-items: center;
+  }
+
+  .top-bar {
     display: flex;
     flex-direction: column-reverse;
     justify-content: space-between;
