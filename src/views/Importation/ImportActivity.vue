@@ -8,7 +8,7 @@
         <DropDown/>
       </div>
       <div class="file-input">
-        <ProgressStepBarVertical/>
+        <StepActivity/>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import ProgressStepBarVertical from "../../components/bars/ProgressStepBarVertical";
+import StepActivity from "../../components/bars/StepActivity";
 
 export default {
   name: "Importation",
@@ -29,7 +29,7 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    ProgressStepBarVertical,
+    StepActivity,
   },
 };
 </script>

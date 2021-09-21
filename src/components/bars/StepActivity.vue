@@ -5,6 +5,7 @@
         :complete="importStep > 1"
         step="1"
         color="var(--yellowHibredu)"
+        max-height="30em"
       >
         <label>Importar arquivo</label>
       </v-stepper-step>
@@ -17,7 +18,7 @@
         />
         <div class="space"></div>
         <NormalButton
-          @click.native="importStep = 2 "
+          @click.native="importStep = 2"
           :color="`var(--greenHibredu)`"
           :text="`Próximo`"
         />
@@ -32,11 +33,11 @@
       </v-stepper-step>
 
       <v-stepper-content step="2">
-        <v-card color="grey lighten-1" class="card"></v-card>
+        <div class="space"></div>
         <NormalButton
           @click.native="importStep = 3"
-          :color="`var(--greenHibredu)`"
-          :text="`Próximo`"
+          color="var(--greenHibredu)"
+          text="Próximo"
         />
       </v-stepper-content>
 
@@ -65,7 +66,10 @@ import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
 
 export default {
-  components: { NormalButton, FileInput },
+  components: {
+    NormalButton,
+    FileInput,
+  },
   data() {
     return {
       uploadedFile: [],
@@ -75,9 +79,9 @@ export default {
   methods: {
     processUpload(event) {
       this.uploadedFile = event;
-      console.log(event)
-    }
-  }
+      console.log(event);
+    },
+  },
 };
 </script>
 
@@ -85,6 +89,8 @@ export default {
 .vertical-progress-step-bar {
   font-family: "Metropolis Regular";
   color: var(--grayHibredu);
+  height: auto;
+  width: 100%;
   height: auto;
 }
 
