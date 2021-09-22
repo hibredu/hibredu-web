@@ -2,38 +2,36 @@
   <v-card class="scroll-list" flat>
     <h4 class="list-title">Atividades</h4>
     <div class="header">
-      <h4>#</h4>
-      <h4>NOME</h4>
-      <h4>DATA</h4>
-      <h4>STATUS</h4>
+      <h4 class="column-name">#</h4>
+      <h4 class="column-name">NOME</h4>
+      <h4 class="column-name">DATA</h4>
+      <h4 class="column-name">STATUS</h4>
     </div>
     <v-list dense>
-      <v-list-item-group color="primary">
-        <v-list-item
-          v-for="(item, i) in params"
-          :key="i"
-          :disabled="true"
-          style="color: var(--blackHibredu) !important"
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.id }}</v-list-item-title>
-          </v-list-item-content>
+      <v-list-item
+        v-for="(item, i) in params"
+        :key="i"
+        :disabled="true"
+        style="color: var(--blackHibredu) !important"
+      >
+        <v-list-item-content>
+          <v-list-item-title>{{ item.id }}</v-list-item-title>
+        </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
-          </v-list-item-content>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.name }}</v-list-item-title>
+        </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-title
-              >{{ formatDate(item.created_at) }}
-            </v-list-item-title>
-          </v-list-item-content>
+        <v-list-item-content>
+          <v-list-item-title
+            >{{ formatDate(item.created_at) }}
+          </v-list-item-title>
+        </v-list-item-content>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.status }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.status }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </v-card>
 </template>
@@ -74,6 +72,10 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.column-name {
+    width: 25%;
 }
 
 @media only screen and (max-width: 1024px) {
