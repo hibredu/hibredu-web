@@ -18,8 +18,11 @@
         />
         <div class="space"></div>
         <NormalButton
-          v-if="this.uploadedFile.length > 0"
-          @click.native="importStep = 2"
+          v-if="this.uploadedFile != ''"
+          @click.native="
+            importStep = 2;
+            sendFile();
+          "
           :color="`var(--greenHibredu)`"
           :text="`Próximo`"
         />
@@ -52,20 +55,18 @@
               label="Data da Aula"
               @update:value="configs.date = $event"
             />
-            <TextInputClean
+            <!-- <TextInputClean
               label="Horário da Aula"
               placeholder="Ex: 08:00"
               type="text"
               @update:value="configs.hour = $event"
-            />
+            /> -->
           </div>
         </div>
         <div class="space"></div>
         <NormalButton
           @click.native="
             importStep = 3;
-            show();
-            sendFile();
           "
           color="var(--greenHibredu)"
           text="Próximo"
@@ -82,12 +83,13 @@
 
       <v-stepper-content step="3">
         <v-card class="scroll-list" flat>
-          <h4 class="list-title">{{ this.file.name }}</h4>
+          <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
+          <ImportConfigs/>
         </v-card>
 
         <div class="space"></div>
         <NormalButton
-          @click.native="importStep = 1"
+          @click.native="sendAttendance()"
           :color="`var(--greenHibredu)`"
           :text="`Finalizar Envio`"
         />
@@ -99,9 +101,10 @@
 <script>
 import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
-import TextInputClean from "../inputs/TextInputClean";
+// import TextInputClean from "../inputs/TextInputClean";
 import SelectInputClean from "../inputs/SelectInputClean";
 import DateInputClean from "../inputs/DateInputClean";
+import ImportConfigs from "../configs/ImportConfigs"
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -110,21 +113,19 @@ export default {
     NormalButton,
     FileInput,
     SelectInputClean,
-    TextInputClean,
+    // TextInputClean,
     DateInputClean,
+    ImportConfigs
   },
   data() {
     return {
       uploadedFile: [],
       importStep: 1,
-      file: {
-        name: "",
-      },
       configs: {
         classroom: "",
         subject: "",
         hour: "",
-        date: "",
+        // date: "",
       },
     };
   },
@@ -141,28 +142,50 @@ export default {
       "action_classroom",
       "action_schoolSubjectsByTeacher",
       "action_attendanceSpreadSheetTeams",
+      "action_attendance",
     ]),
     processUpload(event) {
       this.uploadedFile = event;
-      this.file.name = this.uploadedFile[0].name;
-    },
-    show() {
-      console.log('configs')
-      console.log(this.configs);
     },
     sendFile() {
-      console.log(this.uploadedFile)
-      // this.action_attendanceSpreadSheetTeams(
-      //   this.formData
-      // ).then((response) => {
-      //   console.log(response);
-      // });
+      let data = new FormData();
+      data.append("attendance", this.uploadedFile);
+
+      this.action_attendanceSpreadSheetTeams(data).then(() => {
+      });
+    },
+    sendAttendance() {
+      this.action_attendance({
+        classroom_id: this.configs.classroom,
+        subject_id: this.configs.subject,
+        file_id: this.returnSpreadsheet.file_id,
+        description: "Envio de Presença",
+        datetime: this.configs.date,
+        columns: [
+          {
+            field_name: "Data e hora",
+            final_field: "Controle de horário",
+          },
+          {
+            field_name: "Atividade",
+            final_field: "Atividade",
+          },
+          {
+            field_name: "Nome Completo",
+            final_field: "Nome",
+          },
+        ],
+      }).then(() => {
+        this.$alert("Planilha enviada com sucesso!");
+        this.$router.back();
+      });
     },
   },
   computed: {
     ...mapState({
       classrooms: (state) => state.index.classrooms,
       subjects: (state) => state.index.subjects,
+      returnSpreadsheet: (state) => state.index.returnSpreadsheet,
     }),
   },
 };
