@@ -260,7 +260,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 18em;
+    width: 15em;
   }
 
   .bottom {
@@ -268,7 +268,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 18em;
+    width: 15em;
   }
 
   .line-chart {
