@@ -141,6 +141,7 @@ export default {
         name: "",
         classroom: "",
         email: "",
+        subjects: ""
       },
       alerts: [],
       showLoading: {
@@ -192,6 +193,7 @@ export default {
         this.profileInfos.name = response.name;
         this.profileInfos.classroom = this.selectedClassroom.name;
         this.profileInfos.email = this.selectedStudent.email;
+        this.profileInfos.subjects = response.school_subjects;
         this.formatActivities(response.activities);
       });
       this.action_alertByStudentId({
