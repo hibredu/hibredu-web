@@ -43,6 +43,9 @@ export const classroomById = (params) => {
 /*
     Attendance
 */
+export const attendanceSpreadSheetTeams = (params) => {
+    return axios.post(`${url}/attendance/spreadsheet/teams`, params);
+};
 
 
 /*
@@ -84,4 +87,15 @@ export const overviewAlerts = (params) => {
 };
 export const overviewAttendanceActivities = (params) => {
     return axios.get(`${url}/overview/attendance/activities`, params);
+};
+
+
+/*
+    School Subjects
+*/
+export const schoolSubjects = (params) => {
+    return axios.get(`${url}/subject`, params);
+};
+export const schoolSubjectsByTeacher = (params) => {
+    return axios.get(`${url}/teacher/school_subjects`, params);
 };

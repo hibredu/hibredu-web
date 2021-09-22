@@ -6,6 +6,7 @@ import {
     classroom,
     classroomById,
     alertByClassroomId,
+    attendanceSpreadSheetTeams,
     alertByStudentId,
     school,
     classroomBySchoolId,
@@ -14,6 +15,8 @@ import {
     overviewClassroom,
     overviewAlerts,
     overviewAttendanceActivities,
+    schoolSubjects,
+    schoolSubjectsByTeacher
 } from "../../services/index"
 
 export const indexStore = {
@@ -23,6 +26,7 @@ export const indexStore = {
             id: '',
             name: ''
         },
+        subjects: [],
         classrooms: []
     }),
     mutations: {
@@ -32,6 +36,9 @@ export const indexStore = {
         SET_TEACHER(state, payload) {
             state.teacher.id = payload.id;
             state.teacher.name = payload.name;
+        },
+        SET_SUBJECTS(state, payload) {
+            state.subjects = payload
         },
         SET_CLASSROOMS(state, payload) {
             state.classrooms = payload
@@ -95,6 +102,11 @@ export const indexStore = {
         /*
             Attendance
         */
+        async action_attendanceSpreadSheetTeams(context, payload) {
+            return await attendanceSpreadSheetTeams(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
 
 
         /*
@@ -152,6 +164,23 @@ export const indexStore = {
         },
         async action_overviewAttendanceActivities(context, payload) {
             return await overviewAttendanceActivities(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+
+
+        /*
+            School Subjects
+        */
+        async action_schoolSubjects(context, payload) {
+            return await schoolSubjects(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_schoolSubjectsByTeacher(context, payload) {
+            context.commit("SET_SUBJECTS", []);
+            return await schoolSubjectsByTeacher(payload).then(response => {
+                context.commit("SET_SUBJECTS", response.data);
                 return response.data;
             }).catch(err => console.error(err));
         },
