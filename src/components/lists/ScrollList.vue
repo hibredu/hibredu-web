@@ -2,12 +2,11 @@
   <v-card class="scroll-list" flat>
     <h4 class="list-title">Atividades</h4>
     <div class="header">
-      <h4 class="column-name">#</h4>
-      <h4 class="column-name">NOME</h4>
-      <h4 class="column-name">DATA</h4>
-      <h4 class="column-name">STATUS</h4>
+        <div v-for="(item, i) in header" :key="i" class="column-name">
+            <h4 >{{ item.title }}</h4>
+        </div>
     </div>
-    <v-list dense>
+    <v-list class="content" dense>
       <v-list-item
         v-for="(item, i) in params"
         :key="i"
@@ -41,7 +40,7 @@ import globalMethods from "../../mixins/globalMethods";
 export default {
   name: "ScrollList",
   mixins: [globalMethods],
-  props: ["number", "text", "color", "params"],
+  props: ["number", "text", "color", "params", "header"],
 };
 </script>
 
@@ -57,7 +56,7 @@ export default {
   padding: 1em;
 }
 
-.v-list {
+.content {
   height: 18em;
   overflow-y: auto;
 }
@@ -76,6 +75,7 @@ export default {
 
 .column-name {
     width: 25%;
+    text-transform: uppercase;
 }
 
 @media only screen and (max-width: 1024px) {

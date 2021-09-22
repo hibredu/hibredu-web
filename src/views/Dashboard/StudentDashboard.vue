@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="bottom">
-          <ScrollList :params="this.activities"/>
+          <ScrollList :params="this.activities" :header="this.activitiesHeader"/>
         </div>
       </div>
     </div>
@@ -148,7 +148,13 @@ export default {
       },
       activitiesVsAttendance: [],
       values: ["present", "delivered"],
-      activities: []
+      activities: [],
+      activitiesHeader: [
+        {title:'#'},
+        {title:'Nome'},
+        {title:'Data'},
+        {title:'Status'}
+      ]
     };
   },
   mounted() {
