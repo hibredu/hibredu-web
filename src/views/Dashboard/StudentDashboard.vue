@@ -5,9 +5,9 @@
     <div class="content">
       <div class="top-bar">
         <div class="filters">
-          <DefaultLoading v-if="this.showLoading.classroomFilter" />
+          <DefaultLoading v-if="this.classrooms.length === 0" />
           <SelectFilter
-            v-if="!this.showLoading.classroomFilter"
+            v-if="this.classrooms.length > 0" 
             text="Turma"
             :items="this.classrooms"
             @update:value="
@@ -34,7 +34,7 @@
             <div class="profile-card">
               <ProfileCard :params="this.profileInfos" />
             </div>
-            <IconNormalButton
+            <IconNormalButtonDisabled
               icon="mdi-cloud-download"
               text="Exportar"
               color="var(--whiteHibredu)"
@@ -52,39 +52,42 @@
             <div class="cards">
               <InfoCard
                 text="Atividades Cadastradas"
-                :number="this.cardDeliveredActivities"
+                :number="this.cards.deliveredActivities"
                 color="color: var(--blueAlert)"
               />
               <InfoCard
                 text="Porcentagem de Entrega"
-                :number="this.cardDeliveryPercentage"
+                :number="this.cards.deliveryPercentage"
                 color="color: var(--greenAlert)"
               />
               <InfoCard
                 text="Taxa de Acerto"
-                :number="this.cardHitRate"
+                :number="this.cards.hitRate"
                 color="color: var(--greenAlert)"
               />
               <InfoCard
                 text="Alertas"
-                :number="this.cardAlerts"
+                :number="this.cards.alerts"
                 color="color: var(--redAlert)"
               />
             </div>
             <div class="charts">
-              <div class="bar-chart">
-                <BarChart title="Atividades no Tempo" />
+              <div class="line-chart">
+                <LineChart
+                  title="Desempenho X Presença"
+                  :data="this.activitiesVsAttendance"
+                  legend_1="Atividades Entregues"
+                  legend_2="Presença"
+                  :values="this.values"
+                />
               </div>
               <AlertCard :params="this.alerts" />
             </div>
           </div>
         </div>
-        <div class="middle">
-          <BarChart title="Presença no Tempo" />
+        <div class="bottom">
+          <ScrollList :params="this.activities"/>
         </div>
-        <!-- <div class="bottom" style="border: solid 1px purple">
-          <DefaultTable />
-        </div> -->
       </div>
     </div>
   </div>
@@ -99,11 +102,12 @@ import SelectFilter from "../../components/filters/SelectFilter";
 import InfoCard from "../../components/cards/InfoCard";
 import ProfileCard from "../../components/cards/ProfileCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
-import BarChart from "../../components/graphs/BarChart";
+import LineChart from "../../components/graphs/LineChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
+import IconNormalButtonDisabled from "../../components/buttons/IconNormalButtonDisabled";
 import DefaultLoading from "../../components/loading/DefaultLoading";
-// import DefaultTable from "../../components/tables/DefaultTable";
-import { mapActions } from "vuex";
+import ScrollList from "../../components/lists/ScrollList";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "StudentDashboard",
@@ -115,21 +119,23 @@ export default {
     SelectFilter,
     InfoCard,
     AlertCard,
-    BarChart,
     ProfileCard,
     IconNormalButton,
+    IconNormalButtonDisabled,
     DefaultLoading,
-    // DefaultTable,
+    LineChart,
+    ScrollList,
   },
   data() {
     return {
-      cardAlerts: "",
-      cardDeliveredActivities: "",
-      cardDeliveryPercentage: "",
-      cardHitRate: "",
+      cards: {
+        deliveredActivities: '',
+        deliveryPercentage: '',
+        hitRate: '',
+        alerts: '',
+      },
       selectedClassroom: null,
       selectedStudent: null,
-      classrooms: [],
       students: [],
       profileInfos: {
         name: "",
@@ -138,14 +144,15 @@ export default {
       },
       alerts: [],
       showLoading: {
-        classroomFilter: true,
-        studentsFilter: false,
+        studentsFilter: true,
       },
-      studentEmail: "",
+      activitiesVsAttendance: [],
+      values: ["present", "delivered"],
+      activities: []
     };
   },
   mounted() {
-    this.getClassrooms();
+    this.action_classroom();
   },
   methods: {
     ...mapActions([
@@ -153,14 +160,8 @@ export default {
       "action_classroomById",
       "action_studentById",
       "action_alertByStudentId",
+      "action_overviewAttendanceActivities"
     ]),
-    getClassrooms() {
-      this.action_classroom().then((response) => {
-        this.classrooms = response;
-        this.showLoading.classroomFilter = false;
-        this.showLoading.studentsFilter = true;
-      });
-    },
     getStudents() {
       this.action_classroomById({
         classroomId: this.selectedClassroom.id,
@@ -175,22 +176,41 @@ export default {
       this.action_studentById({
         studentId: this.selectedStudent.id,
       }).then((response) => {
-        this.cardAlerts = response.metrics.alerts;
-        this.cardDeliveredActivities = response.metrics.deliveredActivities;
-        this.cardDeliveryPercentage =
+        this.cards.alerts = response.metrics.alerts;
+        this.cards.deliveredActivities = response.metrics.deliveredActivities;
+        this.cards.deliveryPercentage =
           response.metrics.deliveryPercentage.toFixed(1) + "%";
-        this.cardHitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
+        this.cards.hitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
         this.profileInfos.name = response.name;
         this.profileInfos.classroom = this.selectedClassroom.name;
         this.profileInfos.email = this.selectedStudent.email;
+        this.formatActivities(response.activities);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
       }).then((response) => {
         this.alerts = response;
       });
+      this.action_overviewAttendanceActivities().then((response) => {
+        this.activitiesVsAttendance = response;
+      });
     },
+    formatActivities(data) {
+      for(let i = 0; i < data.length; i++) {
+        this.activities.push({
+          id: data[i].activity.id,
+          name: data[i].activity.name,
+          date: this.formatDate(data[i].activity.created_at),
+          status: data[i].status
+        });
+      }
+    }
   },
+  computed: {
+    ...mapState({
+      classrooms: state => state.index.classrooms
+    })
+  }
 };
 </script>
 
@@ -246,7 +266,7 @@ export default {
 
 .charts {
   margin-top: 1em;
-  height: 25em;
+  height: 30em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -268,6 +288,7 @@ export default {
   justify-content: flex-start;
   margin-left: 2em;
 }
+
 .first-column {
   width: 15em;
   height: auto;
@@ -284,25 +305,16 @@ export default {
   justify-content: space-between;
 }
 
-.middle {
-  margin-top: 2em;
-  height: 25em;
-  width: 83%;
-  margin-left: 17%;
-  display: flex;
-  flex-direction: row-reverse;
-}
-
 .bottom {
   margin-top: 2em;
   height: 25em;
-  width: 83%;
-  margin-left: 17%;
+  width: 85%;
+  margin-left: 15%;
   display: flex;
   flex-direction: row-reverse;
 }
 
-.bar-chart {
+.line-chart {
   width: 65%;
   height: auto;
   align-items: center;
@@ -329,14 +341,14 @@ export default {
     flex-direction: column;
     width: 80%;
     justify-content: center;
-    height: 100%;
+    height: auto;
     padding: 1em;
     align-items: center;
   }
 
   .second-column {
     height: 100%;
-    width: 100%;
+    width: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -344,12 +356,13 @@ export default {
   }
 
   .cards {
+    align-items: center;
     margin-top: 2em;
     height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
+    width: auto;
   }
 
   .charts {
@@ -357,18 +370,18 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
+    width: 15em;
   }
 
   .first-column {
-    width: 15em;
-    height: 30em;
+    width: auto;
+    height: 40em;
     margin-bottom: 2em;
   }
 
   .profile-card {
     width: 15em;
-    height: 25em;
+    height: 30em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -382,24 +395,18 @@ export default {
     align-items: center;
     width: auto;
   }
-
-  .middle {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: auto;
-  }
-
+  
   .bottom {
     height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: auto;
+    align-items: center;
+    width: 15em;
+    margin: 0;
   }
 
-  .bar-chart {
+  .line-chart {
     height: auto;
     display: flex;
     flex-direction: column;
@@ -433,7 +440,7 @@ export default {
     flex-direction: column;
     width: 95%;
     height: 100%;
-    padding: 2em;
+    padding: 1em;
   }
 
   .top-bar {
@@ -470,7 +477,7 @@ export default {
 
   .charts {
     margin-top: 1em;
-    height: 25em;
+    height: 30em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -510,25 +517,16 @@ export default {
     justify-content: space-between;
   }
 
-  .middle {
-    margin-top: 2em;
-    height: 25em;
-    width: 77%;
-    margin-left: 23%;
-    display: flex;
-    flex-direction: row-reverse;
-  }
-
   .bottom {
     margin-top: 2em;
     height: 25em;
-    width: 77%;
-    margin-left: 23%;
+    width: 80%;
+    margin-left: 20%;
     display: flex;
     flex-direction: row-reverse;
   }
 
-  .bar-chart {
+  .line-chart {
     width: 65%;
     height: auto;
     align-items: center;

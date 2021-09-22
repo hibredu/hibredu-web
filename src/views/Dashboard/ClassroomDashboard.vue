@@ -156,7 +156,6 @@ export default {
     getActivities() {
       this.action_overviewActivities().then((response) => {
         this.activities = response;
-        console.log(response);
       });
     },
     getAttendance() {

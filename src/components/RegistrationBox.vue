@@ -104,10 +104,7 @@ export default {
         password: this.password,
         school_id: this.selectedEducationalInstitution,
         classrooms: this.classroomsFormated,
-      }).then((response) => {
-        if (response) {
-          console.log(response);
-        }
+      }).then(() => {
       });
     },
     getSchools() {

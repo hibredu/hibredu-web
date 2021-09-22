@@ -6,7 +6,7 @@
         <v-list-item v-for="(item, i) in params" :key="i" :disabled="true"
           style="color: var(--blackHibredu) !important">
           <v-list-item-icon>
-            <v-icon :color="returnColor(item.level)">mdi-account-alert</v-icon>
+            <v-icon :color="returnColor(item.level)">mdi-drag-vertical-variant</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="text-wrap">
