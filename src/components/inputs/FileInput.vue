@@ -88,6 +88,7 @@ export default {
     return {
       dragover: false,
       uploadedFile: [],
+      file: ''
     };
   },
   methods: {
@@ -103,19 +104,21 @@ export default {
         console.log("Somente um arquivo por vez");
       } else {
         this.uploadedFile.push(e.dataTransfer.files[0]);
+        this.file = this.uploadedFile[0];
 
-        this.validateFile(this.uploadedFile);
+        this.validateFile(this.file);
       }
     },
     onSelected(e) {
       if (this.uploadedFile.length === 0 || this.uploadedFile.length > 1) this.uploadedFile = [];
       
       this.uploadedFile.push(e.target.files[0]);
+      this.file = this.uploadedFile[0];
 
-      this.$emit("filesUploaded", this.uploadedFile);
+      this.$emit("filesUploaded", this.file);
     },
     validateFile(file) {
-      let name = file[0].name;
+      let name = file.name;
       let extension = name.split(".").pop();
       if (extension === "xlsx") {
         this.$emit("filesUploaded", file);
