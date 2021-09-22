@@ -46,7 +46,9 @@ export const classroomById = (params) => {
 export const attendanceSpreadSheetTeams = (params) => {
     return axios.post(`${url}/attendance/spreadsheet/teams`, params);
 };
-
+export const attendance = (params) => {
+    return axios.post(`${url}/attendance`, params);
+};
 
 /*
     Alert

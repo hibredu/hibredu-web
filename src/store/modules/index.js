@@ -7,6 +7,7 @@ import {
     classroomById,
     alertByClassroomId,
     attendanceSpreadSheetTeams,
+    attendance,
     alertByStudentId,
     school,
     classroomBySchoolId,
@@ -26,6 +27,8 @@ export const indexStore = {
             id: '',
             name: ''
         },
+        returnSpreadsheet: [],
+        // suggestions: [],
         subjects: [],
         classrooms: []
     }),
@@ -37,11 +40,19 @@ export const indexStore = {
             state.teacher.id = payload.id;
             state.teacher.name = payload.name;
         },
+        SET_RETURN_SEND_SPREADSHEET(state, payload) {
+            state.returnSpreadsheet = payload;
+            // for (let i = 0; i < state.returnSpreadsheet.columns.length; i++) {
+            //     this.suggestions.push({
+            //         value: state.returnSpreadsheet.columns[i][0].suggestion,
+            //     });
+            // }
+        },
         SET_SUBJECTS(state, payload) {
-            state.subjects = payload
+            state.subjects = payload;
         },
         SET_CLASSROOMS(state, payload) {
-            state.classrooms = payload
+            state.classrooms = payload;
         }
     },
     actions: {
@@ -103,7 +114,14 @@ export const indexStore = {
             Attendance
         */
         async action_attendanceSpreadSheetTeams(context, payload) {
+            context.commit("SET_RETURN_SEND_SPREADSHEET", []);
             return await attendanceSpreadSheetTeams(payload).then(response => {
+                context.commit("SET_RETURN_SEND_SPREADSHEET", response.data);
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_attendance(context, payload) {
+            return await attendance(payload).then(response => {
                 return response;
             }).catch(err => console.error(err));
         },
