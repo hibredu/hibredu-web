@@ -44,8 +44,8 @@
         <v-virtual-scroll
           v-if="uploadedFile.length > 0"
           :items="uploadedFile"
-          height="150"
-          item-height="100"
+          height="70"
+          item-height="90"
           :color="`var(--yellowHibredu)`"
         >
           <template v-slot:default="{ item }">
