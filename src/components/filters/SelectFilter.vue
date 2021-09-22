@@ -37,6 +37,7 @@ export default {
 .search-filter {
   width: 13em;
   font-family: "Metropolis Regular";
+  text-transform: capitalize;
 }
 
 @media only screen and (max-width: 1024px) {

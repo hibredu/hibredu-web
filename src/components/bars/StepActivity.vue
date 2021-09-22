@@ -43,6 +43,7 @@
             />
             <SelectInputClean
               label="Matéria"
+              :items="this.subjects"
               type="text"
               @update:value="configs.subject = $event"
             />
@@ -111,7 +112,7 @@ import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
 import TextInputClean from "../inputs/TextInputClean";
 import SelectInputClean from "../inputs/SelectInputClean";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
@@ -135,19 +136,19 @@ export default {
         total_value: "",
         theme: "",
       },
-      classrooms: [],
     };
   },
   mounted() {
-    this.getClassrooms();
+    if(this.classrooms.length === 0) {
+      this.action_classroom();
+    }
+    if(this.subjects.length === 0) {
+      this.action_schoolSubjectsByTeacher();
+    }
   },
   methods: {
-    ...mapActions(["action_classroom"]),
-    getClassrooms() {
-      this.action_classroom().then((response) => {
-        this.classrooms = response;
-      });
-    },
+    ...mapActions(["action_classroom","action_schoolSubjectsByTeacher"]),
+  
     processUpload(event) {
       this.uploadedFile = event;
       this.file.name = this.uploadedFile[0].name;
@@ -157,6 +158,12 @@ export default {
       console.log(this.configs);
     },
   },
+  computed: {
+    ...mapState({
+      classrooms: state => state.index.classrooms,
+      subjects: state => state.index.subjects
+    })
+  }
 };
 </script>
 

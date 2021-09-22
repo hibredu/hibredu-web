@@ -158,7 +158,9 @@ export default {
     };
   },
   mounted() {
-    this.action_classroom();
+    if(this.classrooms.length === 0) {
+      this.action_classroom();
+    }
   },
   methods: {
     ...mapActions([
@@ -185,7 +187,7 @@ export default {
         this.cards.alerts = response.metrics.alerts;
         this.cards.deliveredActivities = response.metrics.deliveredActivities;
         this.cards.deliveryPercentage =
-          response.metrics.deliveryPercentage.toFixed(1) + "%";
+          (response.metrics.deliveryPercentage * 100).toFixed(1) + "%";
         this.cards.hitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
         this.profileInfos.name = response.name;
         this.profileInfos.classroom = this.selectedClassroom.name;

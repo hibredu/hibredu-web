@@ -1,12 +1,13 @@
 <template>
   <div class="text-input">
     <v-menu
-      v-model="menu2"
+      v-model="menu"
       :close-on-content-click="false"
       :nudge-right="40"
       transition="scale-transition"
       offset-y
       min-width="auto"
+      color="var(--yellowHibredu)"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
@@ -21,7 +22,12 @@
           v-on="on"
         ></v-text-field>
       </template>
-      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+      <v-date-picker
+        color="var(--yellowHibredu)"
+        v-model="date"
+        @input="menu = false"
+        @change="$emit('update:value', date)"
+      ></v-date-picker>
     </v-menu>
   </div>
 </template>
@@ -36,6 +42,7 @@ export default {
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
+      menu: false,
     };
   },
 };

@@ -18,6 +18,7 @@
         />
         <div class="space"></div>
         <NormalButton
+          v-if="this.uploadedFile.length > 0"
           @click.native="importStep = 2"
           :color="`var(--greenHibredu)`"
           :text="`Próximo`"
@@ -43,6 +44,7 @@
             />
             <SelectInputClean
               label="Matéria"
+              :items="this.subjects"
               type="text"
               @update:value="configs.subject = $event"
             />
@@ -63,6 +65,7 @@
           @click.native="
             importStep = 3;
             show();
+            sendFile();
           "
           color="var(--greenHibredu)"
           text="Próximo"
@@ -78,9 +81,10 @@
       </v-stepper-step>
 
       <v-stepper-content step="3">
-        <v-card flat solo>
-          <h4>{{ this.file.name }}</h4>
+        <v-card class="scroll-list" flat>
+          <h4 class="list-title">{{ this.file.name }}</h4>
         </v-card>
+
         <div class="space"></div>
         <NormalButton
           @click.native="importStep = 1"
@@ -98,7 +102,7 @@ import FileInput from "../inputs/FileInput";
 import TextInputClean from "../inputs/TextInputClean";
 import SelectInputClean from "../inputs/SelectInputClean";
 import DateInputClean from "../inputs/DateInputClean";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "StepAttendance",
@@ -107,7 +111,7 @@ export default {
     FileInput,
     SelectInputClean,
     TextInputClean,
-    DateInputClean
+    DateInputClean,
   },
   data() {
     return {
@@ -122,27 +126,44 @@ export default {
         hour: "",
         date: "",
       },
-      classrooms: [],
     };
   },
   mounted() {
-    this.getClassrooms();
+    if (this.classrooms.length === 0) {
+      this.action_classroom();
+    }
+    if (this.subjects.length === 0) {
+      this.action_schoolSubjectsByTeacher();
+    }
   },
   methods: {
-    ...mapActions(["action_classroom"]),
-    getClassrooms() {
-      this.action_classroom().then((response) => {
-        this.classrooms = response;
-      });
-    },
+    ...mapActions([
+      "action_classroom",
+      "action_schoolSubjectsByTeacher",
+      "action_attendanceSpreadSheetTeams",
+    ]),
     processUpload(event) {
       this.uploadedFile = event;
       this.file.name = this.uploadedFile[0].name;
-      console.log(event);
     },
     show() {
+      console.log('configs')
       console.log(this.configs);
     },
+    sendFile() {
+      console.log(this.uploadedFile)
+      // this.action_attendanceSpreadSheetTeams(
+      //   this.formData
+      // ).then((response) => {
+      //   console.log(response);
+      // });
+    },
+  },
+  computed: {
+    ...mapState({
+      classrooms: (state) => state.index.classrooms,
+      subjects: (state) => state.index.subjects,
+    }),
   },
 };
 </script>
@@ -179,5 +200,49 @@ export default {
   width: auto;
   height: auto;
   align-items: center;
+}
+
+.scroll-list {
+  font-family: "Metropolis Regular";
+  width: 100%;
+  height: auto;
+  text-transform: capitalize;
+}
+
+.list-title {
+  padding: 1em;
+}
+
+.content {
+  height: 18em;
+  overflow-y: auto;
+}
+
+.v-list-item {
+  border-bottom: solid 1px var(--lightGrayHibredu);
+}
+
+.header {
+  background-color: var(--lightCyanHibredu);
+  padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.column-name {
+  width: 25%;
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 1024px) {
+  .scroll-list {
+    font-family: "Metropolis Regular";
+    margin-top: 2em;
+    width: auto;
+    height: auto;
+    margin-bottom: 2em;
+  }
 }
 </style>
