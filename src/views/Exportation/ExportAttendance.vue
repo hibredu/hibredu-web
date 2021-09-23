@@ -43,7 +43,7 @@
           />
         </div>
         <div class="pie-chart">
-          <PieChart
+          <BarChart
             v-show="!showLoading"
             title="Realização de atividades por turma"
             :data="this.activitiesByClassroom"
@@ -72,7 +72,7 @@ import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
-import PieChart from "../../components/graphs/PieChart";
+import BarChart from "../../components/graphs/BarChart";
 import LineChart from "../../components/graphs/LineChart";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
@@ -90,7 +90,7 @@ export default {
     AlertCard,
     PerformanceCard,
     ActivityCard,
-    PieChart,
+    BarChart,
     LineChart,
     DefaultLoading,
   },
@@ -137,7 +137,7 @@ export default {
       this.showLoading = true;
       this.action_classroom().then((response) => {
         this.classrooms = response;
-        this.formatData2PieChart(this.classrooms);
+        this.formatData2BarChart(this.classrooms);
       });
     },
     getOverviewAttendanceActivities() {
@@ -161,7 +161,7 @@ export default {
         this.alerts = response;
       });
     },
-    formatData2PieChart(data) {
+    formatData2BarChart(data) {
       for (let i = 0; i < data.length; i++) {
         this.activitiesByClassroom.push({
           name: data[i].name.substr(0, 2),
