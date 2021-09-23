@@ -333,7 +333,7 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: 100%;
+    height: auto;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;

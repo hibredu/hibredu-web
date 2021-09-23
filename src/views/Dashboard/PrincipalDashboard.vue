@@ -8,7 +8,7 @@
         <DropDown />
       </div>
       <div class="welcome-bar">
-        <WelcomeBar/>
+        <WelcomeBar />
       </div>
       <div class="cards">
         <InfoCard
@@ -42,17 +42,16 @@
             :values="this.values"
           />
         </div>
-        <div v-show="!showLoading" class="pie-chart">
+        <div v-show="showLoading" class="bar-chart">
           <BarChart
             title="Realização de atividades por turma"
             :data="this.activitiesByClassroom"
           />
         </div>
-        <div v-show="showLoading" class="pie-chart">
-          <v-card flat solo>
-            <DefaultLoading/>
-          </v-card>
-        </div>
+
+        <v-card flat solo class="bar-chart-loading">
+          <DefaultLoading />
+        </v-card>
       </div>
       <div class="bottom">
         <AlertCard :params="this.alerts" />
@@ -173,7 +172,7 @@ export default {
       }
       this.showLoading = false;
     },
-  }
+  },
 };
 </script>
 
@@ -242,10 +241,19 @@ export default {
   align-items: center;
 }
 
-.pie-chart {
+.bar-chart {
   width: 40%;
   height: 27em;
   align-items: center;
+}
+
+.bar-chart-loading {
+  width: 40%;
+  height: 27em;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -266,11 +274,11 @@ export default {
   }
 
   .middle {
-    height: auto;
+height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    width: 15em;
+    justify-content: space-between;
+    width: auto;
   }
 
   .bottom {
@@ -278,19 +286,30 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 15em;
+    width: auto;
   }
 
   .line-chart {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: auto;
+  }
+
+  .bar-chart {
     width: auto;
     height: auto;
     align-items: center;
   }
 
-  .pie-chart {
+  .bar-chart-loading {
     width: auto;
     height: auto;
     align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
   }
 }
 
@@ -361,7 +380,7 @@ export default {
     align-items: center;
   }
 
-  .pie-chart {
+  .bar-chart {
     width: 40%;
     height: 27em;
     align-items: center;
