@@ -1,6 +1,6 @@
 <template>
   <div class="lateral-menu">
-    <v-navigation-drawer permanent expand-on-hover width="250">
+    <v-navigation-drawer absolute permanent expand-on-hover width="250">
       <v-list nav dense>
         <v-list-item class="logo">
           <v-list-item-icon>
@@ -12,7 +12,7 @@
         </v-list-item>
 
         <v-list-item
-          :to="{ name:item.route }"
+          :to="{ name: item.route }"
           link
           v-for="(item, index) in items"
           :key="index"
@@ -62,7 +62,9 @@
 
           <v-list-item :to="{ name: 'export_activity' }" link>
             <v-list-item-icon>
-              <v-icon left color="var(--grayHibredu)">mdi-clipboard-list-outline</v-icon>
+              <v-icon left color="var(--grayHibredu)"
+                >mdi-clipboard-list-outline</v-icon
+              >
             </v-list-item-icon>
             <v-list-item-title color="var(--grayHibredu)">
               Atividades
@@ -98,5 +100,6 @@ export default {
 div {
   color: var(--grayHibredu);
   font-family: "Metropolis Regular";
+  z-index: 99;
 }
 </style>
