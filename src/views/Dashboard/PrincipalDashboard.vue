@@ -42,20 +42,22 @@
             :values="this.values"
           />
         </div>
-        <div v-show="showLoading" class="bar-chart">
+        <div v-show="!showLoading" class="bar-chart">
           <BarChart
             title="Realização de atividades por turma"
             :data="this.activitiesByClassroom"
           />
         </div>
 
-        <v-card flat solo class="bar-chart-loading">
+        <v-card v-show="showLoading" flat solo class="bar-chart-loading">
           <DefaultLoading />
         </v-card>
       </div>
       <div class="bottom">
         <AlertCard :params="this.alerts" />
-        <DefaultLoading v-show="showLoading" />
+        <v-card v-show="showLoading" flat solo class="performance-loading">
+          <DefaultLoading />
+        </v-card>
         <PerformanceCard v-show="!showLoading" :params="this.classrooms" />
         <ActivityCard :params="this.activities" />
       </div>
@@ -256,6 +258,15 @@ export default {
   justify-content: space-around;
 }
 
+.performance-loading {
+  width: 30%;
+  height: auto;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 @media only screen and (max-width: 1024px) {
   .content {
     display: flex;
@@ -274,7 +285,7 @@ export default {
   }
 
   .middle {
-height: auto;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -304,6 +315,15 @@ height: auto;
   }
 
   .bar-chart-loading {
+    width: auto;
+    height: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .performance-loading {
     width: auto;
     height: auto;
     align-items: center;
