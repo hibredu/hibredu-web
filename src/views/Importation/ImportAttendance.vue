@@ -1,5 +1,5 @@
 <template>
-  <div class="principal-dashboard">
+  <div class="import-attendance">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped>
-.principal-dashboard {
+.import-attendance {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -50,7 +50,7 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 2em 4em;
+  padding: 2em 2em 2em 8em;
 }
 
 .top-bar {
@@ -69,7 +69,7 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-    .top-bar {
+  .top-bar {
     display: flex;
     flex-direction: column-reverse;
     justify-content: space-between;
@@ -81,7 +81,7 @@ export default {
   
   .file-input {
     height: auto;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

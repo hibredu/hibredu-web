@@ -29,7 +29,7 @@
 export default {
   data: () => ({
     items: [
-      { ico: "mdi-account-circle", title: "Meu Perfil", route: "home" },
+      { ico: "mdi-account-circle", title: "Meu Perfil", route: "profile" },
       { ico: "mdi-exit-to-app", title: "Sair", route: "login" },
     ],
     teacher_initial: localStorage.getItem("teacher_name").substr(0, 1),

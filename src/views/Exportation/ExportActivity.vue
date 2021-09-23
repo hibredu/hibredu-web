@@ -8,8 +8,7 @@
         <DropDown />
       </div>
       <div class="button-card">
-        <ButtonCard title="Envio de Atividades" />
-        <ButtonCard title="Envio de Presença" />
+        <Construction/>
       </div>
     </div>
   </div>
@@ -20,7 +19,7 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import ButtonCard from "../../components/cards/ButtonCard";
+import Construction from "../../components/Construction";
 
 export default {
   name: "ExportActivity",
@@ -30,7 +29,7 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    ButtonCard,
+    Construction,
   },
 };
 </script>

@@ -8,6 +8,7 @@ import ImportActivity from '../views/Importation/ImportActivity';
 import ImportAttendance from '../views/Importation/ImportAttendance';
 import ExportActivity from '../views/Exportation/ExportActivity';
 import ExportAttendance from '../views/Exportation/ExportAttendance';
+import MyProfile from '../views/Profile/MyProfile';
 
 export const routes = [
     { path: '/', component: Login, name: 'login' },
@@ -19,5 +20,6 @@ export const routes = [
     { path: '/import/activity', component: ImportActivity, name: 'import_activity' },
     { path: '/import/attendance', component: ImportAttendance, name: 'import_attendance' },
     { path: '/export/activity', component: ExportActivity, name: 'export_activity' },
-    { path: '/export/attendance', component: ExportAttendance, name: 'export_attendance' }
+    { path: '/export/attendance', component: ExportAttendance, name: 'export_attendance' },
+    { path: '/profile', component: MyProfile, name: 'profile' }
 ];

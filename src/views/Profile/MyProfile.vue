@@ -1,5 +1,5 @@
 <template>
-  <div class="export-attendance">
+  <div class="export-activity">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -22,7 +22,7 @@ import SearchBar from "../../components/bars/SearchBar";
 import Construction from "../../components/Construction";
 
 export default {
-  name: "ExportAttendance",
+  name: "MyProfile",
 
   components: {
     LateralMenu,
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped>
-.export-attendance {
+.export-activity {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -79,7 +79,7 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-.export-attendance {
+.export-activity {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);
