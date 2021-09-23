@@ -42,13 +42,16 @@
             :values="this.values"
           />
         </div>
-        <div class="pie-chart">
-          <PieChart
-            v-show="!showLoading"
+        <div v-show="!showLoading" class="pie-chart">
+          <BarChart
             title="Realização de atividades por turma"
             :data="this.activitiesByClassroom"
           />
-          <DefaultLoading v-show="showLoading" />
+        </div>
+        <div v-show="showLoading" class="pie-chart">
+          <v-card flat solo>
+            <DefaultLoading/>
+          </v-card>
         </div>
       </div>
       <div class="bottom">
@@ -72,7 +75,7 @@ import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
-import PieChart from "../../components/graphs/PieChart";
+import BarChart from "../../components/graphs/BarChart";
 import LineChart from "../../components/graphs/LineChart";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
@@ -90,7 +93,7 @@ export default {
     AlertCard,
     PerformanceCard,
     ActivityCard,
-    PieChart,
+    BarChart,
     LineChart,
     DefaultLoading,
   },
@@ -137,7 +140,7 @@ export default {
       this.showLoading = true;
       this.action_classroom().then((response) => {
         this.classrooms = response;
-        this.formatData2PieChart(this.classrooms);
+        this.formatData2BarChart(this.classrooms);
       });
     },
     getOverviewAttendanceActivities() {
@@ -161,7 +164,7 @@ export default {
         this.alerts = response;
       });
     },
-    formatData2PieChart(data) {
+    formatData2BarChart(data) {
       for (let i = 0; i < data.length; i++) {
         this.activitiesByClassroom.push({
           name: data[i].name.substr(0, 2),
@@ -188,9 +191,9 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 98%;
   height: 100%;
-  padding: 2em;
+  padding-left: 8em;
 }
 
 .top-bar {
@@ -246,6 +249,13 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding-left: 5em;
+  }
 
   .cards {
     height: auto;
@@ -301,6 +311,7 @@ export default {
     width: 95%;
     height: 100%;
     padding: 2em;
+    padding-left: 8em;
   }
 
   .top-bar {

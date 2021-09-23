@@ -163,7 +163,7 @@ export default {
         this.attendance = response;
       });
     },
-    formatData2PieChart(data) {
+    formatData2BarChart(data) {
       for (let i = 0; i < data.length; i++) {
         this.activitiesByClassroom.push({
           name: data[i].name.substr(0, 2),
