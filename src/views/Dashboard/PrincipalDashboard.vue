@@ -193,7 +193,7 @@ export default {
   flex-direction: column;
   width: 98%;
   height: 100%;
-  padding-left: 8em;
+  padding: 2em 2em 2em 8em;
 }
 
 .top-bar {
@@ -252,9 +252,9 @@ export default {
   .content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
     height: 100%;
-    padding-left: 5em;
+    padding-left: 2em 2em 2em 3em;
   }
 
   .cards {

@@ -1,5 +1,5 @@
 <template>
-  <div class="principal-dashboard">
+  <div class="classroom-dashboard">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -7,49 +7,58 @@
         <SearchBar />
         <DropDown />
       </div>
-      <div class="select-filter">
-        <DefaultLoading v-if="this.showLoading.classroomFilter" />
-        <SelectFilter v-if="!this.showLoading.classroomFilter" text="Turma" :items="this.classrooms"
-         @update:value="selectedClassroom = $event;getInfosByClassroomId();" />
+      <div class="welcome-bar">
+        <WelcomeBar/>
       </div>
-      <div v-if="this.selectedClassroom != null">
-        <div class="cards">
-          <InfoCard
-            text="Atividades Cadastradas"
-            :number="this.cardDeliveredActivities"
-            color="color: var(--blueAlert)"
-          />
-          <InfoCard
-            text="Porcentagem de Entrega"
-            :number="this.cardDeliveryPercentage"
-            color="color: var(--greenAlert)"
-          />
-          <InfoCard
-            text="Taxa de Acerto"
-            :number="this.cardHitRate"
-            color="color: var(--greenAlert)"
-          />
-          <InfoCard
-            text="Alertas"
-            :number="this.cardAlerts"
-            color="color: var(--redAlert)"
+      <div class="cards">
+        <InfoCard
+          text="Atividades Cadastradas"
+          :number="this.cardDeliveredActivities"
+          color="color: var(--blueAlert)"
+        />
+        <InfoCard
+          text="Porcentagem de Entrega"
+          :number="this.cardDeliveryPercentage"
+          color="color: var(--greenAlert)"
+        />
+        <InfoCard
+          text="Taxa de Acerto"
+          :number="this.cardHitRate"
+          color="color: var(--greenAlert)"
+        />
+        <InfoCard
+          text="Alertas"
+          :number="this.cardAlerts"
+          color="color: var(--redAlert)"
+        />
+      </div>
+      <div class="middle">
+        <div class="line-chart">
+          <LineChart
+            title="Desempenho X Presença"
+            :data="this.activitiesVsAttendance"
+            legend_1="Atividades Entregues"
+            legend_2="Presença"
+            :values="this.values"
           />
         </div>
-        <div class="start">
-          <DefaultTable />
+        <div v-show="!showLoading" class="pie-chart">
+          <BarChart
+            title="Realização de atividades por turma"
+            :data="this.activitiesByClassroom"
+          />
         </div>
-        <div class="middle">
-          <AlertCard :params="this.alerts" />
-          <div class="bar-chart">
-            <BarChart title="Atividades no Tempo" />
-          </div>
+        <div v-show="showLoading" class="pie-chart">
+          <v-card flat solo>
+            <DefaultLoading/>
+          </v-card>
         </div>
-        <div class="bottom">
-          <div class="activities-table">
-            <DefaultTable />
-          </div>
-          <ActivityCard :params="this.activitiesAlert" />
-        </div>
+      </div>
+      <div class="bottom">
+        <AlertCard :params="this.alerts" />
+        <DefaultLoading v-show="showLoading" />
+        <PerformanceCard v-show="!showLoading" :params="this.classrooms" />
+        <ActivityCard :params="this.activities" />
       </div>
     </div>
   </div>
@@ -61,30 +70,32 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import SelectFilter from "../../components/filters/SelectFilter";
+import WelcomeBar from "../../components/bars/WelcomeBar";
 import InfoCard from "../../components/cards/InfoCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
+import PerformanceCard from "../../components/cards/alerts/PerformanceCard";
 import ActivityCard from "../../components/cards/alerts/ActivityCard";
 import BarChart from "../../components/graphs/BarChart";
-import DefaultTable from "../../components/tables/DefaultTable";
+import LineChart from "../../components/graphs/LineChart";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
-  name: "Classroom",
+  name: "PrincipalDashboard",
   mixins: [globalMethods],
   components: {
     LateralMenu,
     DropDown,
     TopBar,
     SearchBar,
-    SelectFilter,
+    WelcomeBar,
     InfoCard,
     AlertCard,
+    PerformanceCard,
     ActivityCard,
     BarChart,
-    DefaultTable,
-    DefaultLoading
+    LineChart,
+    DefaultLoading,
   },
   data() {
     return {
@@ -94,73 +105,63 @@ export default {
       cardHitRate: "",
       classrooms: [],
       activitiesByClassroom: [],
-      activities: [],
-      attendance: [],
+      activitiesVsAttendance: [],
       alerts: [],
-      activitiesAlert: [
-        { id: "1", activity: "Atividade 1", delivered: "10", total: "100" },
-        { id: "2", activity: "Atividade 2", delivered: "20", total: "120" },
-        { id: "3", activity: "Atividade 3", delivered: "35", total: "120" },
-        { id: "4", activity: "Atividade 4", delivered: "15", total: "120" },
-        { id: "5", activity: "Atividade 5", delivered: "40", total: "120" },
-        { id: "6", activity: "Atividade 6", delivered: "90", total: "120" },
-        { id: "7", activity: "Atividade 7", delivered: "30", total: "120" },
-        { id: "8", activity: "Atividade 8", delivered: "50", total: "120" },
-        { id: "9", activity: "Atividade 9", delivered: "60", total: "120" },
-        { id: "10", activity: "Atividade 10", delivered: "10", total: "120" },
-        { id: "11", activity: "Atividade 11", delivered: "10", total: "120" },
-        { id: "12", activity: "Atividade 12", delivered: "10", total: "120" },
-      ],
-       showLoading: {
-        classroomFilter: true,
-      },
-      selectedClassroom: null,
+      activities: [],
+      showLoading: false,
+      values: ["present", "delivered"],
     };
   },
-  mounted() {
+  async mounted() {
+    this.getOverviewAttendanceActivities();
+    this.getCards();
     this.getClassrooms();
     this.getActivities();
-    this.getAttendance();
+    this.getAlerts();
   },
   methods: {
     ...mapActions([
-      "action_classroomById",
+      "action_overviewClassroom",
       "action_classroom",
+      "action_overviewAttendanceActivities",
+      "action_overviewAlerts",
       "action_overviewActivities",
-      "action_overviewAttendance",
-      "action_alertByClassroomId",
     ]),
-    getInfosByClassroomId(){
-      this.action_classroomById({
-        classroomId: this.selectedClassroom.id,
-      }).then((response) => {
-        this.cardAlerts = response.metrics.alerts;
-        this.cardDeliveredActivities = response.metrics.deliveredActivities;
+    getCards() {
+      this.action_overviewClassroom().then((response) => {
+        this.cardAlerts = response.alerts;
+        this.cardDeliveredActivities = response.deliveredActivities;
         this.cardDeliveryPercentage =
-          (response.metrics.deliveryPercentage * 100).toFixed(1) + "%";
-        this.cardHitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
-      });
-
-      this.action_alertByClassroomId({
-        classroomId: this.selectedClassroom.id
-      }).then((response) => {
-        this.alerts = response;
+          (response.deliveryPercentage * 100).toFixed(1) + "%";
+        this.cardHitRate = (response.hitRate * 100).toFixed(1) + "%";
       });
     },
     getClassrooms() {
+      this.showLoading = true;
       this.action_classroom().then((response) => {
         this.classrooms = response;
-        this.showLoading.classroomFilter = false;
+        this.formatData2BarChart(this.classrooms);
+      });
+    },
+    getOverviewAttendanceActivities() {
+      this.action_overviewAttendanceActivities().then((response) => {
+        this.activitiesVsAttendance = response;
       });
     },
     getActivities() {
       this.action_overviewActivities().then((response) => {
-        this.activities = response;
+        this.activities = response.sort(function (a, b) {
+          return a.created_at < b.created_at
+            ? -1
+            : a.created_at > b.created_at
+            ? 1
+            : 0;
+        });
       });
     },
-    getAttendance() {
-      this.action_overviewAttendance().then((response) => {
-        this.attendance = response;
+    getAlerts() {
+      this.action_overviewAlerts().then((response) => {
+        this.alerts = response;
       });
     },
     formatData2BarChart(data) {
@@ -170,13 +171,14 @@ export default {
           deliveredActivities: data[i].metrics.deliveredActivities,
         });
       }
+      this.showLoading = false;
     },
-  },
+  }
 };
 </script>
 
 <style scoped>
-.principal-dashboard {
+.classroom-dashboard {
   width: 100%;
   height: auto;
   background-color: var(--lightBlueHibredu);
@@ -189,9 +191,9 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 98%;
   height: 100%;
-  padding: 2em;
+  padding: 2em 2em 2em 8em;
 }
 
 .top-bar {
@@ -211,28 +213,22 @@ export default {
   justify-content: space-between;
 }
 
-.select-filter {
+.welcome-bar {
   margin-top: 10px;
-}
-
-.start {
-  margin-top: 1em;
-  height: 25em;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .middle {
   margin-top: 1em;
-  height: 26em;
+  height: 28em;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  z-index: 10;
 }
 
 .bottom {
-  margin-top: 2em;
+  margin-top: 1em;
   height: 25em;
   width: auto;
   display: flex;
@@ -240,52 +236,28 @@ export default {
   justify-content: space-between;
 }
 
-.activities-table {
-  width: 65%;
-  height: 25em;
-  border: solid 1px blue;
-}
-
-.bar-chart {
-  width: 65%;
+.line-chart {
+  width: 55%;
   height: auto;
   align-items: center;
 }
 
+.pie-chart {
+  width: 40%;
+  height: 27em;
+  align-items: center;
+}
+
 @media only screen and (max-width: 1024px) {
-  .principal-dashboard {
-    width: 100%;
-    height: auto;
-    background-color: var(--lightBlueHibredu);
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    z-index: 1;
-  }
-
-  .top-bar {
-    width: auto;
-    margin-top: 2em;
-  }
-
   .content {
     display: flex;
     flex-direction: column;
-    width: 80%;
-    justify-content: center;
+    width: 95%;
     height: 100%;
-    padding: 1em;
+    padding-left: 2em 2em 2em 3em;
   }
 
   .cards {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .start {
     height: auto;
     display: flex;
     flex-direction: column;
@@ -297,8 +269,8 @@ export default {
     height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: auto;
+    justify-content: center;
+    width: 15em;
   }
 
   .bottom {
@@ -306,19 +278,92 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: auto;
+    width: 15em;
   }
 
-  .bar-chart {
-    width: 100%;
+  .line-chart {
+    width: auto;
     height: auto;
     align-items: center;
   }
 
-  .activities-table {
-  width: 100%;
-  height: auto;
-  border: solid 1px blue;
+  .pie-chart {
+    width: auto;
+    height: auto;
+    align-items: center;
+  }
 }
+
+@media only screen and (min-width: 1024px) and (max-width: 1440px) {
+  .classroom-dashboard {
+    width: 100%;
+    height: auto;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  width: 95%;
+  height: 100%;
+  padding: 2em 2em 2em 8em;
+  }
+
+  .top-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cards {
+    margin-top: 1em;
+    height: 10em;
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .welcome-bar {
+    margin-top: 10px;
+  }
+
+  .middle {
+    margin-top: 1em;
+    height: 28em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 10;
+  }
+
+  .bottom {
+    margin-top: 1em;
+    height: 25em;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .line-chart {
+    width: 55%;
+    height: auto;
+    align-items: center;
+  }
+
+  .pie-chart {
+    width: 40%;
+    height: 27em;
+    align-items: center;
+  }
 }
 </style>

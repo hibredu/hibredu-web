@@ -227,7 +227,7 @@ export default {
 <style scoped>
 .student-dashboard {
   width: 100%;
-  height: auto;
+  height: 120%;
   background-color: var(--lightBlueHibredu);
   display: flex;
   flex-direction: row;
@@ -238,9 +238,9 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 98%;
   height: 100%;
-  padding: 2em;
+  padding: 2em 2em 2em 8em;
 }
 
 .top-bar {
@@ -318,8 +318,8 @@ export default {
 .bottom {
   margin-top: 2em;
   height: 25em;
-  width: 85%;
-  margin-left: 15%;
+  width: 84%;
+  margin-left: 16%;
   display: flex;
   flex-direction: row-reverse;
 }
@@ -333,7 +333,7 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;
@@ -349,11 +349,11 @@ export default {
   .content {
     display: flex;
     flex-direction: column;
-    width: 80%;
     justify-content: center;
-    height: auto;
-    padding: 1em;
     align-items: center;
+    width: 95%;
+    height: 100%;
+    padding-left: 2em 2em 2em 3em;
   }
 
   .second-column {
@@ -437,7 +437,7 @@ export default {
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .student-dashboard {
     width: 100%;
-    height: auto;
+    height: 150%;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;
@@ -450,7 +450,8 @@ export default {
     flex-direction: column;
     width: 95%;
     height: 100%;
-    padding: 1em;
+    padding: 2em;
+    padding-left: 8em;
   }
 
   .top-bar {
@@ -530,8 +531,8 @@ export default {
   .bottom {
     margin-top: 2em;
     height: 25em;
-    width: 80%;
-    margin-left: 20%;
+    width: 78%;
+    margin-left: 22%;
     display: flex;
     flex-direction: row-reverse;
   }

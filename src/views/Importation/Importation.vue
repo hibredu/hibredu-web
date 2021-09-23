@@ -1,5 +1,5 @@
 <template>
-  <div class="principal-dashboard">
+  <div class="importation">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-.principal-dashboard {
+.importation {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -49,9 +49,9 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 98%;
   height: 100%;
-  padding: 2em;
+  padding: 2em 2em 2em 8em;
 }
 
 .top-bar {
@@ -80,7 +80,7 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-.principal-dashboard {
+.importation {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);
@@ -98,11 +98,11 @@ export default {
   .content {
     display: flex;
     flex-direction: column;
-    width: 80%;
     justify-content: center;
-    height: 100%;
-    padding: 1em;
     align-items: center;
+    width: 95%;
+    height: 100%;
+    padding-left: 2em 2em 2em 3em;
   }
 
   .button-card {
