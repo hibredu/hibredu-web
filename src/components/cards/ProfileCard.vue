@@ -4,7 +4,7 @@
       <v-avatar size="12em">
         <img
           alt="Aluno"
-          src="https://vgensino.com.br/wp-content/uploads/2020/01/qual-a-diferenca-entre-aluno-e-estudante-768x512.jpg"
+          src="../../assets/images/template.jpeg"
         />
       </v-avatar>
     </div>
