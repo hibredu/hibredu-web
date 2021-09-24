@@ -101,7 +101,7 @@ export default {
       if (this.uploadedFile.length > 0) this.uploadedFile = [];
 
       if (!this.multiple && e.dataTransfer.files.length > 1) {
-        console.log("Somente um arquivo por vez");
+        this.$alert("Somente um arquivo por vez");
       } else {
         this.uploadedFile.push(e.dataTransfer.files[0]);
         this.file = this.uploadedFile[0];
@@ -124,7 +124,7 @@ export default {
         this.$emit("filesUploaded", file);
       } else {
         this.uploadedFile = [];
-        console.log("Extensão não permitida");
+        this.$alert("Extensão não permitida");
       }
     },
   },
