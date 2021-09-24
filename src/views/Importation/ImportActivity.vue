@@ -1,5 +1,5 @@
 <template>
-  <div class="import-activity">
+  <div class="import-attendance">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -7,6 +7,7 @@
         <SearchBar/>
         <DropDown/>
       </div>
+      <h4>Envio de Atividade</h4>
       <div class="file-input">
         <StepActivity/>
       </div>
@@ -22,7 +23,7 @@ import SearchBar from "../../components/bars/SearchBar";
 import StepActivity from "../../components/bars/StepActivity";
 
 export default {
-  name: "Importation",
+  name: "ImportActivity",
 
   components: {
     LateralMenu,
@@ -35,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-.import-activity {
+.import-attendance {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -50,14 +51,14 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 2em 4em;
+  padding: 2em 2em 2em 8em;
 }
 
 .top-bar {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 20%;
+  height: 10%;
   justify-content: space-between;
 }
 
@@ -68,32 +69,13 @@ export default {
   justify-content: space-around;
 }
 
+h4 {
+  font-family: "Metropolis Regular";
+  color: var(--whiteHibredu);
+  font-size: 1.3em;
+}
+
 @media only screen and (max-width: 1024px) {
-  .import-activity {
-    width: 100%;
-    height: auto;
-    background-color: var(--lightBlueHibredu);
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    z-index: 1;
-  }
-
-  .top-bar {
-    width: auto;
-    margin-top: 2em;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    justify-content: center;
-    height: 100%;
-    padding: 1em;
-    align-items: center;
-  }
-
   .top-bar {
     display: flex;
     flex-direction: column-reverse;
@@ -106,7 +88,7 @@ export default {
   
   .file-input {
     height: auto;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

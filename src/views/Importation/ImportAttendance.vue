@@ -7,6 +7,7 @@
         <SearchBar/>
         <DropDown/>
       </div>
+      <h4>Envio de Presença</h4>
       <div class="file-input">
         <StepAttendance/>
       </div>
@@ -57,7 +58,7 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 20%;
+  height: 10%;
   justify-content: space-between;
 }
 
@@ -66,6 +67,12 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+h4 {
+  font-family: "Metropolis Regular";
+  color: var(--whiteHibredu);
+  font-size: 1.3em;
 }
 
 @media only screen and (max-width: 1024px) {
