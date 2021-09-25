@@ -6,18 +6,28 @@
       flat
       class="search-bar rounded-pill"
     >
-      <v-btn icon color="var(--grayHibredu)">
+      <v-btn @click.native="search" fab icon small color="var(--grayHibredu)">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <input type="text" placeholder="Pesquisar"/>
+      <input v-model="filter" type="text" placeholder="Pesquisar" />
     </v-toolbar>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SearchBar',
-}
+  name: "SearchBar",
+  data() {
+    return {
+      filter: "",
+    };
+  },
+  methods: {
+    search() {
+      console.log(this.filter);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -25,15 +35,9 @@ div {
   color: var(--grayHibredu);
 }
 
-.search-bar input{
-  width: 40%;
-  font-family: 'Metropolis Regular';
-}
-
-@media only screen and (max-width: 1024px){
-  .search-bar input{
-    width: 100%;
-    font-family: 'Metropolis Regular';
-  } 
+.search-bar input {
+  width: 100%;
+  font-family: "Metropolis Regular";
+  outline: none;
 }
 </style>

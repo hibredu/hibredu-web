@@ -18,4 +18,13 @@ export default {
 </script>
 
 <style>
+.swal2-content {
+  font-family: "Metropolis Regular";
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: var(--yellowHibredu) !important;
+  font-family: 'Metropolis Regular';
+  color: #fff;
+}
 </style>

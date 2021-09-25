@@ -1,21 +1,22 @@
 <template>
   <div class="general">
-    <Logo/>
-    <LoginBox/>
+    <Logo />
+    <LoginBox />
   </div>
 </template>
 
 <script>
-import LoginBox from "../../components/LoginBox"
-import Logo from "../../components/logo/Logo"
+import LoginBox from "../../components/LoginBox";
+import Logo from "../../components/logo/Logo";
 
 export default {
-    name: 'Registration',
+  name: "Registration",
 
-    components: {
-        LoginBox, Logo
-    },
-}
+  components: {
+    LoginBox,
+    Logo,
+  },
+};
 </script>
 
 <style scoped>
@@ -33,14 +34,14 @@ export default {
   text-align: center;
 }
 
-@media only screen and (max-width: 1024px){
+@media only screen and (max-width: 1024px) {
   .general {
-    width: 100%;
+    width: auto;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
   }
 }
 </style>

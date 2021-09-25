@@ -15,7 +15,6 @@
 export default {
   name: 'InfoCard',
   props: [ "number", "text", "color" ],
-
 }
 </script>
 
@@ -32,7 +31,8 @@ export default {
 }
 
 .content {
-  width: 50%;
+  width: auto;
+  height: auto;
 }
 
 .card-title {
@@ -46,7 +46,7 @@ export default {
 
 @media only screen and (max-width: 1024px){
   .info-card {
-    width: 100%;
+    width: auto;
     height: auto;
     font-family: 'Metropolis Regular';
     text-align: center;
@@ -57,7 +57,7 @@ export default {
   }
 
   .content {
-    width: 60%;
+    width: auto;
     height: auto;
   }
 
@@ -74,7 +74,7 @@ export default {
 
 @media only screen and (max-width: 1440px){
   .info-card {
-    width: 20%;
+    width: 14em;
     height: auto;
     font-family: 'Metropolis Regular';
     text-align: center;
@@ -85,7 +85,8 @@ export default {
   }
 
   .content {
-    width: 80%;
+    width: auto;
+    height: auto;
   }
 
   .card-title {

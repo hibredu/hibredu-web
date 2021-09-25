@@ -1,6 +1,6 @@
 <template>
     <v-btn 
-      color="var(--yellowHibredu)" 
+      :color="color" 
       dark>
       {{ text }}
     </v-btn>
@@ -9,10 +9,12 @@
 <script>
 export default {
   name: 'NormalButton',
-  props: [ "text" ]
+  props: [ "text", "color" ]
 }
 </script>
 
 <style scoped>
-
+* {
+  font-family: "Metropolis Bold";
+}
 </style>

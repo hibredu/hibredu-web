@@ -20,8 +20,8 @@ export default {
 }
 @media only screen and (max-width: 1024px){
     .logo {
-        width: 80%;
-        height: auto;
+        width: auto;
+        height: 10em;
     }
 
     .logo img{
