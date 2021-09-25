@@ -1,5 +1,5 @@
 <template>
-  <div class="welcome-bar">Olá {{ teacher_name }}!</div>
+  <div class="welcome-bar">Olá, {{ teacher_name }}!</div>
 </template>
 
 <script>
