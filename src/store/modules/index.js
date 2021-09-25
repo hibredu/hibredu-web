@@ -16,6 +16,7 @@ import {
     overviewClassroom,
     overviewAlerts,
     overviewAttendanceActivities,
+    overviewAttendanceActivitiesByStudentId,
     schoolSubjects,
     schoolSubjectsByTeacher
 } from "../../services/index"
@@ -185,7 +186,11 @@ export const indexStore = {
                 return response.data;
             }).catch(err => console.error(err));
         },
-
+        async action_overviewAttendanceActivitiesByStudentId(context, payload) {
+            return await overviewAttendanceActivitiesByStudentId(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
 
         /*
             School Subjects

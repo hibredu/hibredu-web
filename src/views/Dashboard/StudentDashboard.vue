@@ -154,7 +154,8 @@ export default {
         {title:'#'},
         {title:'Nome'},
         {title:'Data'},
-        {title:'Status'}
+        {title:'Status'},
+        {title:'Nota'},
       ]
     };
   },
@@ -169,7 +170,7 @@ export default {
       "action_classroomById",
       "action_studentById",
       "action_alertByStudentId",
-      "action_overviewAttendanceActivities"
+      "action_overviewAttendanceActivitiesByStudentId"
     ]),
     getStudents() {
       this.action_classroomById({
@@ -201,7 +202,9 @@ export default {
       }).then((response) => {
         this.alerts = response;
       });
-      this.action_overviewAttendanceActivities().then((response) => {
+      this.action_overviewAttendanceActivitiesByStudentId({
+        studentId: this.selectedStudent.id,
+      }).then((response) => {
         this.activitiesVsAttendance = response;
       });
     },
@@ -211,7 +214,9 @@ export default {
           id: data[i].activity.id,
           name: data[i].activity.name,
           date: this.formatDate(data[i].activity.created_at),
-          status: data[i].status
+          status: data[i].status,
+          grade: data[i].grade,
+          max_note: data[i].activity.max_note
         });
       }
     }

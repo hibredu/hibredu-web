@@ -30,6 +30,10 @@
         <v-list-item-content>
           <v-list-item-title>{{ item.status }}</v-list-item-title>
         </v-list-item-content>
+
+        <v-list-item-content>
+          <v-list-item-title>{{ item.grade }}/{{ item.max_note }}</v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
     </v-list>
   </v-card>
@@ -67,14 +71,14 @@ export default {
 
 .header {
   background-color: var(--lightCyanHibredu);
-  padding: 0.5em;
+  padding: 0em 0em 0em 0.5em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .column-name {
-    width: 25%;
+    width: 20%;
     text-transform: uppercase;
 }
 

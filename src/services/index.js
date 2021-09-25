@@ -90,6 +90,9 @@ export const overviewAlerts = (params) => {
 export const overviewAttendanceActivities = (params) => {
     return axios.get(`${url}/overview/attendance/activities`, params);
 };
+export const overviewAttendanceActivitiesByStudentId = (params) => {
+    return axios.get(`${url}/overview/student/attendance/activities/${params.studentId}`, params);
+};
 
 
 /*
