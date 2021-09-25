@@ -60,15 +60,17 @@ export default {
       }
     },
     login() {
-      this.action_auth({ email: this.email, password: this.password }).then(
-        (response) => {
+      this.action_auth({ email: this.email, password: this.password })
+        .then((response) => {
           if (response.status === 200) {
             localStorage.setItem("access_token", response.data.token);
             localStorage.setItem("teacher_name", response.data.teacher.name);
             this.$router.push("home");
           }
-        }
-      );
+        })
+        .catch(() => {
+          this.$alert("E-mail e/ou senha incorretos");
+        });
     },
     redirectRegister() {
       this.$router.push("register");
