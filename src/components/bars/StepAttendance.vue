@@ -1,6 +1,9 @@
 <template>
   <div class="vertical-progress-step-bar">
     <v-stepper v-model="importStep" vertical flat>
+      <div class="loading" v-if="loading">
+        <DefaultLoading/>
+      </div>
       <v-stepper-step
         :complete="importStep > 1"
         step="1"
@@ -86,12 +89,11 @@
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
           <ImportConfigs/>
         </v-card>
-
         <div class="space"></div>
         <NormalButton
           @click.native="sendAttendance()"
-          :color="`var(--greenHibredu)`"
-          :text="`Finalizar Envio`"
+          color="var(--greenHibredu)"
+          text="Finalizar Envio"
         />
       </v-stepper-content>
     </v-stepper>
@@ -102,6 +104,7 @@
 import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
 // import TextInputClean from "../inputs/TextInputClean";
+import DefaultLoading from "../loading/DefaultLoading"
 import SelectInputClean from "../inputs/SelectInputClean";
 import DateInputClean from "../inputs/DateInputClean";
 import ImportConfigs from "../configs/ImportConfigs"
@@ -114,6 +117,7 @@ export default {
     FileInput,
     SelectInputClean,
     // TextInputClean,
+    DefaultLoading,
     DateInputClean,
     ImportConfigs
   },
@@ -127,6 +131,7 @@ export default {
         hour: "",
         // date: "",
       },
+      loading: false
     };
   },
   mounted() {
@@ -155,6 +160,7 @@ export default {
       });
     },
     sendAttendance() {
+      this.loading = true;
       this.action_attendance({
         classroom_id: this.configs.classroom,
         subject_id: this.configs.subject,
@@ -176,8 +182,11 @@ export default {
           },
         ],
       }).then(() => {
+        this.loading = false;
         this.$alert("Planilha enviada com sucesso!");
         this.$router.back();
+      }).catch(() => {
+        this.$alert("Houve um erro na importação. Tente novamente");
       });
     },
   },
@@ -257,6 +266,17 @@ export default {
 .column-name {
   width: 25%;
   text-transform: uppercase;
+}
+
+.loading {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
 }
 
 @media only screen and (max-width: 1024px) {
