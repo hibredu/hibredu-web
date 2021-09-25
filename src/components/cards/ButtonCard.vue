@@ -2,16 +2,16 @@
   <v-card class="info-card" flat>
     <label class="card-title">{{ title }}</label>
     <div class="content">
-      <IconNormalButtonDisabled
-        icon="mdi-google"
-        text="Forms Google"
-      />
       <IconNormalButton
         @click.native="go"
         icon="mdi-microsoft-teams"
         color="var(--yellowHibredu)"
         colorText="var(--whiteHibredu)"
         text="Microsoft Teams"
+      />
+      <IconNormalButtonDisabled
+        icon="mdi-google"
+        text="Forms Google"
       />
       <IconNormalButtonDisabled
         icon="mdi-file"
