@@ -1,7 +1,7 @@
 <template>
   <v-card class="profile-card" flat>
     <div class="background-profile">
-      <v-avatar size="12em">
+      <v-avatar size="10em">
         <img
           alt="Aluno"
           src="../../assets/images/template.jpeg"
@@ -83,7 +83,7 @@ export default {
 }
 
 h6 {
-    color: var(--grayHibredu)
+  color: var(--grayHibredu)
 }
 
 @media only screen and (max-width: 1024px) {
