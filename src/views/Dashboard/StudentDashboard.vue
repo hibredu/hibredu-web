@@ -442,7 +442,7 @@ export default {
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .student-dashboard {
     width: 100%;
-    height: 150%;
+    height: 170%;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;
@@ -493,7 +493,7 @@ export default {
 
   .charts {
     margin-top: 1em;
-    height: 30em;
+    height: 27em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -536,8 +536,8 @@ export default {
   .bottom {
     margin-top: 2em;
     height: 25em;
-    width: 78%;
-    margin-left: 22%;
+    width: 77%;
+    margin-left: 23%;
     display: flex;
     flex-direction: row-reverse;
   }
