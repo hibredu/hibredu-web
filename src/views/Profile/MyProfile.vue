@@ -1,5 +1,5 @@
 <template>
-  <div class="export-activity">
+  <div class="my-profile">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -7,8 +7,20 @@
         <SearchBar />
         <DropDown />
       </div>
-      <div class="button-card">
-        <Construction/>
+      <div class="center">
+        <div class="first-column">
+          <div>
+            <EditProfile/>
+          </div>
+          <div>
+            <HibreduPencilsCard/>
+          </div>
+        </div>
+        <div class="second-column">
+          <div class="profile-card">
+            <ProfileCard :params="this.profileInfos"/>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -19,7 +31,9 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import Construction from "../../components/Construction";
+import ProfileCard from "../../components/cards/ProfileCard";
+import EditProfile from "../../components/cards/EditProfile";
+import HibreduPencilsCard from "../../components/cards/HibreduPencilsCard"
 
 export default {
   name: "MyProfile",
@@ -29,13 +43,25 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    Construction,
+    ProfileCard,
+    EditProfile,
+    HibreduPencilsCard
   },
+  data() {
+    return {
+      profileInfos: {
+        name: localStorage.getItem("teacher_name"),
+        classroom: "3ºA, 3ºB",
+        email: "",
+        subjects: ""
+      },
+    }
+  }
 };
 </script>
 
 <style scoped>
-.export-activity {
+.my-profile {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -62,24 +88,41 @@ export default {
   align-items: center;
 }
 
-.file-input {
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.button-card {
+.center {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
   margin-top: 3em;
+  height: 40em;
+}
+
+.profile-card {
+  width: 20em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.first-column {
+  width: 40em;
   height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.second-column {
+  width: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 @media only screen and (max-width: 1024px) {
-.export-activity {
+  .my-profile {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);
@@ -104,12 +147,34 @@ export default {
     padding-left: 2em 2em 2em 3em;
   }
 
-  .button-card {
+  .center {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
     height: auto;
+  }
+
+  .first-column {
+    width: 100%;
+    height: 50em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .second-column {
+    width: auto;
+    height: 40em;
+    margin-bottom: 2em;
+  }
+  
+  .profile-card {
+    width: auto;
+    height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }
 </style>

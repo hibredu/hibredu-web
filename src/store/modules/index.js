@@ -53,6 +53,14 @@ export const indexStore = {
             //     });
             // }
         },
+        SET_RETURN_SEND_SPREADSHEET_ACTIVITY(state, payload) {
+            state.returnSpreadsheetActivity = payload;
+            // for (let i = 0; i < state.returnSpreadsheet.columns.length; i++) {
+            //     this.suggestions.push({
+            //         value: state.returnSpreadsheet.columns[i][0].suggestion,
+            //     });
+            // }
+        },
         SET_SUBJECTS(state, payload) {
             state.subjects = payload;
         },
@@ -175,7 +183,9 @@ export const indexStore = {
             Actvity
         */
         async action_activitySpreadSheetTeams(context, payload) {
+            context.commit("SET_RETURN_SEND_SPREADSHEET_ACTIVITY", []);
             return await activitySpreadSheetTeams(payload).then(response => {
+                context.commit("SET_RETURN_SEND_SPREADSHEET_ACTIVITY", response.data);
                 return response;
             }).catch(err => console.error(err));
         },
