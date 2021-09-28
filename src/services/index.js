@@ -8,6 +8,12 @@ const url = 'https://hibredu-api.herokuapp.com'
 export const createTeacher = (params) => {
     return axios.post(`${url}/teacher`, params);
 };
+export const updateTeacher = (params) => {
+    return axios.patch(`${url}/teacher/${params.teacherId}`, params);
+};
+export const teacherById = (params) => {
+    return axios.get(`${url}/teacher/${params.teacherId}`, params);
+};
 
 
 /*
@@ -69,6 +75,17 @@ export const school = (params) => {
 };
 export const classroomBySchoolId = (params) => {
     return axios.get(`${url}/school/${params.schoolId}/classrooms`, params);
+};
+
+
+/*
+    Activity
+*/
+export const activitySpreadSheetTeams = (params) => {
+    return axios.post(`${url}/activity/spreadsheet/teams`, params);
+};
+export const activity = (params) => {
+    return axios.post(`${url}/activity/teams`, params);
 };
 
 

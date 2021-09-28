@@ -1,5 +1,7 @@
 import {
     createTeacher,
+    updateTeacher,
+    teacherById,
     auth,
     student,
     studentById,
@@ -11,6 +13,8 @@ import {
     alertByStudentId,
     school,
     classroomBySchoolId,
+    activitySpreadSheetTeams,
+    activity,
     overviewAttendance,
     overviewActivities,
     overviewClassroom,
@@ -65,7 +69,16 @@ export const indexStore = {
                 return response;
             }).catch(err => console.error(err));
         },
-
+        async action_updateTeacher(context, payload) {
+            return await updateTeacher(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_teacherById(context, payload) {
+            return await teacherById(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
 
         /*
             Auth
@@ -156,6 +169,22 @@ export const indexStore = {
                 return response.data;
             }).catch(err => console.error(err));
         },
+
+
+        /*
+            Actvity
+        */
+        async action_activitySpreadSheetTeams(context, payload) {
+            return await activitySpreadSheetTeams(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_activity(context, payload) {
+            return await activity(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
+
 
 
         /*
