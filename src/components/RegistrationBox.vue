@@ -40,6 +40,13 @@
         label="Turmas"
         type="text"
       />
+      <SelectCheckBoxInput
+        @update:value="formatSubjects2Register($event);validateFields()"
+        :items="this.subjects"
+        ico="mdi-bookshelf"
+        label="Matérias Lecionadas"
+        type="text"
+      />
       <div class="password">
         <PasswordInput
           @update:value="password = $event;validateFields()"
@@ -102,20 +109,23 @@ export default {
       classrooms: null,
       classroomsFormated: [],
       selectedClassrooms: "",
+      selectedSubjects: "",
       password: "",
       password2: "",
       agree: false,
-      selected: [],
+      subjects: []
     };
   },
   mounted() {
     this.getSchools();
+    this.getSubjects();
   },
   methods: {
     ...mapActions([
       "action_createTeacher",
       "action_school",
       "action_classroomBySchoolId",
+      "action_schoolSubjects"
     ]),
     register() {
       if (this.password === this.password2) {
@@ -125,6 +135,7 @@ export default {
           phone: this.phone,
           password: this.password,
           school_id: this.selectedEducationalInstitution,
+          subjects: this.selectedSubjects,
           classrooms: this.selectedClassrooms,
         })
           .then(() => {
@@ -143,6 +154,11 @@ export default {
         this.educationalInstitution = response;
       });
     },
+    getSubjects() {
+      this.action_schoolSubjects().then((response) => {
+        this.subjects = response;
+      });
+    },
     getClassroomsBySchoolId() {
       this.action_classroomBySchoolId({
         schoolId: this.selectedEducationalInstitution,
@@ -156,6 +172,12 @@ export default {
         this.selectedClassrooms.push({ id: data[i] });
       }
     },
+    formatSubjects2Register(data) {
+      this.selectedSubjects = [];
+      for (let i = 0; i < data.length; i++) {
+        this.selectedSubjects.push({ id: data[i] });
+      }
+    },
     validateFields() {
       if (
         this.validateEmail(this.email) &&
@@ -164,6 +186,7 @@ export default {
         this.phone != "" &&
         this.selectedEducationalInstitution != null &&
         this.selectedClassrooms != "" &&
+        this.selectedSubjects != "" &&
         this.agree != false
       ) {
         this.inactive = false;
