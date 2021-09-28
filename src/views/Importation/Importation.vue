@@ -8,8 +8,14 @@
         <DropDown />
       </div>
       <div class="button-card">
-        <ButtonCard title="Envio de Atividades" />
-        <ButtonCard title="Envio de Presença" />
+        <ButtonCard
+          title="Envio de Atividades"
+          :buttons="this.activityButtons"
+        />
+        <ButtonCard
+          title="Envio de Presença"
+          :buttons="this.attendanceButtons"
+        />
       </div>
     </div>
   </div>
@@ -31,6 +37,20 @@ export default {
     TopBar,
     SearchBar,
     ButtonCard,
+  },
+  data() {
+    return {
+      activityButtons: [
+        { title: "Forms Microsoft", ico: "mdi-microsoft" },
+        { title: "Forms Google", ico: "mdi-google" },
+        { title: "Outros", ico: "mdi-file" },
+      ],
+      attendanceButtons: [
+        { title: "Microsoft Teams", ico: "mdi-microsoft-teams" },
+        { title: "Forms Google", ico: "mdi-google" },
+        { title: "Outros", ico: "mdi-file" },
+      ],
+    };
   },
 };
 </script>
@@ -80,7 +100,7 @@ export default {
 }
 
 @media only screen and (max-width: 1024px) {
-.importation {
+  .importation {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);

@@ -4,18 +4,18 @@
     <div class="content">
       <IconNormalButton
         @click.native="go"
-        icon="mdi-microsoft-teams"
+        :icon="buttons[0].ico"
         color="var(--yellowHibredu)"
         colorText="var(--whiteHibredu)"
-        text="Microsoft Teams"
+        :text="buttons[0].title"
       />
       <IconNormalButtonDisabled
-        icon="mdi-google"
-        text="Forms Google"
+        :icon="buttons[1].ico"
+        :text="buttons[1].title"
       />
       <IconNormalButtonDisabled
-        icon="mdi-file"
-        text="Outros"
+        :icon="buttons[2].ico"
+        :text="buttons[2].title"
       />
     </div>
   </v-card>
@@ -27,7 +27,7 @@ import IconNormalButtonDisabled from "../buttons/IconNormalButtonDisabled";
 
 export default {
   name: "ButtonCard",
-  props: ["title"],
+  props: ["title", "buttons"],
   components: {
     IconNormalButton,
     IconNormalButtonDisabled
