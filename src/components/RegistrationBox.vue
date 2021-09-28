@@ -140,7 +140,7 @@ export default {
         })
           .then(() => {
             this.$alert("Cadastro realizado com sucesso");
-            this.$router.push("");
+            this.$router.back();
           })
           .catch(() => {
             this.$alert("Houve um erro durante o cadastro. Tente novamente");
