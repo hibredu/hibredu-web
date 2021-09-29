@@ -235,14 +235,14 @@ export const indexStore = {
             School Subjects
         */
         async action_schoolSubjects(context, payload) {
+            context.commit("SET_SUBJECTS", []);
             return await schoolSubjects(payload).then(response => {
+                context.commit("SET_SUBJECTS", response.data);
                 return response.data;
             }).catch(err => console.error(err));
         },
         async action_schoolSubjectsByTeacher(context, payload) {
-            context.commit("SET_SUBJECTS", []);
             return await schoolSubjectsByTeacher(payload).then(response => {
-                context.commit("SET_SUBJECTS", response.data);
                 return response.data;
             }).catch(err => console.error(err));
         },
