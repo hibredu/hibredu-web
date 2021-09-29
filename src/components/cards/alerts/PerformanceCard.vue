@@ -17,7 +17,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>
-              {{ item.name.substr(0, 2) }}
+              {{ item.name }}
             </v-list-item-title>
           </v-list-item-content>
           <v-list-item-icon>
