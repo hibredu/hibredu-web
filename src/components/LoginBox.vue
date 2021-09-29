@@ -74,6 +74,7 @@ export default {
             localStorage.setItem("access_token", response.data.token);
             localStorage.setItem("teacher_name", response.data.teacher.name);
             localStorage.setItem("teacher_id", response.data.teacher.id);
+            localStorage.setItem("password", this.password);
             this.$router.push("home");
           }
         })
