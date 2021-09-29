@@ -41,13 +41,13 @@ export default {
   data() {
     return {
       activityButtons: [
-        { title: "Forms Microsoft", ico: "mdi-microsoft" },
-        { title: "Forms Google", ico: "mdi-google" },
+        { title: "Microsoft Forms", ico: "mdi-microsoft" },
+        { title: "Google Forms", ico: "mdi-google" },
         { title: "Outros", ico: "mdi-file" },
       ],
       attendanceButtons: [
         { title: "Microsoft Teams", ico: "mdi-microsoft-teams" },
-        { title: "Forms Google", ico: "mdi-google" },
+        { title: "Google Forms", ico: "mdi-google" },
         { title: "Outros", ico: "mdi-file" },
       ],
     };
