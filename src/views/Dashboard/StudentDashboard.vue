@@ -141,7 +141,7 @@ export default {
         name: "",
         classroom: "",
         email: "",
-        subjects: ""
+        subjects: []
       },
       alerts: [],
       showLoading: {
@@ -194,7 +194,8 @@ export default {
         this.profileInfos.name = response.name;
         this.profileInfos.classroom = this.selectedClassroom.name;
         this.profileInfos.email = this.selectedStudent.email;
-        this.profileInfos.subjects = response.school_subjects;
+        this.formatSubjects2Card(response.school_subjects);
+        console.log(response.school_subjects)
         this.formatActivities(response.activities);
       });
       this.action_alertByStudentId({
@@ -207,6 +208,13 @@ export default {
       }).then((response) => {
         this.activitiesVsAttendance = response;
       });
+    },
+    formatSubjects2Card(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.profileInfos.subjects.push(data[i].name);
+      }
+      this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
+      this.profileInfos.subjects = this.profileInfos.subjects.toString()
     },
     formatActivities(data) {
       for(let i = 0; i < data.length; i++) {
@@ -338,10 +346,10 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: auto;
+    height: 400%;
     background-color: var(--lightBlueHibredu);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     position: absolute;
     z-index: 1;
   }
@@ -357,7 +365,7 @@ export default {
     justify-content: center;
     align-items: center;
     width: 95%;
-    height: 100%;
+    height: auto;
     padding-left: 2em 2em 2em 3em;
   }
 

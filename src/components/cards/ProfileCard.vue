@@ -18,14 +18,7 @@
       </div>
       <div class="subjects">
         <h6>Matérias</h6>
-        <v-list-item v-for="(item, i) in params.subjects" :key="i" :disabled="true"
-          style="color: var(--blackHibredu) !important">
-          <v-list-item-content>
-            <v-list-item-title>
-              <h4> {{item.name}} </h4>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>  
+        <h4>{{ params.subjects }}</h4>
       </div>
     </div>
   </v-card>

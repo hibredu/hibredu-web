@@ -67,23 +67,19 @@ export default {
       this.action_teacherById({
         teacherId: localStorage.getItem("teacher_id"),
       }).then((response) => {
-        // this.profileInfos.name = response.name;
-        // this.profileInfos.classroom = this.selectedClassroom.name;
-        // this.profileInfos.classroom = response.subjects_classrooms;
-        console.log("Name: "+response.name)
-        console.log(response)
+        this.profileInfos.name = response.name;
         this.formatSubjects2Card(response.subjects_classrooms);
       });
     },
     formatSubjects2Card(data) {
-      for(let i = 0; i < data.length; i++) {
-        this.profileInfos.subjects.push({id: data[i].school_subject.id,name:data[i].school_subject.name})
-      }      
-
-      this.profileInfos.subjects = this.profileInfos.subjects.filter(function (a) {
-	return !this[JSON.stringify(a)] && (this[JSON.stringify(a)] = true);
-}, Object.create(null))
-    }
+      for (let i = 0; i < data.length; i++) {
+        this.profileInfos.subjects.push(data[i].school_subject.name);
+        this.profileInfos.classroom += data[i].classroom.name + ", "
+      }
+      this.profileInfos.classroom = this.profileInfos.classroom.substring(0, this.profileInfos.classroom.length - 2);
+      this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
+      this.profileInfos.subjects = this.profileInfos.subjects.toString()
+    },
   },
 };
 </script>
