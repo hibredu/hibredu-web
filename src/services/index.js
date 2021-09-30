@@ -121,3 +121,11 @@ export const schoolSubjects = (params) => {
 export const schoolSubjectsByTeacher = (params) => {
     return axios.get(`${url}/teacher/school_subjects`, params);
 };
+
+
+/*
+    Hibredu Rewards    
+*/
+export const hibreduRewards = (params) => {
+    return axios.get(`${url}/hibredu_rewards`, params);
+};

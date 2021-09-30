@@ -6,10 +6,10 @@
       color="var(--yellowHibredu)"
       height="20"
       background-color="var(--lightGrayHibredu)"
-      :value="this.value"
+      :value="this.value / 10"
     >
       <template v-slot:default="{ value }">
-        <strong>{{ value }}</strong>
+        <strong>{{ value * 10 }}</strong>
       </template>
     </v-progress-linear>
     <div class="stars">
@@ -26,14 +26,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: "HibreduPencilsCard",
   data() {
     return {
-      value: 50,
+      value: 0,
     };
   },
+  mounted() {
+    this.getHibreduPencils();
+  },
   methods: {
+    ...mapActions(["action_hibreduRewards"]),
     returnColor(value) {
       if (value < 50) {
         return "var(--yellowHibredu)";
@@ -41,6 +47,12 @@ export default {
         return "var(--yellowHibredu)";
       }
     },
+    getHibreduPencils() {
+      this.action_hibreduRewards().then((response) => {
+        console.log(response)
+        this.value = response[0].point;
+      });
+    }
   },
 };
 </script>

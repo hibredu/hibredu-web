@@ -22,7 +22,8 @@ import {
     overviewAttendanceActivities,
     overviewAttendanceActivitiesByStudentId,
     schoolSubjects,
-    schoolSubjectsByTeacher
+    schoolSubjectsByTeacher,
+    hibreduRewards
 } from "../../services/index"
 
 export const indexStore = {
@@ -196,7 +197,6 @@ export const indexStore = {
         },
 
 
-
         /*
             Overview
         */
@@ -231,6 +231,7 @@ export const indexStore = {
             }).catch(err => console.error(err));
         },
 
+
         /*
             School Subjects
         */
@@ -243,6 +244,16 @@ export const indexStore = {
             context.commit("SET_SUBJECTS", []);
             return await schoolSubjectsByTeacher(payload).then(response => {
                 context.commit("SET_SUBJECTS", response.data);
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+
+
+        /*
+            Hibredu Rewards
+        */
+        async action_hibreduRewards(context, payload) {
+            return await hibreduRewards(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
