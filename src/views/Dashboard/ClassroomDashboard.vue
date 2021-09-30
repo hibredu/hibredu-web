@@ -4,7 +4,7 @@
     <LateralMenu />
     <div class="content">
       <div class="loading" v-if="loading">
-        <DefaultLoading/>
+        <DefaultLoading />
       </div>
       <div class="top-bar">
         <SearchBar />
@@ -16,7 +16,10 @@
           v-if="this.classrooms.length > 0"
           text="Turma"
           :items="this.classrooms"
-          @update:value="selectedClassroom = $event;getClassroomById()"
+          @update:value="
+            selectedClassroom = $event;
+            getClassroomById();
+          "
         />
       </div>
       <div class="cards">
@@ -42,16 +45,14 @@
         />
       </div>
       <div class="start">
-        <ScrollListStudent :params="this.students"/>
+        <ScrollListStudent :params="this.students" />
       </div>
       <div class="middle">
         <div class="alert-card">
-          <AlertCard
-          :params="this.alerts"
-        />
+          <AlertCard :params="this.alerts" />
         </div>
         <div class="line-chart">
-         <LineChart
+          <LineChart
             title="Desempenho X Presença"
             :data="this.activitiesVsAttendance"
             legend_1="Atividades Entregues"
@@ -61,16 +62,11 @@
         </div>
       </div>
       <div class="bottom">
-       <InfoCard
-          text="Atividades Cadastradas"
-          :number="this.cards.deliveredActivities"
-          color="color: var(--blueAlert)"
-        />
-        <InfoCard
-          text="Atividades Cadastradas"
-          :number="this.cards.deliveredActivities"
-          color="color: var(--blueAlert)"
-        />
+        <div class="activity-list">
+          <ScrollListActivity :params="this.activities" />
+        </div>
+
+        <ActivityCard :params="this.activities" title="Assuntos Abordados" />
       </div>
     </div>
   </div>
@@ -86,8 +82,10 @@ import InfoCard from "../../components/cards/InfoCard";
 import SelectFilter from "../../components/filters/SelectFilter";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import ScrollListStudent from "../../components/lists/ScrollListStudent";
+import ScrollListActivity from "../../components/lists/ScrollListActivity";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import LineChart from "../../components/graphs/LineChart";
+import ActivityCard from "../../components/cards/alerts/ActivityCard";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -103,7 +101,9 @@ export default {
     ScrollListStudent,
     AlertCard,
     DefaultLoading,
-    LineChart
+    LineChart,
+    ScrollListActivity,
+    ActivityCard,
   },
   data() {
     return {
@@ -118,9 +118,9 @@ export default {
       alerts: "",
       activities: [],
       showLoading: false,
-      selectedClassroom: {id: 1},
+      selectedClassroom: { id: 1 },
       values: ["present", "delivered"],
-      loading: false
+      loading: false,
     };
   },
   mounted() {
@@ -134,13 +134,13 @@ export default {
       "action_classroomById",
       "action_classroom",
       "action_alertByClassroomId",
-      "action_overviewAttendanceActivities"
+      "action_overviewAttendanceActivities",
+      "action_activityByClassroomId",
     ]),
     getClassroomById() {
       this.loading = true;
       this.action_classroomById({
-        classroomId:
-          this.selectedClassroom.id,
+        classroomId: this.selectedClassroom.id,
       }).then((response) => {
         this.cards.alerts = response.metrics.alerts;
         this.cards.deliveredActivities = response.metrics.deliveredActivities;
@@ -152,8 +152,7 @@ export default {
       this.loading = false;
 
       this.action_alertByClassroomId({
-        classroomId:
-          this.selectedClassroom.id
+        classroomId: this.selectedClassroom.id,
       }).then((response) => {
         this.alerts = response;
       });
@@ -161,8 +160,13 @@ export default {
       this.action_overviewAttendanceActivities().then((response) => {
         this.activitiesVsAttendance = response;
       });
+
+      this.action_activityByClassroomId({
+        classroomId: this.selectedClassroom.id,
+      }).then((response) => {
+        this.activities = response;
+      });
     },
-    
   },
   computed: {
     ...mapState({
@@ -216,7 +220,6 @@ export default {
   justify-content: space-between;
 }
 
-
 .select-filter {
   margin-top: 10px;
 }
@@ -233,8 +236,8 @@ export default {
 
 .bottom {
   margin-top: 1em;
-  height: 25em;
-  width: auto;
+  height: 23em;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -247,7 +250,7 @@ export default {
 }
 
 .line-chart {
-  width: 60%;
+  width: 70%;
   height: 27em;
   align-items: center;
 }
@@ -345,6 +348,11 @@ export default {
     flex-direction: row;
     justify-content: space-around;
   }
+
+  .activity-list {
+    width: 100%;
+    height: auto;
+  }
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
@@ -390,9 +398,9 @@ export default {
   }
 
   .middle {
-    margin-top: 1em;
-    height: 28em;
-    width: 100%;
+    margin: 2em 0em 2em 0em;
+    height: 25em;
+    width: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -400,24 +408,29 @@ export default {
   }
 
   .bottom {
-    margin-top: 1em;
-    height: 25em;
-    width: auto;
+    margin: 2em 0em 2em 0em;
+    height: 23em;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
 
   .alert-card {
-    width: 55%;
-    height: auto;
+    width: 60%;
+    height: 27em;
     align-items: center;
   }
 
   .line-chart {
-    width: 40%;
+    width: 70%;
     height: 27em;
     align-items: center;
+  }
+
+  .activity-list {
+    width: 60%;
+    height: 27em;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-card class="scroll activity-card" flat>
-    <h4>Atividades</h4>
+    <h4>{{title}}</h4>
     <v-list dense>
       <v-list-item-group color="primary">
         <v-list-item
@@ -33,7 +33,7 @@ import globalMethods from "../../../mixins/globalMethods"
 export default {
   name: "ActivityCard",
   mixins: [ globalMethods ],
-  props: ["number", "text", "color", "params"],
+  props: ["number", "text", "color", "params", "title"],
 };
 </script>
 
