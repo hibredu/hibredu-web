@@ -238,7 +238,6 @@ export default {
   font-family: "Metropolis Regular";
   width: 100%;
   height: auto;
-  text-transform: capitalize;
 }
 
 .list-title {
