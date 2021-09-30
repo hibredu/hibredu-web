@@ -87,6 +87,9 @@ export const activitySpreadSheetTeams = (params) => {
 export const activity = (params) => {
     return axios.post(`${url}/activity/teams`, params);
 };
+export const activityByClassroomId = (params) => {
+    return axios.get(`${url}/activity/classroom/${params.classroomId}`, params);
+};
 
 
 /*

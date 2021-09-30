@@ -15,6 +15,7 @@ import {
     classroomBySchoolId,
     activitySpreadSheetTeams,
     activity,
+    activityByClassroomId,
     overviewAttendance,
     overviewActivities,
     overviewClassroom,
@@ -193,6 +194,11 @@ export const indexStore = {
         async action_activity(context, payload) {
             return await activity(payload).then(response => {
                 return response;
+            }).catch(err => console.error(err));
+        },
+        async action_activityByClassroomId(context, payload) {
+            return await activityByClassroomId(payload).then(response => {
+                return response.data;
             }).catch(err => console.error(err));
         },
 
