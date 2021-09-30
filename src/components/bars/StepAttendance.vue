@@ -86,6 +86,7 @@
 
       <v-stepper-content step="3">
         <v-card class="scroll-list" flat>
+          <h5>Associe as colunas da planilha com seus respectivos campos para realizarmos o processamento dos dados. Utilize a pré-visualização para conferir se o exemplo gerado corresponde ao campo selecionado.</h5>
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
           <ImportConfigs/>
         </v-card>
