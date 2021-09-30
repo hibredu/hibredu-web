@@ -80,6 +80,8 @@ export default {
 .subjects {
   text-align: left;
   margin-bottom: 2em;
+  text-align: left !important;
+  justify-content: space-around;
 }
 
 h6 {

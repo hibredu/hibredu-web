@@ -95,7 +95,9 @@ export default {
         password: this.password,
       })
         .then(() => {
+          localStorage.setItem("teacher_name", this.teacher.name);
           this.$alert("Cadastro atualizado com sucesso");
+          this.$router.go();
         })
         .catch(() => {
           this.$alert("Houve um erro durante a atualização. Tente novamente");

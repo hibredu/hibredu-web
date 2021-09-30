@@ -10,15 +10,15 @@
       <div class="center">
         <div class="first-column">
           <div>
-            <EditProfile/>
+            <EditProfile />
           </div>
           <div>
-            <HibreduPencilsCard/>
+            <HibreduPencilsCard />
           </div>
         </div>
         <div class="second-column">
           <div class="profile-card">
-            <ProfileCard :params="this.profileInfos"/>
+            <ProfileCard :params="this.profileInfos" />
           </div>
         </div>
       </div>
@@ -33,7 +33,8 @@ import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
 import ProfileCard from "../../components/cards/ProfileCard";
 import EditProfile from "../../components/cards/EditProfile";
-import HibreduPencilsCard from "../../components/cards/HibreduPencilsCard"
+import HibreduPencilsCard from "../../components/cards/HibreduPencilsCard";
+import { mapActions } from "vuex";
 
 export default {
   name: "MyProfile",
@@ -45,18 +46,45 @@ export default {
     SearchBar,
     ProfileCard,
     EditProfile,
-    HibreduPencilsCard
+    HibreduPencilsCard,
   },
   data() {
     return {
       profileInfos: {
-        name: localStorage.getItem("teacher_name"),
-        classroom: "3ºA, 3ºB",
+        name: "",
+        subjects: [],
         email: "",
-        subjects: ""
+        classroom: "",
       },
+    };
+  },
+  mounted() {
+    this.getTeacherById();
+  },
+  methods: {
+    ...mapActions(["action_teacherById"]),
+    getTeacherById() {
+      this.action_teacherById({
+        teacherId: localStorage.getItem("teacher_id"),
+      }).then((response) => {
+        // this.profileInfos.name = response.name;
+        // this.profileInfos.classroom = this.selectedClassroom.name;
+        // this.profileInfos.classroom = response.subjects_classrooms;
+        console.log("Name: "+response.name)
+        console.log(response)
+        this.formatSubjects2Card(response.subjects_classrooms);
+      });
+    },
+    formatSubjects2Card(data) {
+      for(let i = 0; i < data.length; i++) {
+        this.profileInfos.subjects.push({id: data[i].school_subject.id,name:data[i].school_subject.name})
+      }      
+
+      this.profileInfos.subjects = this.profileInfos.subjects.filter(function (a) {
+	return !this[JSON.stringify(a)] && (this[JSON.stringify(a)] = true);
+}, Object.create(null))
     }
-  }
+  },
 };
 </script>
 
@@ -168,7 +196,7 @@ export default {
     height: 40em;
     margin-bottom: 2em;
   }
-  
+
   .profile-card {
     width: auto;
     height: 30em;
