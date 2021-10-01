@@ -7,7 +7,7 @@
         <div class="filters">
           <DefaultLoading v-if="this.classrooms.length === 0" />
           <SelectFilter
-            v-if="this.classrooms.length > 0" 
+            v-if="this.classrooms.length > 0"
             text="Turma"
             :items="this.classrooms"
             @update:value="
@@ -34,12 +34,14 @@
             <div class="profile-card">
               <ProfileCard :params="this.profileInfos" />
             </div>
-            <IconNormalButtonDisabled
-              icon="mdi-cloud-download"
-              text="Exportar"
-              color="var(--whiteHibredu)"
-              colorText="var(--grayHibredu)"
-            />
+            <download-csv :data="student" :name="this.profileInfos.name.replace(/\s/g, '') + '_' + this.profileInfos.classroom + '.csv'">
+              <IconNormalButton
+                icon="mdi-cloud-download"
+                text="Exportar"
+                color="var(--whiteHibredu)"
+                colorText="var(--grayHibredu)"
+              />
+            </download-csv>
             <IconNormalButton
               :email="this.profileInfos.email"
               icon="mdi-email"
@@ -86,7 +88,7 @@
           </div>
         </div>
         <div class="bottom">
-          <ScrollList :params="this.activities" :header="this.activitiesHeader"/>
+          <ScrollList :params="this.activities" />
         </div>
       </div>
     </div>
@@ -104,7 +106,6 @@ import ProfileCard from "../../components/cards/ProfileCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import LineChart from "../../components/graphs/LineChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
-import IconNormalButtonDisabled from "../../components/buttons/IconNormalButtonDisabled";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import ScrollList from "../../components/lists/ScrollList";
 import { mapActions, mapState } from "vuex";
@@ -121,7 +122,6 @@ export default {
     AlertCard,
     ProfileCard,
     IconNormalButton,
-    IconNormalButtonDisabled,
     DefaultLoading,
     LineChart,
     ScrollList,
@@ -129,10 +129,10 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: '',
-        deliveryPercentage: '',
-        hitRate: '',
-        alerts: '',
+        deliveredActivities: "-",
+        deliveryPercentage: "-",
+        hitRate: "-",
+        alerts: "-",
       },
       selectedClassroom: null,
       selectedStudent: null,
@@ -141,7 +141,7 @@ export default {
         name: "",
         classroom: "",
         email: "",
-        subjects: ""
+        subjects: [],
       },
       alerts: [],
       showLoading: {
@@ -150,16 +150,11 @@ export default {
       activitiesVsAttendance: [],
       values: ["present", "delivered"],
       activities: [],
-      activitiesHeader: [
-        {title:'#'},
-        {title:'Nome'},
-        {title:'Data'},
-        {title:'Status'}
-      ]
+      student: [],
     };
   },
   mounted() {
-    if(this.classrooms.length === 0) {
+    if (this.classrooms.length === 0) {
       this.action_classroom();
     }
   },
@@ -169,7 +164,7 @@ export default {
       "action_classroomById",
       "action_studentById",
       "action_alertByStudentId",
-      "action_overviewAttendanceActivities"
+      "action_overviewAttendanceActivitiesByStudentId",
     ]),
     getStudents() {
       this.action_classroomById({
@@ -193,34 +188,46 @@ export default {
         this.profileInfos.name = response.name;
         this.profileInfos.classroom = this.selectedClassroom.name;
         this.profileInfos.email = this.selectedStudent.email;
-        this.profileInfos.subjects = response.school_subjects;
+        this.formatSubjects2Card(response.school_subjects);
         this.formatActivities(response.activities);
+        this.student.push(response);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
       }).then((response) => {
         this.alerts = response;
       });
-      this.action_overviewAttendanceActivities().then((response) => {
+      this.action_overviewAttendanceActivitiesByStudentId({
+        studentId: this.selectedStudent.id,
+      }).then((response) => {
         this.activitiesVsAttendance = response;
       });
     },
+    formatSubjects2Card(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.profileInfos.subjects.push(data[i].name);
+      }
+      this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
+      this.profileInfos.subjects = this.profileInfos.subjects.toString();
+    },
     formatActivities(data) {
-      for(let i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         this.activities.push({
           id: data[i].activity.id,
           name: data[i].activity.name,
           date: this.formatDate(data[i].activity.created_at),
-          status: data[i].status
+          status: data[i].status,
+          grade: data[i].grade,
+          max_note: data[i].activity.max_note,
         });
       }
-    }
+    },
   },
   computed: {
     ...mapState({
-      classrooms: state => state.index.classrooms
-    })
-  }
+      classrooms: (state) => state.index.classrooms,
+    }),
+  },
 };
 </script>
 
@@ -333,10 +340,10 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: auto;
+    height: 400%;
     background-color: var(--lightBlueHibredu);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     position: absolute;
     z-index: 1;
   }
@@ -352,7 +359,7 @@ export default {
     justify-content: center;
     align-items: center;
     width: 95%;
-    height: 100%;
+    height: auto;
     padding-left: 2em 2em 2em 3em;
   }
 
@@ -405,7 +412,7 @@ export default {
     align-items: center;
     width: auto;
   }
-  
+
   .bottom {
     height: auto;
     display: flex;
@@ -437,7 +444,7 @@ export default {
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .student-dashboard {
     width: 100%;
-    height: 150%;
+    height: 170%;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;
@@ -488,7 +495,7 @@ export default {
 
   .charts {
     margin-top: 1em;
-    height: 30em;
+    height: 27em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -531,8 +538,8 @@ export default {
   .bottom {
     margin-top: 2em;
     height: 25em;
-    width: 78%;
-    margin-left: 22%;
+    width: 77%;
+    margin-left: 23%;
     display: flex;
     flex-direction: row-reverse;
   }

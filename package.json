@@ -20,6 +20,7 @@
     "vue-axios": "^3.2.5",
     "vue-chartjs": "^3.5.1",
     "vue-d3-charts": "^0.2.8",
+    "vue-json-csv": "^1.2.12",
     "vue-router": "^3.5.2",
     "vue-simple-alert": "^1.1.1",
     "vuetify": "^2.4.0",

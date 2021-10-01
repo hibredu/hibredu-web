@@ -1,5 +1,5 @@
 <template>
-  <div class="export-activity">
+  <div class="my-profile">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -7,8 +7,23 @@
         <SearchBar />
         <DropDown />
       </div>
-      <div class="button-card">
-        <Construction/>
+      <div class="center">
+        <div class="first-column">
+          <div>
+            <EditProfile />
+          </div>
+          <div>
+            <HibreduPencilsCard />
+          </div>
+        </div>
+        <div class="second-column">
+          <div class="profile-card">
+            <v-card class="profile-card-loading" flat solo v-if="this.profileInfos.subjects.length  === 0">
+              <DefaultLoading/>
+            </v-card>
+            <ProfileCard v-else :params="this.profileInfos" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -19,7 +34,11 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import Construction from "../../components/Construction";
+import ProfileCard from "../../components/cards/ProfileCard";
+import EditProfile from "../../components/cards/EditProfile";
+import HibreduPencilsCard from "../../components/cards/HibreduPencilsCard";
+import DefaultLoading from "../../components/loading/DefaultLoading";
+import { mapActions } from "vuex";
 
 export default {
   name: "MyProfile",
@@ -29,13 +48,49 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    Construction,
+    ProfileCard,
+    EditProfile,
+    HibreduPencilsCard,
+    DefaultLoading
+  },
+  data() {
+    return {
+      profileInfos: {
+        name: "",
+        subjects: [],
+        email: "",
+        classroom: "",
+      },
+    };
+  },
+  mounted() {
+    this.getTeacherById();
+  },
+  methods: {
+    ...mapActions(["action_teacherById"]),
+    getTeacherById() {
+      this.action_teacherById({
+        teacherId: localStorage.getItem("teacher_id"),
+      }).then((response) => {
+        this.profileInfos.name = response.name;
+        this.formatSubjects2Card(response.subjects_classrooms);
+      });
+    },
+    formatSubjects2Card(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.profileInfos.subjects.push(data[i].school_subject.name);
+        this.profileInfos.classroom += data[i].classroom.name + ", "
+      }
+      this.profileInfos.classroom = this.profileInfos.classroom.substring(0, this.profileInfos.classroom.length - 2);
+      this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
+      this.profileInfos.subjects = this.profileInfos.subjects.toString()
+    },
   },
 };
 </script>
 
 <style scoped>
-.export-activity {
+.my-profile {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
@@ -62,24 +117,50 @@ export default {
   align-items: center;
 }
 
-.file-input {
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.button-card {
+.center {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
   margin-top: 3em;
+  height: 40em;
+}
+
+.profile-card {
+  width: 20em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile-card-loading {
+  width: 20em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.first-column {
+  width: 40em;
   height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.second-column {
+  width: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 @media only screen and (max-width: 1024px) {
-.export-activity {
+  .my-profile {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);
@@ -104,12 +185,43 @@ export default {
     padding-left: 2em 2em 2em 3em;
   }
 
-  .button-card {
+  .center {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     width: 100%;
     height: auto;
+  }
+
+  .first-column {
+    width: 100%;
+    height: 50em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .second-column {
+    width: auto;
+    height: 40em;
+    margin-bottom: 2em;
+  }
+
+  .profile-card {
+    width: auto;
+    height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .profile-card-loading {
+    width: auto;
+    height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
   }
 }
 </style>

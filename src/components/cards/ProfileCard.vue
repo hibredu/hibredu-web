@@ -1,7 +1,7 @@
 <template>
   <v-card class="profile-card" flat>
     <div class="background-profile">
-      <v-avatar size="12em">
+      <v-avatar size="10em">
         <img
           alt="Aluno"
           src="../../assets/images/template.jpeg"
@@ -18,14 +18,7 @@
       </div>
       <div class="subjects">
         <h6>Matérias</h6>
-        <v-list-item v-for="(item, i) in params.subjects" :key="i" :disabled="true"
-          style="color: var(--blackHibredu) !important">
-          <v-list-item-content>
-            <v-list-item-title>
-              <h4> {{item.name}} </h4>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>  
+        <h4>{{ params.subjects }}</h4>
       </div>
     </div>
   </v-card>
@@ -80,10 +73,12 @@ export default {
 .subjects {
   text-align: left;
   margin-bottom: 2em;
+  text-align: left !important;
+  justify-content: space-around;
 }
 
 h6 {
-    color: var(--grayHibredu)
+  color: var(--grayHibredu)
 }
 
 @media only screen and (max-width: 1024px) {

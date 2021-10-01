@@ -1,5 +1,8 @@
 <template>
   <v-card class="login" flat>
+    <div class="loading" v-if="loading">
+      <DefaultLoading />
+    </div>
     <v-form ref="form" lazy-validation>
       <EmailInput
         @update:value="email = $event"
@@ -32,6 +35,7 @@ import NormalButton from "../components/buttons/NormalButton";
 import CheckBox from "../components/inputs/CheckBox";
 import EmailInput from "../components/inputs/EmailInput";
 import PasswordInput from "../components/inputs/PasswordInput";
+import DefaultLoading from "../components/loading/DefaultLoading"
 import { mapActions } from "vuex";
 
 export default {
@@ -42,12 +46,14 @@ export default {
     CheckBox,
     PasswordInput,
     EmailInput,
+    DefaultLoading
   },
   data() {
     return {
       email: "",
       password: "",
       remember: false,
+      loading: false
     };
   },
   methods: {
@@ -60,11 +66,15 @@ export default {
       }
     },
     login() {
+      this.loading = true;
       this.action_auth({ email: this.email, password: this.password })
         .then((response) => {
+          this.loading = false;
           if (response.status === 200) {
             localStorage.setItem("access_token", response.data.token);
             localStorage.setItem("teacher_name", response.data.teacher.name);
+            localStorage.setItem("teacher_id", response.data.teacher.id);
+            localStorage.setItem("password", this.password);
             this.$router.push("home");
           }
         })
@@ -91,21 +101,6 @@ export default {
   justify-content: space-between;
 }
 
-@media only screen and (max-width: 1024px) {
-  .login {
-    font-size: 2em;
-    width: 80%;
-    height: auto;
-    padding: 3%;
-    font-family: "Metropolis Regular";
-  }
-  .check-register {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-}
-
 .check-register {
   display: flex;
   flex-direction: row;
@@ -125,5 +120,31 @@ export default {
 .register:hover {
   color: var(--yellowHibredu);
   cursor: pointer;
+}
+
+.loading {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+@media only screen and (max-width: 1024px) {
+  .login {
+    font-size: 2em;
+    width: 80%;
+    height: auto;
+    padding: 3%;
+    font-family: "Metropolis Regular";
+  }
+  .check-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
 }
 </style>

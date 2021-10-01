@@ -32,6 +32,7 @@ export default {
 
 <style scoped>
 .icon-normal-btn {
+  width: 100%;
   font-family: "Metropolis Bold";
   text-transform: capitalize;
   margin-top: 1em;

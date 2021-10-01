@@ -1,6 +1,7 @@
 <template>
   <v-card class="scroll-list" flat>
-    <h4 class="list-title">Atividades</h4>
+    <h4 class="list-title">Lista de Atividades | {{ classroom.name }}
+    </h4>
     <div class="header">
       <div class="column-name">
         <h4>#</h4>
@@ -9,13 +10,13 @@
         <h4>Nome</h4>
       </div>
       <div class="column-name">
+        <h4>Email</h4>
+      </div>
+      <div class="column-name">
         <h4>Data</h4>
       </div>
       <div class="column-name">
         <h4>Status</h4>
-      </div>
-      <div class="column-name">
-        <h4>Nota</h4>
       </div>
     </div>
     <v-list class="content" dense>
@@ -34,19 +35,17 @@
         </v-list-item-content>
 
         <v-list-item-content>
+          <v-list-item-title>{{ item.email }}</v-list-item-title>
+        </v-list-item-content>
+
+        <v-list-item-content>
           <v-list-item-title
             >{{ formatDate(item.created_at) }}
           </v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title>{{ item.status }}</v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-content>
-          <v-list-item-title
-            >{{ item.grade }}/{{ item.max_note }}</v-list-item-title
-          >
+          <v-list-item-title>{{ item.present === true ? "Presente" : "Ausente" }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -56,9 +55,9 @@
 <script>
 import globalMethods from "../../mixins/globalMethods";
 export default {
-  name: "ScrollList",
+  name: "ScrollListAttendance",
   mixins: [globalMethods],
-  props: ["number", "text", "color", "params"],
+  props: ["number", "text", "color", "params", "classroom"],
 };
 </script>
 
@@ -75,17 +74,21 @@ export default {
 }
 
 .content {
-  height: 18em;
+  height: 30em;
+  width: 100%;
+  text-align: left;
   overflow-y: auto;
+  padding: 0em 2em 0em 2em;
 }
 
 .v-list-item {
   border-bottom: solid 1px var(--lightGrayHibredu);
+  width: auto;
 }
 
 .header {
   background-color: var(--lightCyanHibredu);
-  padding: 0em 1.9em 0em 0.5em;
+  padding: 0em 2.5em 0em 2.5em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

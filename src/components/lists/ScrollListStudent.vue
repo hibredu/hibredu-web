@@ -1,21 +1,15 @@
 <template>
   <v-card class="scroll-list" flat>
-    <h4 class="list-title">Atividades</h4>
+    <h4 class="list-title">Alunos</h4>
     <div class="header">
       <div class="column-name">
-        <h4>#</h4>
+        <h4>Id</h4>
       </div>
       <div class="column-name">
         <h4>Nome</h4>
       </div>
       <div class="column-name">
-        <h4>Data</h4>
-      </div>
-      <div class="column-name">
-        <h4>Status</h4>
-      </div>
-      <div class="column-name">
-        <h4>Nota</h4>
+        <h4>E-mail</h4>
       </div>
     </div>
     <v-list class="content" dense>
@@ -34,19 +28,7 @@
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title
-            >{{ formatDate(item.created_at) }}
-          </v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-content>
-          <v-list-item-title>{{ item.status }}</v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-content>
-          <v-list-item-title
-            >{{ item.grade }}/{{ item.max_note }}</v-list-item-title
-          >
+          <v-list-item-title>{{ item.email }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -56,7 +38,7 @@
 <script>
 import globalMethods from "../../mixins/globalMethods";
 export default {
-  name: "ScrollList",
+  name: "ScrollListStudent",
   mixins: [globalMethods],
   props: ["number", "text", "color", "params"],
 };
@@ -67,7 +49,6 @@ export default {
   font-family: "Metropolis Regular";
   width: 100%;
   height: auto;
-  text-transform: capitalize;
 }
 
 .list-title {
@@ -85,14 +66,14 @@ export default {
 
 .header {
   background-color: var(--lightCyanHibredu);
-  padding: 0em 1.9em 0em 0.5em;
+  padding: 0em 0em 0em 0.5em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .column-name {
-  width: 20%;
+  width: 33%;
   text-transform: uppercase;
 }
 

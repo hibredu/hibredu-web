@@ -1,5 +1,7 @@
 import {
     createTeacher,
+    updateTeacher,
+    teacherById,
     auth,
     student,
     studentById,
@@ -8,16 +10,22 @@ import {
     alertByClassroomId,
     attendanceSpreadSheetTeams,
     attendance,
+    attendanceById,
     alertByStudentId,
     school,
     classroomBySchoolId,
+    activitySpreadSheetTeams,
+    activity,
+    activityByClassroomId,
     overviewAttendance,
     overviewActivities,
     overviewClassroom,
     overviewAlerts,
     overviewAttendanceActivities,
+    overviewAttendanceActivitiesByStudentId,
     schoolSubjects,
-    schoolSubjectsByTeacher
+    schoolSubjectsByTeacher,
+    hibreduRewards
 } from "../../services/index"
 
 export const indexStore = {
@@ -48,6 +56,14 @@ export const indexStore = {
             //     });
             // }
         },
+        SET_RETURN_SEND_SPREADSHEET_ACTIVITY(state, payload) {
+            state.returnSpreadsheetActivity = payload;
+            // for (let i = 0; i < state.returnSpreadsheet.columns.length; i++) {
+            //     this.suggestions.push({
+            //         value: state.returnSpreadsheet.columns[i][0].suggestion,
+            //     });
+            // }
+        },
         SET_SUBJECTS(state, payload) {
             state.subjects = payload;
         },
@@ -64,7 +80,16 @@ export const indexStore = {
                 return response;
             }).catch(err => console.error(err));
         },
-
+        async action_updateTeacher(context, payload) {
+            return await updateTeacher(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_teacherById(context, payload) {
+            return await teacherById(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
 
         /*
             Auth
@@ -125,7 +150,11 @@ export const indexStore = {
                 return response;
             }).catch(err => console.error(err));
         },
-
+        async action_attendanceById(context, payload) {
+            return await attendanceById(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
 
         /*
             Alert
@@ -152,6 +181,28 @@ export const indexStore = {
         },
         async action_classroomBySchoolId(context, payload) {
             return await classroomBySchoolId(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+
+
+        /*
+            Actvity
+        */
+        async action_activitySpreadSheetTeams(context, payload) {
+            context.commit("SET_RETURN_SEND_SPREADSHEET_ACTIVITY", []);
+            return await activitySpreadSheetTeams(payload).then(response => {
+                context.commit("SET_RETURN_SEND_SPREADSHEET_ACTIVITY", response.data);
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_activity(context, payload) {
+            return await activity(payload).then(response => {
+                return response;
+            }).catch(err => console.error(err));
+        },
+        async action_activityByClassroomId(context, payload) {
+            return await activityByClassroomId(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },
@@ -185,6 +236,11 @@ export const indexStore = {
                 return response.data;
             }).catch(err => console.error(err));
         },
+        async action_overviewAttendanceActivitiesByStudentId(context, payload) {
+            return await overviewAttendanceActivitiesByStudentId(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
 
 
         /*
@@ -199,6 +255,16 @@ export const indexStore = {
             context.commit("SET_SUBJECTS", []);
             return await schoolSubjectsByTeacher(payload).then(response => {
                 context.commit("SET_SUBJECTS", response.data);
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+
+
+        /*
+            Hibredu Rewards
+        */
+        async action_hibreduRewards(context, payload) {
+            return await hibreduRewards(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },

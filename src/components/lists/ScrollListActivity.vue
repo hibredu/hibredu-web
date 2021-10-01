@@ -11,12 +11,6 @@
       <div class="column-name">
         <h4>Data</h4>
       </div>
-      <div class="column-name">
-        <h4>Status</h4>
-      </div>
-      <div class="column-name">
-        <h4>Nota</h4>
-      </div>
     </div>
     <v-list class="content" dense>
       <v-list-item
@@ -38,16 +32,6 @@
             >{{ formatDate(item.created_at) }}
           </v-list-item-title>
         </v-list-item-content>
-
-        <v-list-item-content>
-          <v-list-item-title>{{ item.status }}</v-list-item-title>
-        </v-list-item-content>
-
-        <v-list-item-content>
-          <v-list-item-title
-            >{{ item.grade }}/{{ item.max_note }}</v-list-item-title
-          >
-        </v-list-item-content>
       </v-list-item>
     </v-list>
   </v-card>
@@ -56,7 +40,7 @@
 <script>
 import globalMethods from "../../mixins/globalMethods";
 export default {
-  name: "ScrollList",
+  name: "ScrollListActivity",
   mixins: [globalMethods],
   props: ["number", "text", "color", "params"],
 };
@@ -92,7 +76,7 @@ export default {
 }
 
 .column-name {
-  width: 20%;
+  width: 33%;
   text-transform: uppercase;
 }
 

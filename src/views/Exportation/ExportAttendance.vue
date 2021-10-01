@@ -7,8 +7,35 @@
         <SearchBar />
         <DropDown />
       </div>
-      <div class="button-card">
-        <Construction/>
+      <h4>Exportar Presença</h4>
+      <div class="filters">
+        <DefaultLoading v-if="this.classrooms.length === 0" />
+        <SelectFilter
+          v-if="this.classrooms.length > 0"
+          text="Turma"
+          label="3A-2021"
+          :items="this.classrooms"
+          @update:value="
+            selectedClassroom = $event;
+            show();"
+        />
+      </div>
+      <div class="center">
+        <ScrollListAttendance
+          :classroom="this.selectedClassroom"
+          :params="this.attendance"
+        />
+        <download-csv
+          :data="attendance"
+          :name="this.selectedClassroom.name + '.csv'"
+        >
+          <IconNormalButton
+            icon="mdi-cloud-download"
+            text="Exportar"
+            color="var(--yellowHibredu)"
+            colorText="var(--whiteHibredu)"
+          />
+        </download-csv>
       </div>
     </div>
   </div>
@@ -19,7 +46,11 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import Construction from "../../components/Construction";
+import DefaultLoading from "../../components/loading/DefaultLoading";
+import SelectFilter from "../../components/filters/SelectFilter";
+import ScrollListAttendance from "../../components/lists/ScrollListAttendance";
+import IconNormalButton from "../../components/buttons/IconNormalButton";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ExportAttendance",
@@ -29,7 +60,51 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    Construction,
+    DefaultLoading,
+    SelectFilter,
+    ScrollListAttendance,
+    IconNormalButton,
+  },
+  data() {
+    return {
+      selectedClassroom: {
+        id: 1,
+        name: "3A-2021",
+      },
+      attendance: [],
+    };
+  },
+  mounted() {
+    if (this.classrooms.length === 0) {
+      this.action_classroom();
+    }
+    this.getAttendanceById();
+  },
+  methods: {
+    ...mapActions(["action_classroom", "action_attendanceById"]),
+    getAttendanceById() {
+      this.action_attendanceById({
+        attendanceId: 1,
+      }).then((response) => {
+        this.formatAttendance(response.attendanceStudents);
+      });
+    },
+    formatAttendance(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.attendance.push({
+          id: data[i].student.id,
+          name: data[i].student.name,
+          email: data[i].student.email,
+          created_at: data[i].student.created_at,
+          present: data[i].present,
+        });
+      }
+    },
+  },
+  computed: {
+    ...mapState({
+      classrooms: (state) => state.index.classrooms,
+    }),
   },
 };
 </script>
@@ -62,24 +137,22 @@ export default {
   align-items: center;
 }
 
-.file-input {
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.button-card {
+.filters {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  justify-content: space-around;
-  margin-top: 3em;
-  height: auto;
+  width: 40%;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+
+h4 {
+  font-family: "Metropolis Regular";
+  color: var(--whiteHibredu);
+  font-size: 1.3em;
 }
 
 @media only screen and (max-width: 1024px) {
-.export-attendance {
+  .export-attendance {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);
@@ -104,12 +177,18 @@ export default {
     padding-left: 2em 2em 2em 3em;
   }
 
-  .button-card {
+  .filters {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     width: 100%;
-    height: auto;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2em;
+  }
+
+  .center{
+    width: 95%;
+    height: 100%;
   }
 }
 </style>

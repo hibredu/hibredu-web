@@ -8,6 +8,12 @@ const url = 'https://hibredu-api.herokuapp.com'
 export const createTeacher = (params) => {
     return axios.post(`${url}/teacher`, params);
 };
+export const updateTeacher = (params) => {
+    return axios.patch(`${url}/teacher/${params.teacherId}`, params);
+};
+export const teacherById = (params) => {
+    return axios.get(`${url}/teacher/${params.teacherId}`, params);
+};
 
 
 /*
@@ -49,6 +55,10 @@ export const attendanceSpreadSheetTeams = (params) => {
 export const attendance = (params) => {
     return axios.post(`${url}/attendance`, params);
 };
+export const attendanceById = (params) => {
+    return axios.get(`${url}/attendance/${params.attendanceId}`, params);
+};
+
 
 /*
     Alert
@@ -73,6 +83,20 @@ export const classroomBySchoolId = (params) => {
 
 
 /*
+    Activity
+*/
+export const activitySpreadSheetTeams = (params) => {
+    return axios.post(`${url}/activity/spreadsheet/teams`, params);
+};
+export const activity = (params) => {
+    return axios.post(`${url}/activity/teams`, params);
+};
+export const activityByClassroomId = (params) => {
+    return axios.get(`${url}/activity/classroom/${params.classroomId}`, params);
+};
+
+
+/*
     Overview
 */
 export const overviewAttendance = (params) => {
@@ -90,6 +114,9 @@ export const overviewAlerts = (params) => {
 export const overviewAttendanceActivities = (params) => {
     return axios.get(`${url}/overview/attendance/activities`, params);
 };
+export const overviewAttendanceActivitiesByStudentId = (params) => {
+    return axios.get(`${url}/overview/student/attendance/activities/${params.studentId}`, params);
+};
 
 
 /*
@@ -100,4 +127,12 @@ export const schoolSubjects = (params) => {
 };
 export const schoolSubjectsByTeacher = (params) => {
     return axios.get(`${url}/teacher/school_subjects`, params);
+};
+
+
+/*
+    Hibredu Rewards    
+*/
+export const hibreduRewards = (params) => {
+    return axios.get(`${url}/hibredu_rewards`, params);
 };

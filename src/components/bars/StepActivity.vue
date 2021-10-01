@@ -1,6 +1,9 @@
 <template>
   <div class="vertical-progress-step-bar">
     <v-stepper v-model="importStep" vertical flat>
+      <div class="loading" v-if="loading">
+        <DefaultLoading/>
+      </div>
       <v-stepper-step
         :complete="importStep > 1"
         step="1"
@@ -71,6 +74,10 @@
               type="text"
               @update:value="configs.theme = $event"
             />
+            <DateInputClean
+              label="Data da Atividade"
+              @update:value="configs.date = $event"
+            />
           </div>
         </div>
         <div class="space"></div>
@@ -93,8 +100,9 @@
       </v-stepper-step>
 
       <v-stepper-content step="3">
-        <v-card flat solo>
-          <h4>{{ this.file.name }}</h4>
+        <v-card class="scroll-list" flat>
+          <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
+          <ImportConfigs/>
         </v-card>
         <div class="space"></div>
         <NormalButton
@@ -110,60 +118,99 @@
 <script>
 import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
-import TextInputClean from "../inputs/TextInputClean";
+import DefaultLoading from "../loading/DefaultLoading"
 import SelectInputClean from "../inputs/SelectInputClean";
+import TextInputClean from "../inputs/TextInputClean";
+import DateInputClean from "../inputs/DateInputClean";
+import ImportConfigs from "../configs/ImportConfigs"
 import { mapActions, mapState } from "vuex";
 
 export default {
+  name: "StepActivity",
   components: {
     NormalButton,
     FileInput,
     SelectInputClean,
     TextInputClean,
+    DefaultLoading,
+    DateInputClean,
+    ImportConfigs
   },
   data() {
     return {
       uploadedFile: [],
       importStep: 1,
-      file: {
-        name: "",
-      },
       configs: {
         classroom: "",
         subject: "",
-        activity_name: "",
-        total_questions: "",
-        total_value: "",
-        theme: "",
+        hour: "",
+        // date: "",
       },
+      loading: false
     };
   },
   mounted() {
-    if(this.classrooms.length === 0) {
+    if (this.classrooms.length === 0) {
       this.action_classroom();
     }
-    if(this.subjects.length === 0) {
+    if (this.subjects.length === 0) {
       this.action_schoolSubjectsByTeacher();
     }
   },
   methods: {
-    ...mapActions(["action_classroom","action_schoolSubjectsByTeacher"]),
-  
+    ...mapActions([
+      "action_classroom",
+      "action_schoolSubjectsByTeacher",
+      "action_activitySpreadSheetTeams",
+      "action_activity",
+    ]),
     processUpload(event) {
       this.uploadedFile = event;
-      this.file.name = this.uploadedFile[0].name;
-      console.log(event);
     },
-    show() {
-      console.log(this.configs);
+    sendFile() {
+      let data = new FormData();
+      data.append("activity", this.uploadedFile);
+
+      this.action_activitySpreadSheetTeams(data).then(() => {
+      });
+    },
+    sendActivity() {
+      this.loading = true;
+      this.action_activity({
+        classroom_id: this.configs.classroom,
+        subject_id: this.configs.subject,
+        file_id: this.returnSpreadsheet.file_id,
+        description: "Envio de Presença",
+        columns: [
+          {
+            field_name: "Data e hora",
+            final_field: "Controle de horário",
+          },
+          {
+            field_name: "Atividade",
+            final_field: "Atividade",
+          },
+          {
+            field_name: "Nome Completo",
+            final_field: "Nome",
+          },
+        ],
+      }).then(() => {
+        this.loading = false;
+        this.$alert("Atividade enviada com sucesso!");
+        this.$router.back();
+      }).catch(() => {
+        this.$alert("Houve um erro na importação. Tente novamente");
+      });
     },
   },
   computed: {
     ...mapState({
-      classrooms: state => state.index.classrooms,
-      subjects: state => state.index.subjects
-    })
-  }
+      classrooms: (state) => state.index.classrooms,
+      subjects: (state) => state.index.subjects,
+      returnSpreadsheet: (state) => state.index.returnSpreadsheetActivity,
+    }),
+  },
 };
 </script>
 

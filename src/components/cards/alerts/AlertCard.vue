@@ -10,7 +10,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title class="text-wrap">
-              <span class="student-name">{{ item.student.name }}</span> {{ returnAlert(item.value) }}
+              <span class="student-name">{{ item.student.name }}</span> {{ item.value }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -24,18 +24,6 @@ export default {
   name: "AlertCard",
   props: ["number", "text", "color", "params"],
   methods: {
-    returnAlert(value){
-      switch(value) {
-        case 'Aluno com nota baixa':
-          return 'está com nota baixa'
-        case 'Aluno não entregou atividade':
-          return 'não entregou atividade'
-        case 'Aluno com nota baixa e falta em excesso':
-          return 'está com notas baixas e faltas em excesso'
-        case 'Aluno com nota baixa a tempos':
-          return 'está com notas baixas há muito tempo'
-      }
-    },
     returnColor(value){
       switch(value) {
         case 'red':
