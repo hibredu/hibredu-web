@@ -59,7 +59,7 @@
           <DefaultLoading />
         </v-card>
         <PerformanceCard v-show="!showLoading" :params="this.classrooms" />
-        <ActivityCard :params="this.activities" title="Atividades"/>
+        <ActivityCard :params="this.activities"/>
       </div>
     </div>
   </div>

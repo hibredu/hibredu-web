@@ -65,8 +65,7 @@
         <div class="activity-list">
           <ScrollListActivity :params="this.activities" />
         </div>
-
-        <ActivityCard :params="this.activities" title="Assuntos Abordados" />
+        <ActivitySubjectCard :params="this.activities"/>
       </div>
     </div>
   </div>
@@ -85,7 +84,7 @@ import ScrollListStudent from "../../components/lists/ScrollListStudent";
 import ScrollListActivity from "../../components/lists/ScrollListActivity";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import LineChart from "../../components/graphs/LineChart";
-import ActivityCard from "../../components/cards/alerts/ActivityCard";
+import ActivitySubjectCard from "../../components/cards/alerts/ActivitySubjectCard";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -103,7 +102,7 @@ export default {
     DefaultLoading,
     LineChart,
     ScrollListActivity,
-    ActivityCard,
+    ActivitySubjectCard,
   },
   data() {
     return {
@@ -250,7 +249,7 @@ export default {
 }
 
 .line-chart {
-  width: 70%;
+  width: 60%;
   height: 27em;
   align-items: center;
 }
@@ -282,6 +281,11 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 999;
+}
+
+.activity-list {
+  width: 60%;
+  height: auto;
 }
 
 @media only screen and (max-width: 1024px) {

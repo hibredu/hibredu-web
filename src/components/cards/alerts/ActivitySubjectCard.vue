@@ -1,6 +1,6 @@
 <template>
   <v-card class="scroll activity-card" flat>
-    <h4>Atividades</h4>
+    <h4>Assuntos Abordados</h4>
     <v-list dense>
       <v-list-item-group color="primary">
         <v-list-item
@@ -10,16 +10,13 @@
           style="color: var(--blackHibredu) !important"
         >
           <v-list-item-icon>
-            <v-icon center color="var(--yellowHibredu)"
+            <v-icon center color="var(--blueHibredu)"
               >mdi-checkbox-blank-circle</v-icon
             >
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title
-              >{{ formatDate(item.created_at) }}
-            </v-list-item-title>
-            <v-list-item-title
-              >{{ item.name }} - {{ item.subject }}</v-list-item-title
+              >{{ item.description === null ? "-" : item.description }}</v-list-item-title
             >
           </v-list-item-content>
         </v-list-item>
@@ -31,7 +28,7 @@
 <script>
 import globalMethods from "../../../mixins/globalMethods"
 export default {
-  name: "ActivityCard",
+  name: "ActivitySubjectCard",
   mixins: [ globalMethods ],
   props: ["number", "text", "color", "params"],
 };
