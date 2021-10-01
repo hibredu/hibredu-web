@@ -7,7 +7,7 @@
         <div class="filters">
           <DefaultLoading v-if="this.classrooms.length === 0" />
           <SelectFilter
-            v-if="this.classrooms.length > 0" 
+            v-if="this.classrooms.length > 0"
             text="Turma"
             :items="this.classrooms"
             @update:value="
@@ -34,12 +34,14 @@
             <div class="profile-card">
               <ProfileCard :params="this.profileInfos" />
             </div>
-            <IconNormalButtonDisabled
-              icon="mdi-cloud-download"
-              text="Exportar"
-              color="var(--whiteHibredu)"
-              colorText="var(--grayHibredu)"
-            />
+            <download-csv :data="student" :name="this.profileInfos.name.replace(/\s/g, '') + '_' + this.profileInfos.classroom + '.csv'">
+              <IconNormalButton
+                icon="mdi-cloud-download"
+                text="Exportar"
+                color="var(--whiteHibredu)"
+                colorText="var(--grayHibredu)"
+              />
+            </download-csv>
             <IconNormalButton
               :email="this.profileInfos.email"
               icon="mdi-email"
@@ -86,7 +88,7 @@
           </div>
         </div>
         <div class="bottom">
-          <ScrollList :params="this.activities"/>
+          <ScrollList :params="this.activities" />
         </div>
       </div>
     </div>
@@ -104,7 +106,6 @@ import ProfileCard from "../../components/cards/ProfileCard";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import LineChart from "../../components/graphs/LineChart";
 import IconNormalButton from "../../components/buttons/IconNormalButton";
-import IconNormalButtonDisabled from "../../components/buttons/IconNormalButtonDisabled";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import ScrollList from "../../components/lists/ScrollList";
 import { mapActions, mapState } from "vuex";
@@ -121,7 +122,6 @@ export default {
     AlertCard,
     ProfileCard,
     IconNormalButton,
-    IconNormalButtonDisabled,
     DefaultLoading,
     LineChart,
     ScrollList,
@@ -129,10 +129,10 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: '',
-        deliveryPercentage: '',
-        hitRate: '',
-        alerts: '',
+        deliveredActivities: "-",
+        deliveryPercentage: "-",
+        hitRate: "-",
+        alerts: "-",
       },
       selectedClassroom: null,
       selectedStudent: null,
@@ -141,7 +141,7 @@ export default {
         name: "",
         classroom: "",
         email: "",
-        subjects: []
+        subjects: [],
       },
       alerts: [],
       showLoading: {
@@ -150,10 +150,11 @@ export default {
       activitiesVsAttendance: [],
       values: ["present", "delivered"],
       activities: [],
+      student: [],
     };
   },
   mounted() {
-    if(this.classrooms.length === 0) {
+    if (this.classrooms.length === 0) {
       this.action_classroom();
     }
   },
@@ -163,7 +164,7 @@ export default {
       "action_classroomById",
       "action_studentById",
       "action_alertByStudentId",
-      "action_overviewAttendanceActivitiesByStudentId"
+      "action_overviewAttendanceActivitiesByStudentId",
     ]),
     getStudents() {
       this.action_classroomById({
@@ -189,6 +190,7 @@ export default {
         this.profileInfos.email = this.selectedStudent.email;
         this.formatSubjects2Card(response.school_subjects);
         this.formatActivities(response.activities);
+        this.student.push(response);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
@@ -206,26 +208,26 @@ export default {
         this.profileInfos.subjects.push(data[i].name);
       }
       this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
-      this.profileInfos.subjects = this.profileInfos.subjects.toString()
+      this.profileInfos.subjects = this.profileInfos.subjects.toString();
     },
     formatActivities(data) {
-      for(let i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         this.activities.push({
           id: data[i].activity.id,
           name: data[i].activity.name,
           date: this.formatDate(data[i].activity.created_at),
           status: data[i].status,
           grade: data[i].grade,
-          max_note: data[i].activity.max_note
+          max_note: data[i].activity.max_note,
         });
       }
-    }
+    },
   },
   computed: {
     ...mapState({
-      classrooms: state => state.index.classrooms
-    })
-  }
+      classrooms: (state) => state.index.classrooms,
+    }),
+  },
 };
 </script>
 
@@ -410,7 +412,7 @@ export default {
     align-items: center;
     width: auto;
   }
-  
+
   .bottom {
     height: auto;
     display: flex;
