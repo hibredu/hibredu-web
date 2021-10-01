@@ -188,7 +188,6 @@ export default {
         this.profileInfos.classroom = this.selectedClassroom.name;
         this.profileInfos.email = this.selectedStudent.email;
         this.formatSubjects2Card(response.school_subjects);
-        console.log(response.school_subjects)
         this.formatActivities(response.activities);
       });
       this.action_alertByStudentId({
