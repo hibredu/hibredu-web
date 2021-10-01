@@ -13,22 +13,22 @@
       <div class="cards">
         <InfoCard
           text="Atividades Cadastradas"
-          :number="this.cardDeliveredActivities"
+          :number="this.cards.deliveredActivities"
           color="color: var(--blueAlert)"
         />
         <InfoCard
           text="Porcentagem de Entrega"
-          :number="this.cardDeliveryPercentage"
+          :number="this.cards.deliveryPercentage"
           color="color: var(--greenAlert)"
         />
         <InfoCard
           text="Taxa de Acerto"
-          :number="this.cardHitRate"
+          :number="this.cards.hitRate"
           color="color: var(--greenAlert)"
         />
         <InfoCard
           text="Alertas"
-          :number="this.cardAlerts"
+          :number="this.cards.alerts"
           color="color: var(--redAlert)"
         />
       </div>
@@ -100,10 +100,12 @@ export default {
   },
   data() {
     return {
-      cardAlerts: "",
-      cardDeliveredActivities: "",
-      cardDeliveryPercentage: "",
-      cardHitRate: "",
+      cards: {
+        deliveredActivities: '-',
+        deliveryPercentage: '-',
+        hitRate: '-',
+        alerts: '-',
+      },
       classrooms: [],
       activitiesByClassroom: [],
       activitiesVsAttendance: [],
@@ -130,11 +132,11 @@ export default {
     ]),
     getCards() {
       this.action_overviewClassroom().then((response) => {
-        this.cardAlerts = response.alerts;
-        this.cardDeliveredActivities = response.deliveredActivities;
-        this.cardDeliveryPercentage =
+        this.cards.alerts = response.alerts;
+        this.cards.deliveredActivities = response.deliveredActivities;
+        this.cards.deliveryPercentage =
           (response.deliveryPercentage * 100).toFixed(1) + "%";
-        this.cardHitRate = (response.hitRate * 100).toFixed(1) + "%";
+        this.cards.hitRate = (response.hitRate * 100).toFixed(1) + "%";
       });
     },
     getClassrooms() {
