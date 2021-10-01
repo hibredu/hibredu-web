@@ -3,9 +3,6 @@
     <TopBar />
     <LateralMenu />
     <div class="content">
-      <div class="loading" v-if="loading">
-        <DefaultLoading />
-      </div>
       <div class="top-bar">
         <SearchBar />
         <DropDown />
@@ -18,34 +15,67 @@
           :items="this.classrooms"
           @update:value="
             selectedClassroom = $event;
-            getClassroomById();
-          "
+            getClassroomById();"
         />
       </div>
       <div class="cards">
+        <v-card class="card-loading" flat solo v-if="this.cards.deliveredActivities === null">
+          <DefaultLoading class="card-loading"/>
+          <h6 class="sub-title">
+            Atividades Cadastradas
+          </h6>
+        </v-card>
         <InfoCard
+          v-if="this.cards.deliveredActivities != null"
           text="Atividades Cadastradas"
           :number="this.cards.deliveredActivities"
           color="color: var(--blueAlert)"
         />
+
+        <v-card class="card-loading" flat solo v-if="this.cards.deliveryPercentage === null">
+          <DefaultLoading class="card-loading"/>
+          <h6 class="sub-title">
+            Porcentagem de Entrega
+          </h6>
+        </v-card>
         <InfoCard
+          v-if="this.cards.deliveryPercentage != null"
           text="Porcentagem de Entrega"
           :number="this.cards.deliveryPercentage"
           color="color: var(--greenAlert)"
         />
+
+        <v-card class="card-loading" flat solo v-if="this.cards.hitRate === null">
+          <DefaultLoading class="card-loading"/>
+          <h6 class="sub-title">
+            Taxa de Acerto
+          </h6>
+        </v-card>
         <InfoCard
+          v-if="this.cards.hitRate != null"
           text="Taxa de Acerto"
           :number="this.cards.hitRate"
           color="color: var(--greenAlert)"
         />
+
+        <v-card class="card-loading" flat solo v-if="this.cards.alerts === null">
+          <DefaultLoading/>
+          <h6 class="sub-title">
+            Alertas
+          </h6>
+        </v-card>
         <InfoCard
+          v-if="this.cards.alerts != null"
           text="Alertas"
           :number="this.cards.alerts"
           color="color: var(--redAlert)"
         />
       </div>
       <div class="start">
-        <ScrollListStudent :params="this.students" />
+        <v-card class="student-list-loading" flat solo v-if="this.students.length === 0">
+          <DefaultLoading/>
+        </v-card>
+        <ScrollListStudent v-if="this.students.length > 0" :params="this.students" />
       </div>
       <div class="middle">
         <div class="alert-card">
@@ -107,19 +137,17 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: "",
-        deliveryPercentage: "",
-        hitRate: "",
-        alerts: "",
+        deliveredActivities: null,
+        deliveryPercentage: null,
+        hitRate: null,
+        alerts: null,
       },
       students: [],
       activitiesVsAttendance: [],
       alerts: "",
       activities: [],
-      showLoading: false,
       selectedClassroom: { id: 1 },
       values: ["present", "delivered"],
-      loading: false,
     };
   },
   mounted() {
@@ -137,7 +165,12 @@ export default {
       "action_activityByClassroomId",
     ]),
     getClassroomById() {
-      this.loading = true;
+      this.cards.alerts = null;
+      this.cards.deliveredActivities = null;
+      this.cards.deliveryPercentage = null;
+      this.cards.hitRate = null;
+      this.students = [];
+
       this.action_classroomById({
         classroomId: this.selectedClassroom.id,
       }).then((response) => {
@@ -146,10 +179,10 @@ export default {
         this.cards.deliveryPercentage =
           (response.metrics.deliveryPercentage * 100).toFixed(1) + "%";
         this.cards.hitRate = (response.metrics.hitRate * 100).toFixed(1) + "%";
-        this.students = response.students;
+        this.students = response.students.sort(function (a, b) {
+          return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+        });
       });
-      this.loading = false;
-
       this.action_alertByClassroomId({
         classroomId: this.selectedClassroom.id,
       }).then((response) => {
@@ -272,20 +305,34 @@ export default {
   justify-content: space-around;
 }
 
-.loading {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-}
-
 .activity-list {
   width: 60%;
   height: auto;
+}
+
+.card-loading {
+  width: 20%;
+  height: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sub-title {
+  font-size: 1em;
+  font-family: 'Metropolis Thin';
+}
+
+.student-list-loading {
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -356,6 +403,17 @@ export default {
   .activity-list {
     width: 100%;
     height: auto;
+  }
+
+  .card-loading {
+    width: 100%;
+    margin-bottom: 2em;
+    height: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
 
