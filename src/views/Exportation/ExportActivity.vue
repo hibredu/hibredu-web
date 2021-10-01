@@ -7,8 +7,17 @@
         <SearchBar />
         <DropDown />
       </div>
-      <div class="button-card">
-        <Construction/>
+      <div class="filters">
+        <DefaultLoading v-if="this.classrooms.length === 0" />
+        <SelectFilter
+          v-if="this.classrooms.length > 0"
+          text="Turma"
+          label="3A-2021"
+          :items="this.classrooms"
+          @update:value="
+            selectedClassroom = $event;
+            show();"
+        />
       </div>
     </div>
   </div>
@@ -19,7 +28,9 @@ import LateralMenu from "../../components/LateralMenu";
 import DropDown from "../../components/DropDown";
 import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
-import Construction from "../../components/Construction";
+import DefaultLoading from "../../components/loading/DefaultLoading";
+import SelectFilter from "../../components/filters/SelectFilter";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "ExportActivity",
@@ -29,7 +40,33 @@ export default {
     DropDown,
     TopBar,
     SearchBar,
-    Construction,
+    DefaultLoading,
+    SelectFilter,
+  },
+  data() {
+    return {
+      selectedClassroom: {
+        id:1
+      },
+    }
+  },
+  mounted() {
+    if (this.classrooms.length === 0) {
+      this.action_classroom();
+    }
+  },
+  methods: {
+    ...mapActions([
+      "action_classroom",
+    ]),
+    show() {
+      console.log(this.selectedClassroom.id)
+    }
+  },
+  computed: {
+    ...mapState({
+      classrooms: (state) => state.index.classrooms,
+    }),
   },
 };
 </script>
@@ -62,24 +99,16 @@ export default {
   align-items: center;
 }
 
-.file-input {
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.button-card {
+.filters {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  justify-content: space-around;
-  margin-top: 3em;
-  height: auto;
+  width: 40%;
+  justify-content: space-between;
+  margin-top: 2em;
 }
 
 @media only screen and (max-width: 1024px) {
-.export-activity {
+  .export-activity {
     width: 100%;
     height: auto;
     background-color: var(--lightBlueHibredu);
@@ -104,12 +133,12 @@ export default {
     padding-left: 2em 2em 2em 3em;
   }
 
-  .button-card {
+  .filters {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    width: 100%;
-    height: auto;
+    width: 40%;
+    justify-content: space-between;
+    margin-top: 2em;
   }
 }
 </style>
