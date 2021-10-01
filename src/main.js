@@ -6,12 +6,14 @@ import VueRouter from 'vue-router'
 import { routes } from '../src/router/routes';
 import store from './store'
 import VueSimpleAlert from "vue-simple-alert";
-import { VueMaskDirective } from 'v-mask'
+import { VueMaskDirective } from 'v-mask';
+import JsonCSV from 'vue-json-csv';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueSimpleAlert);
 Vue.directive('mask', VueMaskDirective);
+Vue.component('downloadCsv', JsonCSV)
 
 const router = new VueRouter({
   routes : routes
