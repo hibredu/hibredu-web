@@ -49,7 +49,6 @@ export default {
     },
     getHibreduPencils() {
       this.action_hibreduRewards().then((response) => {
-        console.log(response)
         this.value = response[0].point;
       });
     }

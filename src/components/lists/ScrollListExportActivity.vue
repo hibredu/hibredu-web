@@ -1,7 +1,6 @@
 <template>
   <v-card class="scroll-list" flat>
-    <h4 class="list-title">Lista de Atividades | {{ classroom.name }}
-    </h4>
+    <h4 class="list-title">Lista de Atividades | {{ classroom.name }}</h4>
     <div class="header">
       <div class="column-name">
         <h4>#</h4>
@@ -10,13 +9,16 @@
         <h4>Nome</h4>
       </div>
       <div class="column-name">
-        <h4>Email</h4>
+        <h4>Matéria</h4>
       </div>
       <div class="column-name">
         <h4>Data</h4>
       </div>
       <div class="column-name">
-        <h4>Status</h4>
+        <h4>Valor</h4>
+      </div>
+      <div class="column-name">
+        <h4>Assunto</h4>
       </div>
     </div>
     <v-list class="content" dense>
@@ -35,7 +37,7 @@
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title>{{ item.email }}</v-list-item-title>
+          <v-list-item-title>{{ item.subject }}</v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-content>
@@ -45,7 +47,13 @@
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title>{{ item.present === true ? "Presente" : "Ausente" }}</v-list-item-title>
+          <v-list-item-title>{{ item.max_note }}</v-list-item-title>
+        </v-list-item-content>
+
+        <v-list-item-content>
+          <v-list-item-title>{{
+            item.description === null ? "-" : item.description
+          }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -95,7 +103,7 @@ export default {
 }
 
 .column-name {
-  width: 20%;
+  width: 17%;
   text-transform: uppercase;
 }
 
