@@ -55,6 +55,10 @@ export const attendanceSpreadSheetTeams = (params) => {
 export const attendance = (params) => {
     return axios.post(`${url}/attendance`, params);
 };
+export const attendanceById = (params) => {
+    return axios.get(`${url}/attendance/${params.attendanceId}`, params);
+};
+
 
 /*
     Alert

@@ -10,6 +10,7 @@ import {
     alertByClassroomId,
     attendanceSpreadSheetTeams,
     attendance,
+    attendanceById,
     alertByStudentId,
     school,
     classroomBySchoolId,
@@ -149,7 +150,11 @@ export const indexStore = {
                 return response;
             }).catch(err => console.error(err));
         },
-
+        async action_attendanceById(context, payload) {
+            return await attendanceById(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
 
         /*
             Alert

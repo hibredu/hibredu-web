@@ -7,6 +7,7 @@
         <SearchBar />
         <DropDown />
       </div>
+      <h4>Exportar Atividade</h4>
       <div class="filters">
         <DefaultLoading v-if="this.classrooms.length === 0" />
         <SelectFilter
@@ -19,6 +20,23 @@
             show();"
         />
       </div>
+      <div class="center">
+        <ScrollListExportActivity
+          :classroom="this.selectedClassroom"
+          :params="this.attendance"
+        />
+        <download-csv
+          :data="attendance"
+          :name="this.selectedClassroom.name + '.csv'"
+        >
+          <IconNormalButton
+            icon="mdi-cloud-download"
+            text="Exportar"
+            color="var(--yellowHibredu)"
+            colorText="var(--whiteHibredu)"
+          />
+        </download-csv>
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +48,8 @@ import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
 import DefaultLoading from "../../components/loading/DefaultLoading";
 import SelectFilter from "../../components/filters/SelectFilter";
+import ScrollListExportActivity from "../../components/lists/ScrollListExportActivity";
+import IconNormalButton from "../../components/buttons/IconNormalButton";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -42,26 +62,44 @@ export default {
     SearchBar,
     DefaultLoading,
     SelectFilter,
+    ScrollListExportActivity,
+    IconNormalButton,
   },
   data() {
     return {
       selectedClassroom: {
-        id:1
+        id: 1,
+        name: "3A-2021",
       },
-    }
+      attendance: [],
+    };
   },
   mounted() {
     if (this.classrooms.length === 0) {
       this.action_classroom();
     }
+    this.getAttendanceById();
   },
   methods: {
-    ...mapActions([
-      "action_classroom",
-    ]),
-    show() {
-      console.log(this.selectedClassroom.id)
-    }
+    ...mapActions(["action_classroom", "action_attendanceById"]),
+    getAttendanceById() {
+      this.action_attendanceById({
+        attendanceId: 1,
+      }).then((response) => {
+        this.formatAttendance(response.attendanceStudents);
+      });
+    },
+    formatAttendance(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.attendance.push({
+          id: data[i].student.id,
+          name: data[i].student.name,
+          email: data[i].student.email,
+          created_at: data[i].student.created_at,
+          present: data[i].present,
+        });
+      }
+    },
   },
   computed: {
     ...mapState({
@@ -107,6 +145,12 @@ export default {
   margin-top: 2em;
 }
 
+h4 {
+  font-family: "Metropolis Regular";
+  color: var(--whiteHibredu);
+  font-size: 1.3em;
+}
+
 @media only screen and (max-width: 1024px) {
   .export-activity {
     width: 100%;
@@ -136,9 +180,15 @@ export default {
   .filters {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 100%;
     justify-content: space-between;
+    align-items: center;
     margin-top: 2em;
+  }
+
+  .center{
+    width: 95%;
+    height: 100%;
   }
 }
 </style>
