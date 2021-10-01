@@ -18,7 +18,10 @@
         </div>
         <div class="second-column">
           <div class="profile-card">
-            <ProfileCard :params="this.profileInfos" />
+            <v-card class="profile-card-loading" flat solo v-if="this.profileInfos.subjects.length  === 0">
+              <DefaultLoading/>
+            </v-card>
+            <ProfileCard v-else :params="this.profileInfos" />
           </div>
         </div>
       </div>
@@ -34,6 +37,7 @@ import SearchBar from "../../components/bars/SearchBar";
 import ProfileCard from "../../components/cards/ProfileCard";
 import EditProfile from "../../components/cards/EditProfile";
 import HibreduPencilsCard from "../../components/cards/HibreduPencilsCard";
+import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
@@ -47,6 +51,7 @@ export default {
     ProfileCard,
     EditProfile,
     HibreduPencilsCard,
+    DefaultLoading
   },
   data() {
     return {
@@ -129,6 +134,15 @@ export default {
   justify-content: space-between;
 }
 
+.profile-card-loading {
+  width: 20em;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .first-column {
   width: 40em;
   height: auto;
@@ -199,6 +213,15 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .profile-card-loading {
+    width: auto;
+    height: 30em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
   }
 }
 </style>

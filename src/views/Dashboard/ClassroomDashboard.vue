@@ -12,6 +12,7 @@
         <SelectFilter
           v-if="this.classrooms.length > 0"
           text="Turma"
+          label="3A-2021"
           :items="this.classrooms"
           @update:value="
             selectedClassroom = $event;
@@ -20,7 +21,7 @@
       </div>
       <div class="cards">
         <v-card class="card-loading" flat solo v-if="this.cards.deliveredActivities === null">
-          <DefaultLoading class="card-loading"/>
+          <DefaultLoading/>
           <h6 class="sub-title">
             Atividades Cadastradas
           </h6>
@@ -33,7 +34,7 @@
         />
 
         <v-card class="card-loading" flat solo v-if="this.cards.deliveryPercentage === null">
-          <DefaultLoading class="card-loading"/>
+          <DefaultLoading/>
           <h6 class="sub-title">
             Porcentagem de Entrega
           </h6>
@@ -46,7 +47,7 @@
         />
 
         <v-card class="card-loading" flat solo v-if="this.cards.hitRate === null">
-          <DefaultLoading class="card-loading"/>
+          <DefaultLoading/>
           <h6 class="sub-title">
             Taxa de Acerto
           </h6>
