@@ -1,6 +1,6 @@
 <template>
   <v-card class="hibredu-pencils-card" flat solo>
-    <h3>Hibredu Pencils</h3>
+    <h3>Hibredu Rewards</h3>
     <br />
     <v-progress-linear
       color="var(--yellowHibredu)"
@@ -29,7 +29,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: "HibreduPencilsCard",
+  name: "HibreduRewardsCard",
   data() {
     return {
       value: 0,
