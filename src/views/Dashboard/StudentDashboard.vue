@@ -80,6 +80,7 @@
                   :data="this.activitiesVsAttendance"
                   legend_1="Atividades Entregues"
                   legend_2="Presença"
+                  :keyLine="'date'"
                   :values="this.values"
                 />
               </div>

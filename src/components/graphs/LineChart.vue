@@ -1,5 +1,5 @@
 <template>
-  <v-card class="graph-card" flat>
+  <div class="graph-card" flat>
     <div class="header-graph">
       <h4>{{ title }}</h4>
     </div>
@@ -10,7 +10,7 @@
       {{ legend_2 }}
     </div>
     <D3LineChart :config="chart_config" :datum="data"></D3LineChart>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -20,14 +20,14 @@ export default {
   components: {
     D3LineChart,
   },
-  props: ["title", "data", "filter", "legend_1", "legend_2", "values"],
+  props: ["title", "data", "filter", "legend_1", "legend_2", "values", "keyLine"],
   data() {
     return {
       chart_data: this.data,
       chart_config: {
         values: this.values,
         date: {
-          key: "date",
+          key: this.keyLine,
           inputFormat: "%Y-%m-%d",
           outputFormat: "%Y-%m-%d",
         },
@@ -60,6 +60,8 @@ export default {
   width: auto;
   padding: 1em;
   height: auto;
+  background-color: var(--whiteHibredu);
+  border-radius: 3px;
 }
 
 .header-graph {

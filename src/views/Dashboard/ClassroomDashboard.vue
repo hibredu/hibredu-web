@@ -89,6 +89,7 @@
             legend_1="Atividades Entregues"
             legend_2="Presença"
             :values="this.values"
+            :keyLine="'date'"
           />
         </div>
       </div>
