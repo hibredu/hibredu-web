@@ -11,22 +11,34 @@
         <WelcomeBar />
       </div>
       <div class="cards">
-        <InfoCard
+        <v-card v-if="this.cards.deliveredActivities === null" flat solo class="card-loading">
+          <DefaultLoading />
+        </v-card>
+        <InfoCard v-else
           text="Atividades Cadastradas"
           :number="this.cards.deliveredActivities"
           color="color: var(--blueAlert)"
         />
-        <InfoCard
+        <v-card v-if="this.cards.deliveryPercentage === null" flat solo class="card-loading">
+          <DefaultLoading />
+        </v-card>
+        <InfoCard v-else
           text="Porcentagem de Entrega"
           :number="this.cards.deliveryPercentage"
           color="color: var(--greenAlert)"
         />
-        <InfoCard
+        <v-card v-if="this.cards.hitRate === null" flat solo class="card-loading">
+          <DefaultLoading />
+        </v-card>
+        <InfoCard v-else
           text="Taxa de Acerto"
           :number="this.cards.hitRate"
           color="color: var(--greenAlert)"
         />
-        <InfoCard
+        <v-card v-if="this.cards.alerts === null" flat solo class="card-loading">
+          <DefaultLoading />
+        </v-card>
+        <InfoCard v-else
           text="Alertas"
           :number="this.cards.alerts"
           color="color: var(--redAlert)"
@@ -104,10 +116,10 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: '-',
-        deliveryPercentage: '-',
-        hitRate: '-',
-        alerts: '-',
+        deliveredActivities: null,
+        deliveryPercentage: null,
+        hitRate: null,
+        alerts: null,
       },
       classrooms: [],
       activitiesByClassroom: [],
@@ -271,6 +283,17 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.card-loading {
+  width: 20em;
+  height: auto;
+  font-family: "Metropolis Regular";
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 1024px) {
