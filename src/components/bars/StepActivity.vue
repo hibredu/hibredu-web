@@ -21,9 +21,11 @@
         />
         <div class="space"></div>
         <NormalButton
-          @click.native="importStep = 2"
-          :color="`var(--greenHibredu)`"
-          :text="`Próximo`"
+          v-if="this.uploadedFile != ''"
+          @click.native="importStep = 2;
+          sendFile();"
+          color="var(--greenHibredu)"
+          text="Próximo"
         />
       </v-stepper-content>
 
@@ -101,12 +103,13 @@
 
       <v-stepper-content step="3">
         <v-card class="scroll-list" flat>
+          <h5>Associe as colunas da planilha com seus respectivos campos para realizarmos o processamento dos dados. Utilize a pré-visualização para conferir se o exemplo gerado corresponde ao campo selecionado.</h5>
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
           <ImportConfigs/>
         </v-card>
         <div class="space"></div>
         <NormalButton
-          @click.native="importStep = 1"
+          @click.native="sendActivity()"
           :color="`var(--greenHibredu)`"
           :text="`Finalizar Envio`"
         />
@@ -140,12 +143,7 @@ export default {
     return {
       uploadedFile: [],
       importStep: 1,
-      configs: {
-        classroom: "",
-        subject: "",
-        hour: "",
-        // date: "",
-      },
+      configs: {},
       loading: false
     };
   },

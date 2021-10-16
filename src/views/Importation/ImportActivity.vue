@@ -1,5 +1,5 @@
 <template>
-  <div class="import-attendance">
+  <div class="import-activity">
     <TopBar />
     <LateralMenu />
     <div class="content">
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style scoped>
-.import-attendance {
+.import-activity {
   width: 100%;
   height: 100%;
   background-color: var(--lightBlueHibredu);
