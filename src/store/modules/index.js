@@ -122,7 +122,6 @@ export const indexStore = {
             Classroom
         */
         async action_classroom(context, payload) {
-            context.commit("SET_CLASSROOMS", []);
             return await classroom(payload).then(response => {
                 context.commit("SET_CLASSROOMS", response.data);
                 return response.data;
