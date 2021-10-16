@@ -20,53 +20,22 @@
         />
       </div>
       <div class="cards">
-        <v-card class="card-loading" flat solo v-if="this.cards.deliveredActivities === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Atividades Cadastradas
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.deliveredActivities != null"
           text="Atividades Cadastradas"
           :number="this.cards.deliveredActivities"
           color="color: var(--blueAlert)"
         />
-
-        <v-card class="card-loading" flat solo v-if="this.cards.deliveryPercentage === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Porcentagem de Entrega
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.deliveryPercentage != null"
           text="Porcentagem de Entrega"
           :number="this.cards.deliveryPercentage"
           color="color: var(--greenAlert)"
         />
-
-        <v-card class="card-loading" flat solo v-if="this.cards.hitRate === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Taxa de Acerto
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.hitRate != null"
           text="Taxa de Acerto"
           :number="this.cards.hitRate"
           color="color: var(--greenAlert)"
         />
-
-        <v-card class="card-loading" flat solo v-if="this.cards.alerts === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Alertas
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.alerts != null"
           text="Alertas"
           :number="this.cards.alerts"
           color="color: var(--redAlert)"

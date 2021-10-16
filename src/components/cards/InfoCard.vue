@@ -1,7 +1,8 @@
 <template>
   <v-card class="info-card" flat>
     <div class="content">
-      <h4 class="card-title" :style="color">
+      <DefaultLoading class="card-title" v-if="!this.number"/>
+      <h4 v-else class="card-title" :style="color">
         {{ number }}
       </h4>
       <h6 class="sub-title">
@@ -12,9 +13,14 @@
 </template>
 
 <script>
+import DefaultLoading from "../../components/loading/DefaultLoading";
+
 export default {
   name: 'InfoCard',
   props: [ "number", "text", "color" ],
+  components: {
+    DefaultLoading
+  }
 }
 </script>
 
@@ -33,6 +39,11 @@ export default {
 .content {
   width: auto;
   height: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-title {

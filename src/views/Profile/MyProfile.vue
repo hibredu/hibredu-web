@@ -18,10 +18,7 @@
         </div>
         <div class="second-column">
           <div class="profile-card">
-            <v-card class="profile-card-loading" flat solo v-if="this.profileInfos.subjects.length  === 0">
-              <DefaultLoading/>
-            </v-card>
-            <ProfileCard v-else :params="this.profileInfos" />
+            <ProfileCard :params="this.profileInfos" />
           </div>
         </div>
       </div>
@@ -37,7 +34,6 @@ import SearchBar from "../../components/bars/SearchBar";
 import ProfileCard from "../../components/cards/ProfileCard";
 import EditProfile from "../../components/cards/EditProfile";
 import HibreduRewardsCard from "../../components/cards/HibreduRewardsCard";
-import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions } from "vuex";
 
 export default {
@@ -51,7 +47,6 @@ export default {
     ProfileCard,
     EditProfile,
     HibreduRewardsCard,
-    DefaultLoading
   },
   data() {
     return {

@@ -5,22 +5,21 @@
     <div class="content">
       <div class="top-bar">
         <div class="filters">
-          <DefaultLoading v-if="this.classrooms.length === 0" />
           <SelectFilter
-            v-if="this.classrooms.length > 0"
             text="Turma"
             :items="this.classrooms"
-            @update:value="
-              selectedClassroom = $event;
+            label="3A-2021"
+            @update:value="selectedClassroom = $event;
               getStudents();"
           />
           <DefaultLoading
-            v-if="this.showLoading.studentsFilter && this.selectedClassroom != null"
+            v-if="this.students.length === 0"
           />
           <SelectFilter
-            v-if="!this.showLoading.studentsFilter && this.selectedClassroom != null"
+            v-else
             text="Aluno"
             :items="this.students"
+            label="Karini Justino"
             @update:value="
               selectedStudent = $event;
               getStudentById();"
@@ -28,13 +27,20 @@
         </div>
         <DropDown />
       </div>
-      <div v-if="selectedStudent != null">
+      <div>
         <div class="start">
           <div class="first-column">
             <div class="profile-card">
               <ProfileCard :params="this.profileInfos" />
             </div>
-            <download-csv :data="student" :name="this.profileInfos.name.replace(/\s/g, '') + '_' + this.profileInfos.classroom + '.csv'">
+            <download-csv
+              :data="student"
+              :name="
+                this.profileInfos.name.replace(/\s/g, '') +
+                '_' +
+                this.profileInfos.classroom +
+                '.csv'"
+            >
               <IconNormalButton
                 icon="mdi-cloud-download"
                 text="Exportar"
@@ -130,13 +136,13 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: "-",
-        deliveryPercentage: "-",
-        hitRate: "-",
-        alerts: "-",
+        deliveredActivities: null,
+        deliveryPercentage: null,
+        hitRate: null,
+        alerts: null,
       },
-      selectedClassroom: null,
-      selectedStudent: null,
+      selectedClassroom: { id: 1, name: '3A-2021' },
+      selectedStudent: { id: 1 },
       students: [],
       profileInfos: {
         name: "",
@@ -155,6 +161,8 @@ export default {
     };
   },
   mounted() {
+    this.getStudents();
+    this.getStudentById();
     if (this.classrooms.length === 0) {
       this.action_classroom();
     }
@@ -168,6 +176,8 @@ export default {
       "action_overviewAttendanceActivitiesByStudentId",
     ]),
     getStudents() {
+      this.students = [];
+
       this.action_classroomById({
         classroomId: this.selectedClassroom.id,
       }).then((response) => {
@@ -178,6 +188,11 @@ export default {
       });
     },
     getStudentById() {
+      this.cards.alerts = null;
+      this.cards.deliveredActivities = null;
+      this.cards.deliveryPercentage = null;
+      this.cards.hitRate = null;
+
       this.action_studentById({
         studentId: this.selectedStudent.id,
       }).then((response) => {
@@ -335,6 +350,17 @@ export default {
 .line-chart {
   width: 65%;
   height: auto;
+  align-items: center;
+}
+
+.card-loading {
+  width: 20em;
+  height: auto;
+  font-family: "Metropolis Regular";
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
 }
 
