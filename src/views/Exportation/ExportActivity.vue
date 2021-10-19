@@ -17,7 +17,7 @@
           :items="this.classrooms"
           @update:value="
             selectedClassroom = $event;
-            show();"
+            getActivityByClassroomId();"
         />
       </div>
       <div class="center">
@@ -86,6 +86,7 @@ export default {
       "action_activityByClassroomId",
     ]),
     getActivityByClassroomId() {
+      this.activity = [];
       this.action_activityByClassroomId({
         classroomId: this.selectedClassroom.id,
       }).then((response) => {

@@ -17,7 +17,7 @@
           :items="this.classrooms"
           @update:value="
             selectedClassroom = $event;
-            show();"
+            getAttendanceById();"
         />
       </div>
       <div class="center">
@@ -83,8 +83,9 @@ export default {
   methods: {
     ...mapActions(["action_classroom", "action_attendanceById"]),
     getAttendanceById() {
+      this.attendance = [];
       this.action_attendanceById({
-        attendanceId: 1,
+        attendanceId: this.selectedClassroom.id,
       }).then((response) => {
         this.formatAttendance(response.attendanceStudents);
       });
