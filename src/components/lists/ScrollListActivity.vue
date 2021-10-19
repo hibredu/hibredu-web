@@ -13,7 +13,9 @@
       </div>
     </div>
     <v-list class="content" dense>
+      <DefaultLoading class="list-loading" v-if="params.length === 0"/>
       <v-list-item
+        v-else
         v-for="(item, i) in params"
         :key="i"
         :disabled="true"
@@ -39,10 +41,15 @@
 
 <script>
 import globalMethods from "../../mixins/globalMethods";
+import DefaultLoading from "../../components/loading/DefaultLoading";
+
 export default {
   name: "ScrollListActivity",
   mixins: [globalMethods],
   props: ["number", "text", "color", "params"],
+  components: {
+    DefaultLoading
+  }
 };
 </script>
 
@@ -78,6 +85,15 @@ export default {
 .column-name {
   width: 33%;
   text-transform: uppercase;
+}
+
+.list-loading {
+  justify-content: space-around;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: auto;
 }
 
 @media only screen and (max-width: 1024px) {

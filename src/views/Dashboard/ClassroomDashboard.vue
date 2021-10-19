@@ -42,10 +42,7 @@
         />
       </div>
       <div class="start">
-        <v-card class="student-list-loading" flat solo v-if="this.students.length === 0">
-          <DefaultLoading/>
-        </v-card>
-        <ScrollListStudent v-if="this.students.length > 0" :params="this.students" />
+        <ScrollListStudent :params="this.students" />
       </div>
       <div class="middle">
         <div class="alert-card">
@@ -80,7 +77,6 @@ import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
 import InfoCard from "../../components/cards/InfoCard";
 import SelectFilter from "../../components/filters/SelectFilter";
-import DefaultLoading from "../../components/loading/DefaultLoading";
 import ScrollListStudent from "../../components/lists/ScrollListStudent";
 import ScrollListActivity from "../../components/lists/ScrollListActivity";
 import AlertCard from "../../components/cards/alerts/AlertCard";
@@ -100,7 +96,6 @@ export default {
     SelectFilter,
     ScrollListStudent,
     AlertCard,
-    DefaultLoading,
     LineChart,
     ScrollListActivity,
     ActivitySubjectCard,
@@ -247,7 +242,7 @@ export default {
 }
 
 .alert-card {
-  width: auto;
+  width: 30em;
   height: 27em;
   align-items: center;
 }
