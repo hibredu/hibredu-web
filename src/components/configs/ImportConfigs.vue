@@ -11,7 +11,7 @@
         <h4>Campo</h4>
       </div>
     </div>
-    <v-list class="content" dense>
+    <v-list class="content" v-if="this.returnSpreadsheet != null" dense>
       <v-list-item
         v-for="(column, i) in this.returnSpreadsheet.columns"
         :key="i"
@@ -39,12 +39,12 @@
           <v-select
             outlined
             dense
-            :items="items"
-            item-text="value"
+            :items="suggestion"
             :label="column[0].suggestion"
             color="var(--yellowHibredu)"
             single-line
-          ></v-select>
+            @change="updateColumns(i, $event);"
+          />
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -58,16 +58,20 @@ import { mapState } from "vuex";
 export default {
   name: "ImportConfigs",
   mixins: [globalMethods],
-  components: {
-  },
+  props: [ "columns", "suggestion" ],
   data() {
     return {
-      items: [
-        { value: "Nome" },
-        { value: "Atividade" },
-        { value: "Controle do Horário" },
-      ],
+      finalColumns: []
     };
+  },
+  mounted(){
+    this.finalColumns = this.columns;
+  },
+  methods: {
+    updateColumns(i,value){
+      this.finalColumns[i].final_field = value;
+      this.$emit("configuredColumns", this.finalColumns);
+    }
   },
   computed: {
     ...mapState({
