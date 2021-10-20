@@ -2,7 +2,7 @@
   <div class="vertical-progress-step-bar">
     <v-stepper v-model="importStep" vertical flat>
       <div class="loading" v-if="loading">
-        <DefaultLoading/>
+        <DefaultLoading />
       </div>
       <v-stepper-step
         :complete="importStep > 1"
@@ -22,8 +22,10 @@
         <div class="space"></div>
         <NormalButton
           v-if="this.uploadedFile != ''"
-          @click.native="importStep = 2;
-          sendFile();"
+          @click.native="
+            importStep = 2;
+            sendFile();
+          "
           color="var(--greenHibredu)"
           text="Próximo"
         />
@@ -84,10 +86,7 @@
         </div>
         <div class="space"></div>
         <NormalButton
-          @click.native="
-            importStep = 3;
-            show();
-          "
+          @click.native="importStep = 3"
           color="var(--greenHibredu)"
           text="Próximo"
         />
@@ -103,9 +102,13 @@
 
       <v-stepper-content step="3">
         <v-card class="scroll-list" flat>
-          <h5>Associe as colunas da planilha com seus respectivos campos para realizarmos o processamento dos dados. Utilize a pré-visualização para conferir se o exemplo gerado corresponde ao campo selecionado.</h5>
+          <h5>
+            Associe as colunas da planilha com seus respectivos campos para
+            realizarmos o processamento dos dados. Utilize a pré-visualização
+            para conferir se o exemplo gerado corresponde ao campo selecionado.
+          </h5>
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
-          <ImportConfigs/>
+          <ImportConfigs />
         </v-card>
         <div class="space"></div>
         <NormalButton
@@ -121,11 +124,11 @@
 <script>
 import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
-import DefaultLoading from "../loading/DefaultLoading"
+import DefaultLoading from "../loading/DefaultLoading";
 import SelectInputClean from "../inputs/SelectInputClean";
 import TextInputClean from "../inputs/TextInputClean";
 import DateInputClean from "../inputs/DateInputClean";
-import ImportConfigs from "../configs/ImportConfigs"
+import ImportConfigs from "../configs/ImportConfigs";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -137,14 +140,14 @@ export default {
     TextInputClean,
     DefaultLoading,
     DateInputClean,
-    ImportConfigs
+    ImportConfigs,
   },
   data() {
     return {
       uploadedFile: [],
       importStep: 1,
       configs: {},
-      loading: false
+      loading: false,
     };
   },
   mounted() {
@@ -169,37 +172,44 @@ export default {
       let data = new FormData();
       data.append("activity", this.uploadedFile);
 
-      this.action_activitySpreadSheetTeams(data).then(() => {
+      this.action_activitySpreadSheetTeams(data).then((response) => {
+        console.log(response);
+        // this.formatSuggestions(response.data.columns)
       });
+    },
+    formatSuggestions(data) {
+      for (let i = 0; i < data.length; i++) {
+        this.columns.push({
+          field_name: data[i][0].field_name,
+          final_field: data[i][0].suggestion,
+        });
+        this.suggestions.push(data[i][0].suggestion);
+      }
+      this.configuredColumns = this.columns;
+    },
+    updateColumns(event) {
+      this.configuredColumns = event;
     },
     sendActivity() {
       this.loading = true;
       this.action_activity({
+        file_id: this.returnSpreadsheet.file_id,
         classroom_id: this.configs.classroom,
         subject_id: this.configs.subject,
-        file_id: this.returnSpreadsheet.file_id,
-        description: "Envio de Presença",
-        columns: [
-          {
-            field_name: "Data e hora",
-            final_field: "Controle de horário",
-          },
-          {
-            field_name: "Atividade",
-            final_field: "Atividade",
-          },
-          {
-            field_name: "Nome Completo",
-            final_field: "Nome",
-          },
-        ],
-      }).then(() => {
-        this.loading = false;
-        this.$alert("Atividade enviada com sucesso!");
-        this.$router.back();
-      }).catch(() => {
-        this.$alert("Houve um erro na importação. Tente novamente");
-      });
+        number_questions: this.configs.total_questions,
+        subject: this.configs.theme,
+        name: this.configs.activity_name,
+        max_note: this.configs.total_value,
+        columns: this.configuredColumns,
+      })
+        .then(() => {
+          this.loading = false;
+          this.$alert("Atividade enviada com sucesso!");
+          this.$router.back();
+        })
+        .catch(() => {
+          this.$alert("Houve um erro na importação. Tente novamente");
+        });
     },
   },
   computed: {
