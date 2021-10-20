@@ -9,12 +9,12 @@
             text="Turma"
             :items="this.classrooms"
             label="3A-2021"
-            @update:value="selectedClassroom = $event;
-              getStudents();"
+            @update:value="
+              selectedClassroom = $event;
+              getStudents();
+            "
           />
-          <DefaultLoading
-            v-if="this.students.length === 0"
-          />
+          <DefaultLoading v-if="this.students.length === 0" />
           <SelectFilter
             v-else
             text="Aluno"
@@ -22,7 +22,8 @@
             label="Karini Justino"
             @update:value="
               selectedStudent = $event;
-              getStudentById();"
+              getStudentById();
+            "
           />
         </div>
         <DropDown />
@@ -39,7 +40,8 @@
                 this.profileInfos.name.replace(/\s/g, '') +
                 '_' +
                 this.profileInfos.classroom +
-                '.csv'"
+                '.csv'
+              "
             >
               <IconNormalButton
                 icon="mdi-cloud-download"
@@ -141,7 +143,7 @@ export default {
         hitRate: null,
         alerts: null,
       },
-      selectedClassroom: { id: 1, name: '3A-2021' },
+      selectedClassroom: { id: 1, name: "3A-2021" },
       selectedStudent: { id: 1 },
       students: [],
       profileInfos: {
@@ -206,7 +208,8 @@ export default {
         this.profileInfos.email = this.selectedStudent.email;
         this.formatSubjects2Card(response.school_subjects);
         this.formatActivities(response.activities);
-        this.student.push(response);
+        this.formatExportStudent(response);
+        // this.student.push(response);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
@@ -236,6 +239,16 @@ export default {
           grade: data[i].grade,
           max_note: data[i].activity.max_note,
         });
+      }
+    },
+    formatExportStudent(data) {
+      for (let i = 0; i < data.activities.length; i++) {
+        console.log(data.metrics);
+        console.log(data.alerts[i].value);
+        this.student.push({ 
+          Atividades: data.activities[i].activity.name, 
+          Alertas: data.alerts[i].value,
+          });
       }
     },
   },
