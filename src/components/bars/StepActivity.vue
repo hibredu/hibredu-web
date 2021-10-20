@@ -108,7 +108,7 @@
             para conferir se o exemplo gerado corresponde ao campo selecionado.
           </h5>
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
-          <ImportConfigs />
+          <ImportConfigs :columns="this.columns" :suggestion="this.suggestions" @configuredColumns="updateColumns($event)"/>
         </v-card>
         <div class="space"></div>
         <NormalButton
@@ -147,6 +147,9 @@ export default {
       uploadedFile: [],
       importStep: 1,
       configs: {},
+      columns: [],
+      suggestions: [],
+      configuredColumns: [],
       loading: false,
     };
   },
