@@ -51,7 +51,7 @@ export const indexStore = {
             state.returnSpreadsheet = payload;
         },
         SET_RETURN_SEND_SPREADSHEET_ACTIVITY(state, payload) {
-            state.returnSpreadsheetActivity = payload;
+            state.returnSpreadsheet = payload;
         },
         SET_SUBJECTS(state, payload) {
             state.subjects = payload;
