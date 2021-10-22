@@ -199,7 +199,7 @@ export default {
         classroom_id: this.configs.classroom,
         subject_id: this.configs.subject,
         number_questions: this.configs.total_questions,
-        subject: this.configs.theme,
+        subject_name: this.configs.theme,
         name: this.configs.activity_name,
         max_note: this.configs.total_value,
         columns: this.configuredColumns,
