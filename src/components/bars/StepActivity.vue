@@ -176,8 +176,7 @@ export default {
       data.append("activity", this.uploadedFile);
 
       this.action_activitySpreadSheetTeams(data).then((response) => {
-        console.log(response);
-        // this.formatSuggestions(response.data.columns)
+        this.formatSuggestions(response.data.columns)
       });
     },
     formatSuggestions(data) {
@@ -219,7 +218,7 @@ export default {
     ...mapState({
       classrooms: (state) => state.index.classrooms,
       subjects: (state) => state.index.subjects,
-      returnSpreadsheet: (state) => state.index.returnSpreadsheetActivity,
+      returnSpreadsheet: (state) => state.index.returnSpreadsheet,
     }),
   },
 };
