@@ -127,7 +127,7 @@ export default {
       "action_classroomById",
       "action_classroom",
       "action_alertByClassroomId",
-      "action_overviewAttendanceActivities",
+      "action_overviewAttendanceActivitiesByClassroomId",
       "action_activityByClassroomId",
     ]),
     getClassroomById() {
@@ -155,7 +155,9 @@ export default {
         this.alerts = response;
       });
 
-      this.action_overviewAttendanceActivities().then((response) => {
+      this.action_overviewAttendanceActivitiesByClassroomId({
+        classroomId: this.selectedClassroom.id,
+      }).then((response) => {
         this.activitiesVsAttendance = response;
       });
 
