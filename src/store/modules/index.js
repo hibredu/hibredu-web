@@ -23,6 +23,7 @@ import {
     overviewAlerts,
     overviewAttendanceActivities,
     overviewAttendanceActivitiesByStudentId,
+    overviewAttendanceActivitiesByClassroomId,
     schoolSubjects,
     schoolSubjectsByTeacher,
     hibreduRewards
@@ -224,6 +225,11 @@ export const indexStore = {
         },
         async action_overviewAttendanceActivitiesByStudentId(context, payload) {
             return await overviewAttendanceActivitiesByStudentId(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_overviewAttendanceActivitiesByClassroomId(context, payload) {
+            return await overviewAttendanceActivitiesByClassroomId(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },

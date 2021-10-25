@@ -117,6 +117,9 @@ export const overviewAttendanceActivities = (params) => {
 export const overviewAttendanceActivitiesByStudentId = (params) => {
     return axios.get(`${url}/overview/student/attendance/activities/${params.studentId}`, params);
 };
+export const overviewAttendanceActivitiesByClassroomId = (params) => {
+    return axios.get(`${url}/overview/student/attendance/activities/${params.classroomId}`, params);
+};
 
 
 /*
