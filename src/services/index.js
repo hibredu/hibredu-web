@@ -86,7 +86,7 @@ export const classroomBySchoolId = (params) => {
     Activity
 */
 export const activitySpreadSheetTeams = (params) => {
-    return axios.post(`${url}/activity/spreadsheet/teams`, params);
+    return axios.post(`${url}/activity/teams/spreadsheet`, params);
 };
 export const activity = (params) => {
     return axios.post(`${url}/activity/teams`, params);
@@ -116,6 +116,9 @@ export const overviewAttendanceActivities = (params) => {
 };
 export const overviewAttendanceActivitiesByStudentId = (params) => {
     return axios.get(`${url}/overview/student/attendance/activities/${params.studentId}`, params);
+};
+export const overviewAttendanceActivitiesByClassroomId = (params) => {
+    return axios.get(`${url}/overview/student/attendance/activities/${params.classroomId}`, params);
 };
 
 

@@ -26,8 +26,8 @@
             importStep = 2;
             sendFile();
           "
-          :color="`var(--greenHibredu)`"
-          :text="`Próximo`"
+          color="var(--greenHibredu)"
+          text="Próximo"
         />
       </v-stepper-content>
 
@@ -88,7 +88,7 @@
         <v-card class="scroll-list" flat>
           <h5>Associe as colunas da planilha com seus respectivos campos para realizarmos o processamento dos dados. Utilize a pré-visualização para conferir se o exemplo gerado corresponde ao campo selecionado.</h5>
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
-          <ImportConfigs/>
+          <ImportConfigs :columns="this.columns" :suggestion="this.suggestions" @configuredColumns="updateColumns($event)"/>
         </v-card>
         <div class="space"></div>
         <NormalButton
@@ -132,6 +132,9 @@ export default {
         hour: "",
         // date: "",
       },
+      columns: [],
+      suggestions: [],
+      configuredColumns: [],
       loading: false
     };
   },
@@ -157,8 +160,22 @@ export default {
       let data = new FormData();
       data.append("attendance", this.uploadedFile);
 
-      this.action_attendanceSpreadSheetTeams(data).then(() => {
+      this.action_attendanceSpreadSheetTeams(data).then((response) => {
+        this.formatSuggestions(response.data.columns)
       });
+    },
+    formatSuggestions(data) {
+      for(let i = 0; i < data.length; i++) {
+        this.columns.push({
+          field_name: data[i][0].field_name,
+          final_field: data[i][0].suggestion
+        })
+        this.suggestions.push(data[i][0].suggestion)
+      }
+      this.configuredColumns = this.columns;
+    },
+    updateColumns(event){
+      this.configuredColumns = event;
     },
     sendAttendance() {
       this.loading = true;
@@ -168,20 +185,7 @@ export default {
         file_id: this.returnSpreadsheet.file_id,
         description: "Envio de Presença",
         datetime: this.configs.date,
-        columns: [
-          {
-            field_name: "Data e hora",
-            final_field: "Controle de horário",
-          },
-          {
-            field_name: "Atividade",
-            final_field: "Atividade",
-          },
-          {
-            field_name: "Nome Completo",
-            final_field: "Nome",
-          },
-        ],
+        columns: this.configuredColumns
       }).then(() => {
         this.loading = false;
         this.$alert("Planilha enviada com sucesso!");

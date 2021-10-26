@@ -5,22 +5,20 @@
     <div class="content">
       <div class="top-bar">
         <div class="filters">
-          <DefaultLoading v-if="this.classrooms.length === 0" />
           <SelectFilter
-            v-if="this.classrooms.length > 0"
             text="Turma"
             :items="this.classrooms"
+            label="3A-2021"
             @update:value="
               selectedClassroom = $event;
               getStudents();"
           />
-          <DefaultLoading
-            v-if="this.showLoading.studentsFilter && this.selectedClassroom != null"
-          />
+          <DefaultLoading v-if="this.students.length === 0" />
           <SelectFilter
-            v-if="!this.showLoading.studentsFilter && this.selectedClassroom != null"
+            v-else
             text="Aluno"
             :items="this.students"
+            label="Karini Justino"
             @update:value="
               selectedStudent = $event;
               getStudentById();"
@@ -28,13 +26,20 @@
         </div>
         <DropDown />
       </div>
-      <div v-if="selectedStudent != null">
+      <div>
         <div class="start">
           <div class="first-column">
             <div class="profile-card">
               <ProfileCard :params="this.profileInfos" />
             </div>
-            <download-csv :data="student" :name="this.profileInfos.name.replace(/\s/g, '') + '_' + this.profileInfos.classroom + '.csv'">
+            <download-csv
+              :data="student"
+              :name="
+                this.profileInfos.name.replace(/\s/g, '') +
+                '_' +
+                this.profileInfos.classroom +
+                '.csv'"
+            >
               <IconNormalButton
                 icon="mdi-cloud-download"
                 text="Exportar"
@@ -80,6 +85,7 @@
                   :data="this.activitiesVsAttendance"
                   legend_1="Atividades Entregues"
                   legend_2="Presença"
+                  :keyLine="'date'"
                   :values="this.values"
                 />
               </div>
@@ -129,13 +135,13 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: "-",
-        deliveryPercentage: "-",
-        hitRate: "-",
-        alerts: "-",
+        deliveredActivities: null,
+        deliveryPercentage: null,
+        hitRate: null,
+        alerts: null,
       },
-      selectedClassroom: null,
-      selectedStudent: null,
+      selectedClassroom: { id: 1, name: "3A-2021" },
+      selectedStudent: { id: 1 },
       students: [],
       profileInfos: {
         name: "",
@@ -154,6 +160,8 @@ export default {
     };
   },
   mounted() {
+    this.getStudents();
+    this.getStudentById();
     if (this.classrooms.length === 0) {
       this.action_classroom();
     }
@@ -167,6 +175,8 @@ export default {
       "action_overviewAttendanceActivitiesByStudentId",
     ]),
     getStudents() {
+      this.students = [];
+
       this.action_classroomById({
         classroomId: this.selectedClassroom.id,
       }).then((response) => {
@@ -177,6 +187,11 @@ export default {
       });
     },
     getStudentById() {
+      this.cards.alerts = null;
+      this.cards.deliveredActivities = null;
+      this.cards.deliveryPercentage = null;
+      this.cards.hitRate = null;
+
       this.action_studentById({
         studentId: this.selectedStudent.id,
       }).then((response) => {
@@ -190,7 +205,6 @@ export default {
         this.profileInfos.email = this.selectedStudent.email;
         this.formatSubjects2Card(response.school_subjects);
         this.formatActivities(response.activities);
-        this.student.push(response);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
@@ -204,11 +218,13 @@ export default {
       });
     },
     formatSubjects2Card(data) {
-      for (let i = 0; i < data.length; i++) {
-        this.profileInfos.subjects.push(data[i].name);
+      if(data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+          this.profileInfos.subjects.push(" " + data[i].name);
+        }
+        this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
+        this.profileInfos.subjects = this.profileInfos.subjects.toString();
       }
-      this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
-      this.profileInfos.subjects = this.profileInfos.subjects.toString();
     },
     formatActivities(data) {
       for (let i = 0; i < data.length; i++) {
@@ -219,6 +235,14 @@ export default {
           status: data[i].status,
           grade: data[i].grade,
           max_note: data[i].activity.max_note,
+        });
+      }
+    },
+    formatExportStudent(data) {
+      for (let i = 0; i < data.activities.length; i++) {
+        this.student.push({
+          Atividades: data.activities[i].activity.name,
+          Alertas: data.alerts[i].value,
         });
       }
     },
@@ -337,10 +361,21 @@ export default {
   align-items: center;
 }
 
+.card-loading {
+  width: 20em;
+  height: auto;
+  font-family: "Metropolis Regular";
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: 400%;
+    height: auto;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: column;
@@ -444,7 +479,7 @@ export default {
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .student-dashboard {
     width: 100%;
-    height: 170%;
+    height: auto;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;

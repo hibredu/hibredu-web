@@ -17,7 +17,7 @@
           :items="this.classrooms"
           @update:value="
             selectedClassroom = $event;
-            show();"
+            getAttendanceById();"
         />
       </div>
       <div class="center">
@@ -83,8 +83,9 @@ export default {
   methods: {
     ...mapActions(["action_classroom", "action_attendanceById"]),
     getAttendanceById() {
+      this.attendance = [];
       this.action_attendanceById({
-        attendanceId: 1,
+        attendanceId: this.selectedClassroom.id,
       }).then((response) => {
         this.formatAttendance(response.attendanceStudents);
       });
@@ -189,6 +190,24 @@ h4 {
   .center{
     width: 95%;
     height: 100%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (min-width: 1440px){
+  .export-attendance {
+    width: 100%;
+    height: 115%;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .center {
+    width: 95%;
+    height: auto;
+    margin-bottom: 2em;
   }
 }
 </style>

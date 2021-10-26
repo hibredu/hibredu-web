@@ -17,17 +17,17 @@
           :items="this.classrooms"
           @update:value="
             selectedClassroom = $event;
-            show();"
+            getActivityByClassroomId();"
         />
       </div>
       <div class="center">
         <ScrollListExportActivity
           :classroom="this.selectedClassroom"
-          :params="this.attendance"
+          :params="this.activity"
         />
         <download-csv
-          :data="attendance"
-          :name="this.selectedClassroom.name + '.csv'"
+          :data="activity"
+          :name="'Atividade_' + this.selectedClassroom.name + '.csv'"
         >
           <IconNormalButton
             icon="mdi-cloud-download"
@@ -71,32 +71,37 @@ export default {
         id: 1,
         name: "3A-2021",
       },
-      attendance: [],
+      activity: [],
     };
   },
   mounted() {
     if (this.classrooms.length === 0) {
       this.action_classroom();
     }
-    this.getAttendanceById();
+    this.getActivityByClassroomId();
   },
   methods: {
-    ...mapActions(["action_classroom", "action_attendanceById"]),
-    getAttendanceById() {
-      this.action_attendanceById({
-        attendanceId: 1,
+    ...mapActions([
+      "action_classroom", 
+      "action_activityByClassroomId",
+    ]),
+    getActivityByClassroomId() {
+      this.activity = [];
+      this.action_activityByClassroomId({
+        classroomId: this.selectedClassroom.id,
       }).then((response) => {
-        this.formatAttendance(response.attendanceStudents);
+        this.formatActivity(response);
       });
     },
-    formatAttendance(data) {
+    formatActivity(data) {
       for (let i = 0; i < data.length; i++) {
-        this.attendance.push({
-          id: data[i].student.id,
-          name: data[i].student.name,
-          email: data[i].student.email,
-          created_at: data[i].student.created_at,
-          present: data[i].present,
+        this.activity.push({
+          id: data[i].id,
+          name: data[i].name,
+          subject: data[i].subject,
+          created_at: data[i].created_at,
+          max_note: data[i].max_note,
+          description: data[i].description
         });
       }
     },
@@ -189,6 +194,24 @@ h4 {
   .center{
     width: 95%;
     height: 100%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (min-width: 1440px){
+  .export-activity {
+    width: 100%;
+    height: 115%;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .center {
+    width: 95%;
+    height: auto;
+    margin-bottom: 2em;
   }
 }
 </style>

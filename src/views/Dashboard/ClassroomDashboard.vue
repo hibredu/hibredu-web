@@ -20,63 +20,29 @@
         />
       </div>
       <div class="cards">
-        <v-card class="card-loading" flat solo v-if="this.cards.deliveredActivities === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Atividades Cadastradas
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.deliveredActivities != null"
           text="Atividades Cadastradas"
           :number="this.cards.deliveredActivities"
           color="color: var(--blueAlert)"
         />
-
-        <v-card class="card-loading" flat solo v-if="this.cards.deliveryPercentage === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Porcentagem de Entrega
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.deliveryPercentage != null"
           text="Porcentagem de Entrega"
           :number="this.cards.deliveryPercentage"
           color="color: var(--greenAlert)"
         />
-
-        <v-card class="card-loading" flat solo v-if="this.cards.hitRate === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Taxa de Acerto
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.hitRate != null"
           text="Taxa de Acerto"
           :number="this.cards.hitRate"
           color="color: var(--greenAlert)"
         />
-
-        <v-card class="card-loading" flat solo v-if="this.cards.alerts === null">
-          <DefaultLoading/>
-          <h6 class="sub-title">
-            Alertas
-          </h6>
-        </v-card>
         <InfoCard
-          v-if="this.cards.alerts != null"
           text="Alertas"
           :number="this.cards.alerts"
           color="color: var(--redAlert)"
         />
       </div>
       <div class="start">
-        <v-card class="student-list-loading" flat solo v-if="this.students.length === 0">
-          <DefaultLoading/>
-        </v-card>
-        <ScrollListStudent v-if="this.students.length > 0" :params="this.students" />
+        <ScrollListStudent :params="this.students" />
       </div>
       <div class="middle">
         <div class="alert-card">
@@ -89,6 +55,7 @@
             legend_1="Atividades Entregues"
             legend_2="Presença"
             :values="this.values"
+            :keyLine="'date'"
           />
         </div>
       </div>
@@ -110,7 +77,6 @@ import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
 import InfoCard from "../../components/cards/InfoCard";
 import SelectFilter from "../../components/filters/SelectFilter";
-import DefaultLoading from "../../components/loading/DefaultLoading";
 import ScrollListStudent from "../../components/lists/ScrollListStudent";
 import ScrollListActivity from "../../components/lists/ScrollListActivity";
 import AlertCard from "../../components/cards/alerts/AlertCard";
@@ -130,7 +96,6 @@ export default {
     SelectFilter,
     ScrollListStudent,
     AlertCard,
-    DefaultLoading,
     LineChart,
     ScrollListActivity,
     ActivitySubjectCard,
@@ -162,7 +127,7 @@ export default {
       "action_classroomById",
       "action_classroom",
       "action_alertByClassroomId",
-      "action_overviewAttendanceActivities",
+      "action_overviewAttendanceActivitiesByClassroomId",
       "action_activityByClassroomId",
     ]),
     getClassroomById() {
@@ -190,7 +155,9 @@ export default {
         this.alerts = response;
       });
 
-      this.action_overviewAttendanceActivities().then((response) => {
+      this.action_overviewAttendanceActivitiesByClassroomId({
+        classroomId: this.selectedClassroom.id,
+      }).then((response) => {
         this.activitiesVsAttendance = response;
       });
 
@@ -277,7 +244,7 @@ export default {
 }
 
 .alert-card {
-  width: auto;
+  width: 30em;
   height: 27em;
   align-items: center;
 }
@@ -433,7 +400,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 95%;
-    height: 100%;
+    height: auto;
     padding: 2em;
     padding-left: 8em;
   }

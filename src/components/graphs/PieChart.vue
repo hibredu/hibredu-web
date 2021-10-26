@@ -1,11 +1,11 @@
 <template>
-  <v-card class="graph-card" flat>
+  <div class="graph-card" flat>
     <h4>{{ title }}</h4>
     <D3PieChart
       :config="chart_config"
       :datum="chart_data"
     ></D3PieChart>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -39,6 +39,8 @@ export default {
   width: auto;  
   padding: 1em;
   height: 100%;
+  background-color: var(--whiteHibredu);
+  border-radius: 3px;
 }
 
 @media only screen and (max-width: 1024px) {

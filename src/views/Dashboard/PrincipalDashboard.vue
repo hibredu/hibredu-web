@@ -33,19 +33,25 @@
         />
       </div>
       <div class="middle">
-        <div class="line-chart">
+        <v-card v-if="this.activitiesVsAttendance.length === 0" flat solo class="bar-chart-loading">
+          <DefaultLoading />
+        </v-card>
+        <div v-else class="line-chart">
           <LineChart
             title="Desempenho X Presença"
             :data="this.activitiesVsAttendance"
             legend_1="Atividades Entregues"
             legend_2="Presença"
             :values="this.values"
+            :keyLine="'date'"
           />
         </div>
         <div v-show="!showLoading" class="bar-chart">
           <BarChart
             title="Realização de atividades por turma"
             :data="this.activitiesByClassroom"
+            :keyBar="'name'"
+            :values="this.valuesActivities"
           />
         </div>
 
@@ -101,10 +107,10 @@ export default {
   data() {
     return {
       cards: {
-        deliveredActivities: '-',
-        deliveryPercentage: '-',
-        hitRate: '-',
-        alerts: '-',
+        deliveredActivities: null,
+        deliveryPercentage: null,
+        hitRate: null,
+        alerts: null,
       },
       classrooms: [],
       activitiesByClassroom: [],
@@ -113,6 +119,7 @@ export default {
       activities: [],
       showLoading: false,
       values: ["present", "delivered"],
+      valuesActivities: ["deliveredActivities"]
     };
   },
   async mounted() {

@@ -1,7 +1,6 @@
 <template>
   <v-card class="scroll-list" flat>
-    <h4 class="list-title">Lista de Atividades | {{ classroom.name }}
-    </h4>
+    <h4 class="list-title">Lista de Atividades | {{ classroom.name }}</h4>
     <div class="header">
       <div class="column-name">
         <h4>#</h4>
@@ -10,17 +9,22 @@
         <h4>Nome</h4>
       </div>
       <div class="column-name">
-        <h4>Email</h4>
+        <h4>Matéria</h4>
       </div>
       <div class="column-name">
         <h4>Data</h4>
       </div>
       <div class="column-name">
-        <h4>Status</h4>
+        <h4>Valor</h4>
+      </div>
+      <div class="column-name">
+        <h4>Assunto</h4>
       </div>
     </div>
     <v-list class="content" dense>
+      <DefaultLoading class="list-loading" v-if="params.length === 0"/>
       <v-list-item
+        v-else
         v-for="(item, i) in params"
         :key="i"
         :disabled="true"
@@ -35,7 +39,7 @@
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title>{{ item.email }}</v-list-item-title>
+          <v-list-item-title>{{ item.subject }}</v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-content>
@@ -45,7 +49,13 @@
         </v-list-item-content>
 
         <v-list-item-content>
-          <v-list-item-title>{{ item.present === true ? "Presente" : "Ausente" }}</v-list-item-title>
+          <v-list-item-title>{{ item.max_note }}</v-list-item-title>
+        </v-list-item-content>
+
+        <v-list-item-content>
+          <v-list-item-title>{{
+            item.description === null ? "-" : item.description
+          }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -54,10 +64,15 @@
 
 <script>
 import globalMethods from "../../mixins/globalMethods";
+import DefaultLoading from "../../components/loading/DefaultLoading";
+
 export default {
   name: "ScrollListAttendance",
   mixins: [globalMethods],
   props: ["number", "text", "color", "params", "classroom"],
+  components: {
+    DefaultLoading
+  }
 };
 </script>
 
@@ -95,8 +110,17 @@ export default {
 }
 
 .column-name {
-  width: 20%;
+  width: 17%;
   text-transform: uppercase;
+}
+
+.list-loading {
+  justify-content: space-around;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: auto;
 }
 
 @media only screen and (max-width: 1024px) {

@@ -13,15 +13,12 @@
             <EditProfile />
           </div>
           <div>
-            <HibreduPencilsCard />
+            <HibreduRewardsCard />
           </div>
         </div>
         <div class="second-column">
           <div class="profile-card">
-            <v-card class="profile-card-loading" flat solo v-if="this.profileInfos.subjects.length  === 0">
-              <DefaultLoading/>
-            </v-card>
-            <ProfileCard v-else :params="this.profileInfos" />
+            <ProfileCard :params="this.profileInfos" />
           </div>
         </div>
       </div>
@@ -36,8 +33,7 @@ import TopBar from "../../components/bars/TopBar";
 import SearchBar from "../../components/bars/SearchBar";
 import ProfileCard from "../../components/cards/ProfileCard";
 import EditProfile from "../../components/cards/EditProfile";
-import HibreduPencilsCard from "../../components/cards/HibreduPencilsCard";
-import DefaultLoading from "../../components/loading/DefaultLoading";
+import HibreduRewardsCard from "../../components/cards/HibreduRewardsCard";
 import { mapActions } from "vuex";
 
 export default {
@@ -50,8 +46,7 @@ export default {
     SearchBar,
     ProfileCard,
     EditProfile,
-    HibreduPencilsCard,
-    DefaultLoading
+    HibreduRewardsCard,
   },
   data() {
     return {
@@ -59,7 +54,7 @@ export default {
         name: "",
         subjects: [],
         email: "",
-        classroom: "",
+        classroom: [],
       },
     };
   },
@@ -78,10 +73,12 @@ export default {
     },
     formatSubjects2Card(data) {
       for (let i = 0; i < data.length; i++) {
-        this.profileInfos.subjects.push(data[i].school_subject.name);
-        this.profileInfos.classroom += data[i].classroom.name + ", "
+        this.profileInfos.subjects.push(' ' + data[i].school_subject.name);
+        this.profileInfos.classroom.push(' ' + data[i].classroom.name);
       }
-      this.profileInfos.classroom = this.profileInfos.classroom.substring(0, this.profileInfos.classroom.length - 2);
+      this.profileInfos.classroom = [...new Set(this.profileInfos.classroom)];
+      this.profileInfos.classroom = this.profileInfos.classroom.toString()
+
       this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
       this.profileInfos.subjects = this.profileInfos.subjects.toString()
     },

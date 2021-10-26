@@ -23,6 +23,7 @@ import {
     overviewAlerts,
     overviewAttendanceActivities,
     overviewAttendanceActivitiesByStudentId,
+    overviewAttendanceActivitiesByClassroomId,
     schoolSubjects,
     schoolSubjectsByTeacher,
     hibreduRewards
@@ -35,8 +36,7 @@ export const indexStore = {
             id: '',
             name: ''
         },
-        returnSpreadsheet: [],
-        // suggestions: [],
+        returnSpreadsheet: null,
         subjects: [],
         classrooms: []
     }),
@@ -50,19 +50,9 @@ export const indexStore = {
         },
         SET_RETURN_SEND_SPREADSHEET(state, payload) {
             state.returnSpreadsheet = payload;
-            // for (let i = 0; i < state.returnSpreadsheet.columns.length; i++) {
-            //     this.suggestions.push({
-            //         value: state.returnSpreadsheet.columns[i][0].suggestion,
-            //     });
-            // }
         },
         SET_RETURN_SEND_SPREADSHEET_ACTIVITY(state, payload) {
-            state.returnSpreadsheetActivity = payload;
-            // for (let i = 0; i < state.returnSpreadsheet.columns.length; i++) {
-            //     this.suggestions.push({
-            //         value: state.returnSpreadsheet.columns[i][0].suggestion,
-            //     });
-            // }
+            state.returnSpreadsheet = payload;
         },
         SET_SUBJECTS(state, payload) {
             state.subjects = payload;
@@ -122,7 +112,6 @@ export const indexStore = {
             Classroom
         */
         async action_classroom(context, payload) {
-            context.commit("SET_CLASSROOMS", []);
             return await classroom(payload).then(response => {
                 context.commit("SET_CLASSROOMS", response.data);
                 return response.data;
@@ -139,7 +128,6 @@ export const indexStore = {
             Attendance
         */
         async action_attendanceSpreadSheetTeams(context, payload) {
-            context.commit("SET_RETURN_SEND_SPREADSHEET", []);
             return await attendanceSpreadSheetTeams(payload).then(response => {
                 context.commit("SET_RETURN_SEND_SPREADSHEET", response.data);
                 return response;
@@ -190,7 +178,6 @@ export const indexStore = {
             Actvity
         */
         async action_activitySpreadSheetTeams(context, payload) {
-            context.commit("SET_RETURN_SEND_SPREADSHEET_ACTIVITY", []);
             return await activitySpreadSheetTeams(payload).then(response => {
                 context.commit("SET_RETURN_SEND_SPREADSHEET_ACTIVITY", response.data);
                 return response;
@@ -238,6 +225,11 @@ export const indexStore = {
         },
         async action_overviewAttendanceActivitiesByStudentId(context, payload) {
             return await overviewAttendanceActivitiesByStudentId(payload).then(response => {
+                return response.data;
+            }).catch(err => console.error(err));
+        },
+        async action_overviewAttendanceActivitiesByClassroomId(context, payload) {
+            return await overviewAttendanceActivitiesByClassroomId(payload).then(response => {
                 return response.data;
             }).catch(err => console.error(err));
         },

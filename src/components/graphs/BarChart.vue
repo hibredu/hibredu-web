@@ -1,11 +1,11 @@
 <template>
-  <v-card class="graph-card" flat>
+  <div class="graph-card" flat>
     <h4>{{ title }}</h4>
     <D3BarChart
       :config="chart_config"
       :datum="chart_data"
     ></D3BarChart>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -15,13 +15,16 @@ export default {
   components: {
     D3BarChart,
   },
-  props: ["title", "data"],
+  props: ["title", "data", "keyBar", "values"],
   data() {
     return {
       chart_data: this.data,
       chart_config: {
-        key: 'name',
-        values: ['deliveredActivities'],
+        key: this.keyBar,
+        values: this.values,
+        tooltip: { 
+          label: 'Total'
+        },
         color: { scheme: "schemeTableau10" },
       },
     };
@@ -36,6 +39,8 @@ export default {
   width: auto;  
   padding: 1em;
   height: 100%;
+  background-color: var(--whiteHibredu);
+  border-radius: 3px;
 }
 
 @media only screen and (max-width: 1024px) {

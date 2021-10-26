@@ -8,7 +8,8 @@
         />
       </v-avatar>
     </div>
-    <div class="infos">
+    <DefaultLoading class="infos" v-if="params.classroom === '' || params.classroom.length === 0"/>
+    <div v-else class="infos">
       <div>
         <h2>{{ params.name }}</h2>
       </div>
@@ -25,9 +26,14 @@
 </template>
 
 <script>
+import DefaultLoading from "../../components/loading/DefaultLoading";
+
 export default {
   name: "ProfileCard",
-  props: [ "params" ]
+  props: [ "params" ],
+  components: {
+    DefaultLoading
+  }
 };
 </script>
 
@@ -60,6 +66,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 1em;
+  width: 90%;
+  word-wrap: break-word;
 }
 
 .name {
@@ -93,7 +101,7 @@ h6 {
     margin-bottom: 1em;
   }
   .infos {
-    height: 40%;
+    height: auto;
   }
 }
 </style>
