@@ -54,7 +54,7 @@ export default {
         name: "",
         subjects: [],
         email: "",
-        classroom: "",
+        classroom: [],
       },
     };
   },
@@ -73,10 +73,12 @@ export default {
     },
     formatSubjects2Card(data) {
       for (let i = 0; i < data.length; i++) {
-        this.profileInfos.subjects.push(data[i].school_subject.name);
-        this.profileInfos.classroom += data[i].classroom.name + ", "
+        this.profileInfos.subjects.push(' ' + data[i].school_subject.name);
+        this.profileInfos.classroom.push(' ' + data[i].classroom.name);
       }
-      this.profileInfos.classroom = this.profileInfos.classroom.substring(0, this.profileInfos.classroom.length - 2);
+      this.profileInfos.classroom = [...new Set(this.profileInfos.classroom)];
+      this.profileInfos.classroom = this.profileInfos.classroom.toString()
+
       this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
       this.profileInfos.subjects = this.profileInfos.subjects.toString()
     },

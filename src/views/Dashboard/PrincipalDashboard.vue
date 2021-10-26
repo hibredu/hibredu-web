@@ -33,7 +33,10 @@
         />
       </div>
       <div class="middle">
-        <div class="line-chart">
+        <v-card v-if="this.activitiesVsAttendance.length === 0" flat solo class="bar-chart-loading">
+          <DefaultLoading />
+        </v-card>
+        <div v-else class="line-chart">
           <LineChart
             title="Desempenho X Presença"
             :data="this.activitiesVsAttendance"

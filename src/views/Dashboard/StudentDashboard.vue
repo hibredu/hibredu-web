@@ -11,8 +11,7 @@
             label="3A-2021"
             @update:value="
               selectedClassroom = $event;
-              getStudents();
-            "
+              getStudents();"
           />
           <DefaultLoading v-if="this.students.length === 0" />
           <SelectFilter
@@ -22,8 +21,7 @@
             label="Karini Justino"
             @update:value="
               selectedStudent = $event;
-              getStudentById();
-            "
+              getStudentById();"
           />
         </div>
         <DropDown />
@@ -40,8 +38,7 @@
                 this.profileInfos.name.replace(/\s/g, '') +
                 '_' +
                 this.profileInfos.classroom +
-                '.csv'
-              "
+                '.csv'"
             >
               <IconNormalButton
                 icon="mdi-cloud-download"
@@ -208,8 +205,6 @@ export default {
         this.profileInfos.email = this.selectedStudent.email;
         this.formatSubjects2Card(response.school_subjects);
         this.formatActivities(response.activities);
-        this.formatExportStudent(response);
-        // this.student.push(response);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
@@ -223,11 +218,13 @@ export default {
       });
     },
     formatSubjects2Card(data) {
-      for (let i = 0; i < data.length; i++) {
-        this.profileInfos.subjects.push(data[i].name);
+      if(data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+          this.profileInfos.subjects.push(" " + data[i].name);
+        }
+        this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
+        this.profileInfos.subjects = this.profileInfos.subjects.toString();
       }
-      this.profileInfos.subjects = [...new Set(this.profileInfos.subjects)];
-      this.profileInfos.subjects = this.profileInfos.subjects.toString();
     },
     formatActivities(data) {
       for (let i = 0; i < data.length; i++) {
@@ -243,12 +240,10 @@ export default {
     },
     formatExportStudent(data) {
       for (let i = 0; i < data.activities.length; i++) {
-        console.log(data.metrics);
-        console.log(data.alerts[i].value);
-        this.student.push({ 
-          Atividades: data.activities[i].activity.name, 
+        this.student.push({
+          Atividades: data.activities[i].activity.name,
           Alertas: data.alerts[i].value,
-          });
+        });
       }
     },
   },
@@ -380,7 +375,7 @@ export default {
 @media only screen and (max-width: 1024px) {
   .student-dashboard {
     width: 100%;
-    height: 400%;
+    height: auto;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: column;
@@ -484,7 +479,7 @@ export default {
 @media only screen and (min-width: 1024px) and (max-width: 1440px) {
   .student-dashboard {
     width: 100%;
-    height: 170%;
+    height: auto;
     background-color: var(--lightBlueHibredu);
     display: flex;
     flex-direction: row;

@@ -26,8 +26,8 @@
             importStep = 2;
             sendFile();
           "
-          :color="`var(--greenHibredu)`"
-          :text="`Próximo`"
+          color="var(--greenHibredu)"
+          text="Próximo"
         />
       </v-stepper-content>
 

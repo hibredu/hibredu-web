@@ -13,9 +13,9 @@
       </div>
     </div>
     <v-list class="content" dense>
-      <DefaultLoading class="list-loading" v-if="params.length === 0"/>
+      <DefaultLoading class="list-loading" v-if="params === null" />
       <v-list-item
-        v-else
+        v-else-if="params.length > 0"
         v-for="(item, i) in params"
         :key="i"
         :disabled="true"
@@ -35,6 +35,11 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item v-else-if="params.length === 0">
+        <v-list-item-content>
+          <v-list-item-title>Nenhuma informação encontrada</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </v-card>
 </template>
@@ -48,8 +53,8 @@ export default {
   mixins: [globalMethods],
   props: ["number", "text", "color", "params"],
   components: {
-    DefaultLoading
-  }
+    DefaultLoading,
+  },
 };
 </script>
 
@@ -68,6 +73,7 @@ export default {
 .content {
   height: 18em;
   overflow-y: auto;
+  overflow-x: scroll;
 }
 
 .v-list-item {

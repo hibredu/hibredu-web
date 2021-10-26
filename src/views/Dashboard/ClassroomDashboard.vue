@@ -400,7 +400,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 95%;
-    height: 100%;
+    height: auto;
     padding: 2em;
     padding-left: 8em;
   }

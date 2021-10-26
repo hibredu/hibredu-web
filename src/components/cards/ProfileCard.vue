@@ -66,6 +66,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 1em;
+  width: 90%;
+  word-wrap: break-word;
 }
 
 .name {
@@ -99,7 +101,7 @@ h6 {
     margin-bottom: 1em;
   }
   .infos {
-    height: 40%;
+    height: auto;
   }
 }
 </style>

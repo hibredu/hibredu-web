@@ -196,4 +196,22 @@ h4 {
     height: 100%;
   }
 }
+
+@media only screen and (min-width: 1024px) and (min-width: 1440px){
+  .export-activity {
+    width: 100%;
+    height: 115%;
+    background-color: var(--lightBlueHibredu);
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .center {
+    width: 95%;
+    height: auto;
+    margin-bottom: 2em;
+  }
+}
 </style>

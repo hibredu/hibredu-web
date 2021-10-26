@@ -257,4 +257,16 @@ export default {
   height: auto;
   align-items: center;
 }
+
+.loading {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
 </style>
