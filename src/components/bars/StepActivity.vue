@@ -46,9 +46,9 @@
               label="Turma"
               :items="this.classrooms"
               type="text"
-              @update:value="configs.classroom = $event"
+              @update:value="configs.classroom = $event;searchSubjects()"
             />
-            <SelectInputClean
+            <SubjectInputClean
               label="Matéria"
               :items="this.subjects"
               type="text"
@@ -108,7 +108,11 @@
             para conferir se o exemplo gerado corresponde ao campo selecionado.
           </h5>
           <h4 class="list-title">{{ this.uploadedFile.name }}</h4>
-          <ImportConfigs :columns="this.columns" :suggestion="this.suggestions" @configuredColumns="updateColumns($event)"/>
+          <ImportConfigs
+            :columns="this.columns"
+            :suggestion="this.suggestions"
+            @configuredColumns="updateColumns($event)"
+          />
         </v-card>
         <div class="space"></div>
         <NormalButton
@@ -126,6 +130,7 @@ import NormalButton from "../buttons/NormalButton";
 import FileInput from "../inputs/FileInput";
 import DefaultLoading from "../loading/DefaultLoading";
 import SelectInputClean from "../inputs/SelectInputClean";
+import SubjectInputClean from "../inputs/SubjectInputClean";
 import TextInputClean from "../inputs/TextInputClean";
 import DateInputClean from "../inputs/DateInputClean";
 import ImportConfigs from "../configs/ImportConfigs";
@@ -137,6 +142,7 @@ export default {
     NormalButton,
     FileInput,
     SelectInputClean,
+    SubjectInputClean,
     TextInputClean,
     DefaultLoading,
     DateInputClean,
@@ -165,6 +171,7 @@ export default {
     ...mapActions([
       "action_classroom",
       "action_schoolSubjectsByTeacher",
+      "action_schoolSubjectsByClassroom",
       "action_activitySpreadSheetTeams",
       "action_activity",
     ]),
@@ -176,9 +183,12 @@ export default {
       data.append("activity", this.uploadedFile);
 
       this.action_activitySpreadSheetTeams(data).then((response) => {
-        this.formatSuggestions(response.data.columns)
+        this.formatSuggestions(response.data.columns);
       });
     },
+    show(e) {
+      console.log(e)
+    },  
     formatSuggestions(data) {
       for (let i = 0; i < data.length; i++) {
         this.columns.push({
@@ -192,22 +202,33 @@ export default {
     updateColumns(event) {
       this.configuredColumns = event;
     },
+    searchSubjects(){
+      this.action_schoolSubjectsByClassroom({
+        classroomId: this.configs.classroom
+      }).then((response) => {
+        this.subjects = response;
+      })
+    },
     sendActivity() {
       this.loading = true;
+
       this.action_activity({
         file_id: this.returnSpreadsheet.file_id,
         classroom_id: this.configs.classroom,
-        subject_id: this.configs.subject,
+        subject_id: this.configs.subject[0].id,
         number_questions: this.configs.total_questions,
-        subject_name: this.configs.theme,
+        subject_name: this.configs.subject[0].name,
+        description: this.configs.theme,
         name: this.configs.activity_name,
         max_note: this.configs.total_value,
         columns: this.configuredColumns,
       })
-        .then(() => {
+        .then((response) => {
           this.loading = false;
-          this.$alert("Atividade enviada com sucesso!");
-          this.$router.back();
+          if (response.status === 201) {
+            this.$alert("Atividade enviada com sucesso!");
+            this.$router.back();
+          }
         })
         .catch(() => {
           this.$alert("Houve um erro na importação. Tente novamente");
@@ -268,5 +289,4 @@ export default {
   height: 100%;
   z-index: 999;
 }
-
 </style>

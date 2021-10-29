@@ -186,11 +186,14 @@ export default {
         description: "Envio de Presença",
         datetime: this.configs.date,
         columns: this.configuredColumns
-      }).then(() => {
-        this.loading = false;
-        this.$alert("Planilha enviada com sucesso!");
-        this.$router.back();
-      }).catch(() => {
+      }).then((response) => {
+          this.loading = false;
+          if (response.status === 201) {
+            this.$alert("Presença enviada com sucesso!");
+            this.$router.back();
+          }
+        })
+        .catch(() => {
         this.$alert("Houve um erro na importação. Tente novamente");
       });
     },

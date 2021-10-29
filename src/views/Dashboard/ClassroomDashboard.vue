@@ -82,6 +82,7 @@ import ScrollListActivity from "../../components/lists/ScrollListActivity";
 import AlertCard from "../../components/cards/alerts/AlertCard";
 import LineChart from "../../components/graphs/LineChart";
 import ActivitySubjectCard from "../../components/cards/alerts/ActivitySubjectCard";
+import DefaultLoading from "../../components/loading/DefaultLoading";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -99,6 +100,7 @@ export default {
     LineChart,
     ScrollListActivity,
     ActivitySubjectCard,
+    DefaultLoading
   },
   data() {
     return {
