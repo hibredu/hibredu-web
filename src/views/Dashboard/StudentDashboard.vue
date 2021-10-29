@@ -33,6 +33,7 @@
               <ProfileCard :params="this.profileInfos" />
             </div>
             <download-csv
+              delimiter=";"
               :data="student"
               :name="
                 this.profileInfos.name.replace(/\s/g, '') +

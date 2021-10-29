@@ -26,6 +26,7 @@
           :params="this.activity"
         />
         <download-csv
+          delimiter=";"
           :data="activity"
           :name="'Atividade_' + this.selectedClassroom.name + '.csv'"
         >

@@ -26,6 +26,7 @@
           :params="this.attendance"
         />
         <download-csv
+          delimiter=";"
           :data="attendance"
           :name="this.selectedClassroom.name + '.csv'"
         >
