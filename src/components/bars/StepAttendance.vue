@@ -188,7 +188,7 @@ export default {
       this.loading = true;
       this.action_attendance({
         classroom_id: this.configs.classroom,
-        subject_id: this.configs.subject,
+        subject_id: this.configs.subject[0].id,
         file_id: this.returnSpreadsheet.file_id,
         description: "Envio de Presença",
         datetime: this.configs.date,
