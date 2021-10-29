@@ -156,6 +156,7 @@ export default {
       columns: [],
       suggestions: [],
       configuredColumns: [],
+      subjects: [],
       loading: false,
     };
   },
@@ -163,14 +164,10 @@ export default {
     if (this.classrooms.length === 0) {
       this.action_classroom();
     }
-    if (this.subjects.length === 0) {
-      this.action_schoolSubjectsByTeacher();
-    }
   },
   methods: {
     ...mapActions([
       "action_classroom",
-      "action_schoolSubjectsByTeacher",
       "action_schoolSubjectsByClassroom",
       "action_activitySpreadSheetTeams",
       "action_activity",
@@ -186,9 +183,6 @@ export default {
         this.formatSuggestions(response.data.columns);
       });
     },
-    show(e) {
-      console.log(e)
-    },  
     formatSuggestions(data) {
       for (let i = 0; i < data.length; i++) {
         this.columns.push({
@@ -238,7 +232,6 @@ export default {
   computed: {
     ...mapState({
       classrooms: (state) => state.index.classrooms,
-      subjects: (state) => state.index.subjects,
       returnSpreadsheet: (state) => state.index.returnSpreadsheet,
     }),
   },

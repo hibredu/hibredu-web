@@ -243,6 +243,7 @@ export default {
       for (let i = 0; i < data.activities.length; i++) {
         this.student.push({
           Atividades: data.activities[i].activity.name,
+          Nível: data.alerts[i].level === 'yellow' ? 'Médio' : 'Alto', 
           Alertas: data.alerts[i].value,
         });
       }

@@ -46,9 +46,9 @@
               label="Turma"
               :items="this.classrooms"
               type="text"
-              @update:value="configs.classroom = $event"
+              @update:value="configs.classroom = $event;searchSubjects()"
             />
-            <SelectInputClean
+            <SubjectInputClean
               label="Matéria"
               :items="this.subjects"
               type="text"
@@ -107,6 +107,7 @@ import FileInput from "../inputs/FileInput";
 // import TextInputClean from "../inputs/TextInputClean";
 import DefaultLoading from "../loading/DefaultLoading"
 import SelectInputClean from "../inputs/SelectInputClean";
+import SubjectInputClean from "../inputs/SubjectInputClean";
 import DateInputClean from "../inputs/DateInputClean";
 import ImportConfigs from "../configs/ImportConfigs"
 import { mapActions, mapState } from "vuex";
@@ -118,6 +119,7 @@ export default {
     FileInput,
     SelectInputClean,
     // TextInputClean,
+    SubjectInputClean,
     DefaultLoading,
     DateInputClean,
     ImportConfigs
@@ -135,21 +137,19 @@ export default {
       columns: [],
       suggestions: [],
       configuredColumns: [],
-      loading: false
+      loading: false,
+      subjects: []
     };
   },
   mounted() {
     if (this.classrooms.length === 0) {
       this.action_classroom();
     }
-    if (this.subjects.length === 0) {
-      this.action_schoolSubjectsByTeacher();
-    }
   },
   methods: {
     ...mapActions([
       "action_classroom",
-      "action_schoolSubjectsByTeacher",
+      "action_schoolSubjectsByClassroom",
       "action_attendanceSpreadSheetTeams",
       "action_attendance",
     ]),
@@ -177,6 +177,13 @@ export default {
     updateColumns(event){
       this.configuredColumns = event;
     },
+    searchSubjects(){
+      this.action_schoolSubjectsByClassroom({
+        classroomId: this.configs.classroom
+      }).then((response) => {
+        this.subjects = response;
+      })
+    },
     sendAttendance() {
       this.loading = true;
       this.action_attendance({
@@ -201,7 +208,6 @@ export default {
   computed: {
     ...mapState({
       classrooms: (state) => state.index.classrooms,
-      subjects: (state) => state.index.subjects,
       returnSpreadsheet: (state) => state.index.returnSpreadsheet,
     }),
   },
