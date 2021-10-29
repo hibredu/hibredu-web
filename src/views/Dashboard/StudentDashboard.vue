@@ -205,6 +205,7 @@ export default {
         this.profileInfos.email = this.selectedStudent.email;
         this.formatSubjects2Card(response.school_subjects);
         this.formatActivities(response.activities);
+        this.formatExportStudent(response);
       });
       this.action_alertByStudentId({
         studentId: this.selectedStudent.id,
