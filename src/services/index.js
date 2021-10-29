@@ -131,6 +131,9 @@ export const schoolSubjects = (params) => {
 export const schoolSubjectsByTeacher = (params) => {
     return axios.get(`${url}/teacher/school_subjects`, params);
 };
+export const schoolSubjectsByClassroom = (params) => {
+    return axios.get(`${url}/teacher/school_subjects/${params.classroomId}`, params);
+};
 
 
 /*
